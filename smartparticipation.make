@@ -73,7 +73,7 @@ projects[references][version] = "2.1"
 
 projects[pathauto][version] = "1.2"
 
-;projects[profanity][version] = "1.1+2-dev"
+projects[profanity][version] = "1.x-dev"
 
 projects[role_delegation][version] = "1.1"
 
@@ -97,7 +97,7 @@ projects[webform_validation][version] = "1.10"
 
 projects[weight][version] = "2.3"
 
-projects[wysiwyg][version] = "2.2+63-dev"
+projects[wysiwyg][version] = "2.x-dev"
 
 projects[wysiwyg_linebreaks][version] = "1.6"
 
