@@ -73,7 +73,7 @@ projects[references][version] = "2.1"
 
 projects[pathauto][version] = "1.2"
 
-projects[profanity][version] = "1.1-dev"
+;projects[profanity][version] = "1.1+2-dev"
 
 projects[role_delegation][version] = "1.1"
 
