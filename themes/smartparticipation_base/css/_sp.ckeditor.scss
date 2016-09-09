@@ -1,0 +1,35 @@
+
+/* Moono theme overrides for the comment box */
+
+// Comment box
+// -------------------------
+
+form.comment-form {
+  .field-name-comment-body {
+    .cke_chrome {
+      box-shadow: none;
+      border-color: #B6B6B6;
+    }
+    .cke_resizer {
+      margin-top: 20px;
+    }
+    .cke_bottom {
+      background: none;
+      background-color: #ddd;
+      border-top: none;
+    }
+  }
+}
+
+// Add link dialog
+// -------------------------
+
+.node-type-sp-topic {
+  td.cke_dialog_contents_body {
+    height: auto !important;
+    padding: 0px 10px 5px;
+    td.cke_dialog_ui_hbox_first {
+      padding-right: 0;
+    }
+  }
+}

@@ -1,0 +1,7 @@
+name = SmartParticipation Proposal Comment Admin
+description = Adds comments admin for a proposal.
+package = SmartParticipation
+core = 7.x
+version = 7.x-1.0
+
+dependencies[] = smartparticipation_core

@@ -1,0 +1,46 @@
+name = SmartParticipation
+description = Install with features used by SmartParticipation module and themes pre-configured.
+version = VERSION
+core = 7.x
+exclusive = TRUE
+
+; FROM STANDARD DRUPAL INSTALL PROFILE
+dependencies[] = block
+; dependencies[] = color
+dependencies[] = comment
+dependencies[] = contextual
+dependencies[] = dashboard
+dependencies[] = dblog
+dependencies[] = field_ui
+dependencies[] = file
+dependencies[] = help
+dependencies[] = image
+dependencies[] = list
+dependencies[] = menu
+dependencies[] = metatag
+dependencies[] = number
+dependencies[] = options
+dependencies[] = overlay
+; dependencies[] = rdf
+dependencies[] = path
+; dependencies[] = search
+dependencies[] = shortcut
+dependencies[] = taxonomy
+dependencies[] = toolbar
+
+
+; ADD THESE MODULES FOR A BASIC SITE INSTALL
+dependencies[] = advanced_help
+; dependencies[] = backup_migrate
+; Since Drupal tries to send email on install, add the smtp module
+dependencies[] = smtp
+dependencies[] = statistics
+dependencies[] = syslog
+
+;dependencies[] = regroom
+dependencies[] = smartparticipation_core
+
+dependencies[] = devel
+dependencies[] = chromephp
+
+

@@ -1,0 +1,121 @@
+#container {
+  position: relative;
+  width: 80%;
+  #rs-carousel {
+    .rs-carousel-mask {
+      overflow: hidden;
+    }
+
+    .rs-carousel-runner {
+      position: relative;
+    }
+
+    .rs-carousel-horizontal .rs-carousel-item {
+      float: left;
+    }
+
+    .rs-carousel-mask {
+      position: relative;
+    }
+
+    .rs-carousel-runner {
+      -moz-transform: translate3d(0, 0, 0);
+      -webkit-transform: translate3d(0, 0, 0);
+      -o-transform: translate3d(0, 0, 0);
+      -ms-transform: translate3d(0, 0, 0);
+      transform: translate3d(0, 0, 0);
+    }
+
+    .rs-carousel-transition .rs-carousel-runner {
+      -moz-transition: -moz-transform .400s ease;
+      -webkit-transition: -webkit-transform .400s ease;
+      -o-transition: -o-transform .400s ease;
+      -ms-transition: -ms-transform .400s ease;
+      transition: transform .400s ease;
+    }
+  }
+}
+/* rs carousel */
+#rs-carousel .rs-carousel-mask {
+  border: 6px solid #444;
+}
+
+#rs-carousel ul li {
+  color: #fff;
+  font-size: 8em;
+  text-align: center;
+  width: 150px;
+  height: 150px;
+}
+
+#rs-carousel .rs-carousel-action {
+  color: gray;
+  cursor: default;
+}
+
+#rs-carousel .rs-carousel-action-active {
+  color: #1788D7;
+  cursor: pointer;
+}
+
+#rs-carousel .rs-carousel-pagination-link {
+  display: inline;
+}
+
+#rs-carousel .rs-carousel-pagination-link a {
+  padding: 2px 6px;
+}
+
+#rs-carousel .rs-carousel-pagination-link a:hover {
+  text-decoration: none;
+}
+
+#rs-carousel .rs-carousel-pagination-link-active a {
+  background: #444;
+  color: #fff;
+}
+
+#rs-carousel .rs-carousel-pagination-disabled .rs-carousel-pagination-link a,
+#rs-carousel .rs-carousel-action-disabled.rs-carousel-action {
+  color: gray;
+  cursor: default;
+}
+
+/** horizontal **/
+#rs-carousel.rs-carousel-horizontal.rs-carousel-items-1 .rs-carousel-mask {
+  width: 150px;
+}
+
+#rs-carousel.rs-carousel-horizontal.rs-carousel-items-2 .rs-carousel-mask {
+  width: 300px;
+}
+
+#rs-carousel.rs-carousel-horizontal.rs-carousel-items-3 .rs-carousel-mask {
+  width: 450px;
+}
+
+#rs-carousel.rs-carousel-horizontal.rs-carousel-items-4 .rs-carousel-mask {
+  width: 600px;
+}
+
+/** vertical **/
+#rs-carousel.rs-carousel-vertical .rs-carousel-mask {
+  width: 150px;
+  height: 500px;
+}
+
+#rs-carousel.rs-carousel-vertical.rs-carousel-items-1 .rs-carousel-mask {
+  height: 150px;
+}
+
+#rs-carousel.rs-carousel-vertical.rs-carousel-items-2 .rs-carousel-mask {
+  height: 300px;
+}
+
+#rs-carousel.rs-carousel-vertical.rs-carousel-items-3 .rs-carousel-mask {
+  height: 450px;
+}
+
+#rs-carousel.rs-carousel-vertical.rs-carousel-items-4 .rs-carousel-mask {
+  height: 600px;
+}

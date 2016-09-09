@@ -1,0 +1,328 @@
+/**
+ *   Styles for Coming Soon block.
+ */
+
+#coming-soon {
+  
+  #coming-soon-image {
+    margin-top: 1em;
+  }
+  
+  #coming-soon-text {
+    margin-top: 1em;
+  }
+}
+
+.left, .middle, .right {
+	float: left;	
+}
+
+.middle {
+	width: 271px;
+	height: 250px;
+	background:#ffffff url($rrImagesPath + 'coming-soon/coming-soon_02.png') no-repeat right top;
+	overflow: hidden;
+	position: relative;
+}
+
+.rotation-1 {
+	position: absolute;
+	width: 47px;
+	height: 46px;
+	top: 120px;
+	left: 10px;
+}
+
+.rotation-2 {
+	position: absolute;
+	width: 82px;
+	height: 80px;
+	top: 40px;
+	left: 0px;
+}
+
+.rotation-3 {
+	position: absolute;
+	width: 56px;
+	height: 55px;
+	top: 35px;
+	left: 76px;
+}
+
+.rotation-4 {
+	position: absolute;
+	width: 31px;
+	height: 31px;
+	top: 17px;
+	left: 118px;
+}
+
+.rotation-5 {
+	position: absolute;
+	width: 73px;
+	height: 74px;
+	top: 108px;
+	left: 197px;
+}
+
+.rotation-6 {
+	position: absolute;
+	width: 33px;
+	height: 32px;
+	top: 178px;
+	left: 197px;
+}
+
+.rotation-7 {
+	position: absolute;
+	width: 75px;
+	height: 75px;
+	top: 133px;
+	left: 128px;
+}
+
+.rotation-8 {
+position: absolute;
+width: 85px;
+height: 81px;
+top: 93px;
+left: 58px;
+}
+
+.rotation-9 {
+	position: absolute;
+	width: 51px;
+	height: 48px;
+	top: 174px;
+	left: 88px;
+}
+
+.rotation-10 {
+	position: absolute;
+	width: 59px;
+	height: 62px;
+	top: 160px;
+	left: 27px;
+}
+
+.rotation-11 {
+	position: absolute;
+	width: 43px;
+	height: 41px;
+	top: 72px;
+	left: 224px;
+}
+
+.rotation-12 {
+	position: absolute;
+	width: 39px;
+	height: 59px;
+	top: 55px;
+	left: 157px;
+}
+
+.rotation-13 {
+	position: absolute;
+	width: 103px;
+	height: 102px;
+	top: 31px;
+	left: 125px;
+}
+
+.rotate1 {
+    -webkit-animation-name: spin;
+    -webkit-animation-duration: 4000ms;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+    -moz-animation-name: spin;
+    -moz-animation-duration: 4000ms;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-timing-function: linear;
+    -ms-animation-name: spin;
+    -ms-animation-duration: 4000ms;
+    -ms-animation-iteration-count: infinite;
+    -ms-animation-timing-function: linear;
+    
+    animation-name: spin;
+    animation-duration: 4000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+@-ms-keyframes spin {
+    from { -ms-transform: rotate(0deg); }
+    to { -ms-transform: rotate(360deg); }
+}
+@-moz-keyframes spin {
+    from { -moz-transform: rotate(0deg); }
+    to { -moz-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+    from { -webkit-transform: rotate(0deg); }
+    to { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(360deg);
+    }
+}
+
+.rotate2 {
+    -webkit-animation-name: spin2;
+    -webkit-animation-duration: 4000ms;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+    -moz-animation-name: spin2;
+    -moz-animation-duration: 4000ms;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-timing-function: linear;
+    -ms-animation-name: spin2;
+    -ms-animation-duration: 4000ms;
+    -ms-animation-iteration-count: infinite;
+    -ms-animation-timing-function: linear;
+    
+    animation-name: spin2;
+    animation-duration: 4000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+@-ms-keyframes spin2 {
+    from { -ms-transform: rotate(360deg); }
+    to { -ms-transform: rotate(0deg); }
+}
+@-moz-keyframes spin2 {
+    from { -moz-transform: rotate(360deg); }
+    to { -moz-transform: rotate(0deg); }
+}
+@-webkit-keyframes spin2 {
+    from { -webkit-transform: rotate(360deg); }
+    to { -webkit-transform: rotate(0deg); }
+}
+@keyframes spin2 {
+    from {
+        transform:rotate(360deg);
+    }
+    to {
+        transform:rotate(0deg);
+    }
+}
+.rotate3 {
+    -webkit-animation-name: spin3;
+    -webkit-animation-duration: 4000ms;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+    -moz-animation-name: spin3;
+    -moz-animation-duration: 4000ms;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-timing-function: linear;
+    -ms-animation-name: spin3;
+    -ms-animation-duration: 4000ms;
+    -ms-animation-iteration-count: infinite;
+    -ms-animation-timing-function: linear;
+    
+    animation-name: spin3;
+    animation-duration: 4000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+@-ms-keyframes spin3 {
+    from { -ms-transform: rotate(360deg); }
+    to { -ms-transform: rotate(0deg); }
+}
+@-moz-keyframes spin3 {
+    from { -moz-transform: rotate(360deg); }
+    to { -moz-transform: rotate(0deg); }
+}
+@-webkit-keyframes spin3 {
+    from { -webkit-transform: rotate(360deg); }
+    to { -webkit-transform: rotate(0deg); }
+}
+@keyframes spin3 {
+    from {
+        transform:rotate(360deg);
+    }
+    to {
+        transform:rotate(0deg);
+    }
+}
+.rotate4 {
+    -webkit-animation-name: spin4;
+    -webkit-animation-duration: 5000ms;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+    -moz-animation-name: spin4;
+    -moz-animation-duration: 5000ms;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-timing-function: linear;
+    -ms-animation-name: spin4;
+    -ms-animation-duration: 5000ms;
+    -ms-animation-iteration-count: infinite;
+    -ms-animation-timing-function: linear;
+    
+    animation-name: spin4;
+    animation-duration: 5000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+@-ms-keyframes spin4 {
+    from { -ms-transform: rotate(360deg); }
+    to { -ms-transform: rotate(0deg); }
+}
+@-moz-keyframes spin4 {
+    from { -moz-transform: rotate(360deg); }
+    to { -moz-transform: rotate(0deg); }
+}
+@-webkit-keyframes spin4 {
+    from { -webkit-transform: rotate(360deg); }
+    to { -webkit-transform: rotate(0deg); }
+}
+@keyframes spin4 {
+    from {
+        transform:rotate(360deg);
+    }
+    to {
+        transform:rotate(0deg);
+    }
+}
+
+.beat {
+    -webkit-animation-name: beat;
+    -webkit-animation-duration: 2000ms;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+    -moz-animation-name: beat;
+    -moz-animation-duration: 2000ms;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-timing-function: linear;
+    -ms-animation-name: beat;
+    -ms-animation-duration: 2000ms;
+    -ms-animation-iteration-count: infinite;
+    -ms-animation-timing-function: linear;
+    
+    animation-name: beat;
+    animation-duration: 2000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+@-ms-keyframes beat {
+    from {  opacity: 0; }
+    to {  opacity: 1; }
+}
+@-moz-keyframes beat {
+    from {  opacity: 0; }
+    to { opacity: 1; }
+}
+@-webkit-keyframes beat {
+    from {  opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes beat {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

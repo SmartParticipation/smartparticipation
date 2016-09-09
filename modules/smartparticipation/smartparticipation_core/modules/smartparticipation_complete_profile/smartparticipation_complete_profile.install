@@ -1,0 +1,9 @@
+<?php
+
+/**
+ * Implements hook_uninstall().
+ */
+function smartparticipation_complete_profile_uninstall() {
+  variable_del('smartparticipation_complete_profile_exclude_paths');
+  variable_del('smartparticipation_complete_profile_check_timestamp');
+}

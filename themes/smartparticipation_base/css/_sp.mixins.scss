@@ -1,0 +1,15 @@
+@mixin read-more-button {
+  background-color: $themeColor;
+  display: inline-block;
+  height: 31px;
+  margin-top: 1.2em;
+  font-size: .867em;
+  a {
+    margin: 6px 20px;
+    display: inline-block;
+    color: white;
+    font-size: 1.2em;
+    font-weight: bold;
+    font-style: italic;
+  }
+}

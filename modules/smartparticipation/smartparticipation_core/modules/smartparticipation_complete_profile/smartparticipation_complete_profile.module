@@ -1,0 +1,231 @@
+<?php
+
+/**
+ * Implements hook_menu().
+ */
+function smartparticipation_complete_profile_menu() {
+  $items['user/%user/complete-profile'] = array(
+    'title' => 'Complete your profile',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('smartparticipation_complete_profile_form', 1),
+    'access callback' => 'smartparticipation_complete_profile_form_access',
+    'access arguments' => array(1),
+    'type' => MENU_CALLBACK,
+    'file' => 'smartparticipation_complete_profile.pages.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_page_build().
+ */
+function smartparticipation_complete_profile_page_build() {
+  // First check if we can redirect in the first place before inspecting the
+  // user fields. Then check for empty fields, and then get the redirect.
+  if (smartparticipation_complete_profile_can_redirect() && smartparticipation_complete_profile_account_check() && $redirect = smartparticipation_complete_profile_get_redirect()) {
+    drupal_goto($redirect['path'], $redirect['options']);
+  }
+}
+
+/**
+ * Implements hook_user_update().
+ */
+function smartparticipation_complete_profile_user_update(&$edit, $account, $category) {
+  // Updating registration fields for an existing user.
+  if ($category == 'register' && module_exists('profile')) {
+    profile_save_profile($edit, $account, $category, TRUE);
+  }
+
+  // Clear the complete profile check.
+  if ($account->uid == $GLOBALS['user']->uid) {
+    smartparticipation_complete_profile_set_account_checked(0);
+  }
+}
+
+/**
+ * Implements hook_field_create_instance().
+ */
+function smartparticipation_complete_profile_field_create_instance($instance) {
+  // A new required user field has been added. Reset the timestamp check.
+  if ($instance['entity_type'] == 'user' && !empty($instance['required'])) {
+    smartparticipation_complete_profile_update_check_timestamp();
+  }
+}
+
+/**
+ * Implements hook_field_update_instance().
+ */
+function smartparticipation_complete_profile_field_update_instance($instance, $prior_instance) {
+  // A user field has been converted from unrequired to required. Reset the
+  // timestamp check variable.
+  if ($instance['entity_type'] == 'user' && !empty($instance['required']) && empty($prior_instance['required'])) {
+    smartparticipation_complete_profile_update_check_timestamp();
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function smartparticipation_complete_profile_form_profile_field_form_alter(&$form, &$form_state) {
+  $form['#submit'][] = 'smartparticipation_complete_profile_update_check_timestamp';
+}
+
+/**
+ * Reset the minimum timestamp that requires re-checking all accounts.
+ */
+function smartparticipation_complete_profile_update_check_timestamp() {
+  variable_set('smartparticipation_complete_profile_check_timestamp', REQUEST_TIME);
+}
+
+function smartparticipation_complete_profile_can_redirect() {
+  if (empty($GLOBALS['user']->uid)) {
+    return FALSE;
+  }
+
+  // Ensure that POST/PUT and CLI requests are not redirected.
+  if (($_SERVER['REQUEST_METHOD'] != 'GET' && $_SERVER['REQUEST_METHOD'] != 'HEAD') || drupal_is_cli()) {
+    return FALSE;
+  }
+
+  // Certain paths cannot be redirected to the complete profile form.
+  $terms_path = drupal_get_normal_path('terms');
+  $exclude_paths = variable_get('smartparticipation_complete_profile_exclude_paths', implode("\n", array(
+    $terms_path,
+    'user/*/complete-profile',
+    'user/logout',
+    'admin/*',
+    'user/*/edit'
+  )));
+  if (drupal_match_path(current_path(), $exclude_paths)) {
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+function smartparticipation_complete_profile_account_check() {
+  if (smartparticipation_complete_profile_get_account_checked() > variable_get('smartparticipation_complete_profile_check_timestamp', 0)) {
+    return FALSE;
+  }
+
+  $account = user_load($GLOBALS['user']->uid);
+  if (smartparticipation_complete_profile_entity_has_empty_required_fields('user', $account)) {
+    return TRUE;
+  }
+  else {
+    smartparticipation_complete_profile_set_account_checked(REQUEST_TIME);
+    return FALSE;
+  }
+}
+
+function smartparticipation_complete_profile_get_account_checked() {
+  return !empty($_SESSION['smartparticipation_complete_profile_checked']) ? $_SESSION['smartparticipation_complete_profile_checked'] : 0;
+}
+
+function smartparticipation_complete_profile_set_account_checked($timestamp) {
+  $_SESSION['smartparticipation_complete_profile_checked'] = $timestamp;
+}
+
+/**
+ * Check if a field module field is empty or not.
+ */
+function smartparticipation_complete_profile_field_is_empty($entity_type, $entity, $field_name) {
+  if (!isset($entity->{$field_name})) {
+    return TRUE;
+  }
+
+  if ($items = field_get_items($entity_type, $entity, $field_name)) {
+    // @todo Do we need to run filtering on values?
+    //$field = field_info_field($field_name);
+    //$items = _field_filter_items($field, $items);
+    $value = $items[0]['value'];
+    return empty($value);
+  }
+
+  return TRUE;
+}
+
+/**
+ * Check if a profile module field is empty or not.
+ */
+function smartparticipation_complete_profile_profile_field_is_empty($account, $field) {
+  if (!isset($account->{$field->name})) {
+    return TRUE;
+  }
+
+  $value = $account->{$field->name};
+  switch ($field->type) {
+    case _profile_field_serialize($field->type):
+    case 'checkbox':
+      return empty($value);
+    default;
+      return !drupal_strlen(trim($value));
+  }
+}
+
+function smartparticipation_complete_profile_entity_has_empty_required_fields($entity_type, $entity) {
+  global $user;
+  $account = $user;
+  list(, , $bundle) = entity_extract_ids($entity_type, $entity);
+  $instances = field_info_instances($entity_type, $bundle);
+
+  foreach ($instances as $instance) {
+    // Only check required fields.
+    if (!empty($instance['required'])) {
+      // Check if the required field is empty.
+      if (smartparticipation_complete_profile_field_is_empty($entity_type, $entity, $instance['field_name'])) {
+        // Check that the user can actually edit their missing field.
+        if (field_access('edit', field_info_field($instance['field_name']), $entity_type, $entity, $account)) {
+          return TRUE;
+        }
+      }
+    }
+  }
+
+  // Support the deprecated profile module.
+  if ($entity_type == 'user' && module_exists('profile') && db_table_exists('profile_field')) {
+    if (db_query("SELECT 1 FROM {profile_field} f LEFT JOIN {profile_value} v ON f.fid = v.fid WHERE uid = :uid AND f.required = 1 AND f.register = 1 AND (v.value IS NULL OR v.value = '' OR (f.type = 'checkbox' AND v.value = '0'))", array(':uid' => $entity->uid))->fetchField()) {
+      return TRUE;
+    }
+  }
+
+  // Check if email is empty.
+  if (empty($account->mail)) {
+    return TRUE;
+  }
+
+  return FALSE;
+}
+
+function smartparticipation_complete_profile_get_redirect() {
+  $redirect = array();
+  $redirect['path'] = 'user/' . $GLOBALS['user']->uid . '/complete-profile';
+  $redirect['options'] = array('query' => array());
+
+  // Allow modules to alter the redirect destination.
+  drupal_alter('smartparticipation_complete_profile_redirect', $redirect, $account);
+
+  $destination = drupal_get_destination();
+  // Unset the global destination since we don't want drupal_goto() to read
+  // it and since we're passing the destination into the query string again.
+  unset($_GET['destination']);
+  $redirect['options']['query'] += $destination;
+
+  return $redirect;
+}
+
+function smartparticipation_complete_profile_form_access($account) {
+  if (empty($account->uid)) {
+    return FALSE;
+  }
+  elseif (!smartparticipation_complete_profile_entity_has_empty_required_fields('user', $account)) {
+    return FALSE;
+  }
+  elseif (user_access('administer users')) {
+    return TRUE;
+  }
+  else {
+    return $GLOBALS['user']->uid == $account->uid;
+  }
+}

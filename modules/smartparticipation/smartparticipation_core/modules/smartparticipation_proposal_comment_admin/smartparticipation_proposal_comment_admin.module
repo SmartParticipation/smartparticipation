@@ -1,0 +1,313 @@
+<?php
+/**
+ * Adapted from code in core Comment module.  See modules/comment/comment.admin.inc
+ *
+ * This adds a comments tab on the proposal view for admins.  It lists comments
+ * only for the selected proposal and allows bulk deletion.
+ */
+
+
+/**
+ * Implements hook_menu().
+ */
+function smartparticipation_proposal_comment_admin_menu() {
+  $items['node/%node/comments'] = array(
+    'title' => 'Comments',
+    'description' => 'List and administer proposal comments.',
+    'page callback' => 'smartparticipation_proposal_comment_admin',
+    'page arguments' => array(1),
+    'access callback' => 'smartparticipation_access_check_proposal_comments',
+    'access arguments' => array(1),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 30,
+    'theme callback' => 'variable_get',
+    'theme arguments' => array('admin_theme'),
+  );
+  return $items;
+}
+
+/**
+ * Determine whether to display comments tab on proposal page.
+ */
+function smartparticipation_access_check_proposal_comments($node) {
+
+  if ($node->type == 'sp_proposal') {
+    return user_access('administer comments', $account = NULL);
+  }
+
+  return FALSE;
+}
+
+/**
+ * Menu callback; present an administrative comment listing.
+ */
+function smartparticipation_proposal_comment_admin($node) {
+  
+  $edit = $_POST;
+
+  if (isset($edit['operation']) && ($edit['operation'] == 'delete') && isset($edit['comments']) && $edit['comments']) {
+    return drupal_get_form('smartparticipation_proposal_comment_multiple_delete_confirm', $node);
+  }
+  else {
+    return drupal_get_form('smartparticipation_proposal_comment_admin_overview', $node);
+  }
+}
+
+/**
+ * Form builder for the proposal comment overview administration form.
+ *
+ * @param $node Proposal Nid
+ *
+ * @ingroup forms
+ * @see smartparticipation_proposal_comment_admin_overview_validate()
+ * @see smartparticipation_proposal_comment_admin_overview_submit()
+ */
+function smartparticipation_proposal_comment_admin_overview($form, &$form_state, $node) {
+
+  $proposal_nid = $node->nid;
+
+  $form['header'] = array(
+    '#markup' => t("<h2>Comments for proposal '" . $node->title . "'.</h2>"),
+    '#weight' => 0,
+  );
+
+  $form['proposal_nid'] = array(
+    '#type' => 'hidden',
+    '#value' => $proposal_nid,
+  );
+
+  // Build an 'Update options' form.
+  $form['options'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Update options'),
+    '#attributes' => array('class' => array('container-inline')),
+  );
+
+  /*if ($arg == 'approval') {
+    $options['publish'] = t('Publish the selected comments');
+  }
+  else {
+    $options['unpublish'] = t('Unpublish the selected comments');
+  }*/
+  $options['delete'] = t('Delete the selected comments');
+
+  $form['options']['operation'] = array(
+    '#type' => 'select',
+    '#title' => t('Operation'),
+    '#title_display' => 'invisible',
+    '#options' => $options,
+    '#default_value' => 'publish',
+  );
+  $form['options']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Update'),
+  );
+
+  // Load the comments that need to be displayed.
+  //$status = ($arg == 'approval') ? COMMENT_NOT_PUBLISHED : COMMENT_PUBLISHED;
+  $header = array(
+    'subject' => array('data' => t('Subject'), 'field' => 'subject'),
+    'author' => array('data' => t('Author'), 'field' => 'name'),
+    'posted_in' => array('data' => t('Posted in'), 'field' => 'node_title'),
+    'changed' => array('data' => t('Updated'), 'field' => 'c.changed', 'sort' => 'desc'),
+    'operations' => array('data' => t('Operations')),
+  );
+
+  /** @var SelectQuery $query */
+  $query = db_select('field_data_field_sp_proposal_topic', 'pt')
+    ->extend('PagerDefault')
+    ->extend('TableSort');
+  $query->innerJoin('node', 'nt', 'pt.field_sp_proposal_topic_nid = nt.nid');
+  $query->innerJoin('field_data_field_sp_topic_subtopic', 'ts', 'pt.field_sp_proposal_topic_nid = ts.entity_id');
+  $query->innerJoin('node', 'nst', 'ts.field_sp_topic_subtopic_nid = nst.nid');
+  $query->innerJoin('comment', 'c', 'ts.field_sp_topic_subtopic_nid = c.nid');
+  $query->addField('nst', 'title', 'node_title');
+  $query->addTag('node_access');
+  $result = $query
+    ->fields('c', array('cid', 'subject', 'name', 'changed'))
+    ->condition('pt.entity_id', $proposal_nid)
+    ->condition('c.status', 1)
+    ->condition('nt.status', 1)
+    ->condition('nst.status', 1)
+    ->limit(50)
+    ->orderByHeader($header)
+    ->execute();
+
+  /*$query = db_select('comment', 'c')->extend('PagerDefault')->extend('TableSort');
+  $query->join('node', 'n', 'n.nid = c.nid');
+  $query->addField('n', 'title', 'node_title');
+  $query->addTag('node_access');
+  $result = $query
+    ->fields('c', array('cid', 'subject', 'name', 'changed'))
+    ->condition('c.status', 1)
+    ->limit(50)
+    ->orderByHeader($header)
+    ->execute();*/
+
+  $cids = array();
+
+  // We collect a sorted list of node_titles during the query to attach to the
+  // comments later.
+  foreach ($result as $row) {
+    $cids[] = $row->cid;
+    $node_titles[] = $row->node_title;
+  }
+  $comments = comment_load_multiple($cids);
+
+  // Build a table listing the appropriate comments.
+  $options = array();
+  $destination = drupal_get_destination();
+
+  foreach ($comments as $comment) {
+    // Remove the first node title from the node_titles array and attach to
+    // the comment.
+    $comment->node_title = array_shift($node_titles);
+    $comment_body = field_get_items('comment', $comment, 'comment_body');
+    $options[$comment->cid] = array(
+      'subject' => array(
+        'data' => array(
+          '#type' => 'link',
+          '#title' => $comment->subject,
+          '#href' => 'comment/' . $comment->cid,
+          '#options' => array('attributes' => array('title' => truncate_utf8($comment_body[0]['value'], 128)), 'fragment' => 'comment-' . $comment->cid),
+        ),
+      ),
+      'author' => theme('username', array('account' => $comment)),
+      'posted_in' => array(
+        'data' => array(
+          '#type' => 'link',
+          '#title' => $comment->node_title,
+          '#href' => 'node/' . $comment->nid,
+        ),
+      ),
+      'changed' => format_date($comment->changed, 'short'),
+      'operations' => array(
+        'data' => array(
+          '#type' => 'link',
+          '#title' => t('edit'),
+          '#href' => 'comment/' . $comment->cid . '/edit',
+          '#options' => array('query' => $destination),
+        ),
+      ),
+    );
+  }
+
+  $form['comments'] = array(
+    '#type' => 'tableselect',
+    '#header' => $header,
+    '#options' => $options,
+    '#empty' => t('No comments available.'),
+  );
+
+  $form['pager'] = array('#theme' => 'pager');
+
+  return $form;
+}
+
+/**
+ * Validate smartparticipation_proposal_comment_admin_overview form submissions.
+ */
+function smartparticipation_proposal_comment_admin_overview_validate($form, &$form_state) {
+  $form_state['values']['comments'] = array_diff($form_state['values']['comments'], array(0));
+  // We can't execute any 'Update options' if no comments were selected.
+  if (count($form_state['values']['comments']) == 0) {
+    form_set_error('', t('Select one or more comments to perform the update on.'));
+  }
+}
+
+/**
+ * Process smartparticipation_proposal_comment_admin_overview form submissions.
+ *
+ * Execute the chosen 'Update option' on the selected comments, such as deleting.
+ */
+function smartparticipation_proposal_comment_admin_overview_submit($form, &$form_state) {
+  $operation = $form_state['values']['operation'];
+  $cids = $form_state['values']['comments'];
+
+  if ($operation == 'delete') {
+    comment_delete_multiple($cids);
+  }
+  /*else {
+    foreach ($cids as $cid => $value) {
+      $comment = comment_load($value);
+
+      if ($operation == 'unpublish') {
+        $comment->status = COMMENT_NOT_PUBLISHED;
+      }
+      elseif ($operation == 'publish') {
+        $comment->status = COMMENT_PUBLISHED;
+      }
+      comment_save($comment);
+    }
+  }*/
+  drupal_set_message(t('The update has been performed.'));
+  $proposal_nid = $form_state['values']['proposal_nid'];
+  $form_state['redirect'] = 'node/' . $proposal_nid . '/comments';
+  cache_clear_all();
+}
+
+/**
+ * List the selected comments and verify that the admin wants to delete them.
+ *
+ * @param $form_state
+ *   An associative array containing the current state of the form.
+ * @return
+ *   TRUE if the comments should be deleted, FALSE otherwise.
+ * @ingroup forms
+ * @see smartparticipation_proposal_comment_multiple_delete_confirm_submit()
+ */
+function smartparticipation_proposal_comment_multiple_delete_confirm($form, &$form_state, $node) {
+  $edit = $form_state['input'];
+  
+  $proposal_nid = $node->nid;
+  
+  $form['proposal_nid'] = array(
+    '#type' => 'hidden',
+    '#value' => $proposal_nid,
+  );
+
+  $form['comments'] = array(
+    '#prefix' => '<ul>',
+    '#suffix' => '</ul>',
+    '#tree' => TRUE,
+  );
+  // array_filter() returns only elements with actual values.
+  $comment_counter = 0;
+  foreach (array_filter($edit['comments']) as $cid => $value) {
+    $comment = comment_load($cid);
+    if (is_object($comment) && is_numeric($comment->cid)) {
+      $subject = db_query('SELECT subject FROM {comment} WHERE cid = :cid', array(':cid' => $cid))->fetchField();
+      $form['comments'][$cid] = array('#type' => 'hidden', '#value' => $cid, '#prefix' => '<li>', '#suffix' => check_plain($subject) . '</li>');
+      $comment_counter++;
+    }
+  }
+  $form['operation'] = array('#type' => 'hidden', '#value' => 'delete');
+
+  $redirect_path = 'node/' . $proposal_nid . '/comments';
+  if (!$comment_counter) {
+    drupal_set_message(t('There do not appear to be any comments to delete, or your selected comment was deleted by another administrator.'));
+    drupal_goto($redirect_path);
+  }
+  else {
+    return confirm_form($form,
+      t('Are you sure you want to delete these comments and all their children?'),
+      $redirect_path, t('This action cannot be undone.'),
+      t('Delete comments'), t('Cancel'));
+  }
+}
+
+/**
+ * Process smartparticipation_proposal_comment_multiple_delete_confirm form submissions.
+ */
+function smartparticipation_proposal_comment_multiple_delete_confirm_submit($form, &$form_state) {
+  if ($form_state['values']['confirm']) {
+    comment_delete_multiple(array_keys($form_state['values']['comments']));
+    cache_clear_all();
+    $count = count($form_state['values']['comments']);
+    watchdog('content', 'Deleted @count comments.', array('@count' => $count));
+    drupal_set_message(format_plural($count, 'Deleted 1 comment.', 'Deleted @count comments.'));
+  }
+  $proposal_nid = $form_state['values']['proposal_nid'];
+  $form_state['redirect'] = 'node/' . $proposal_nid . '/comments';
+  //$form_state['redirect'] = 'admin/content/comment';
+}

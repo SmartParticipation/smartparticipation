@@ -1,0 +1,25 @@
+/**
+ *	Styles for stats pages
+ */
+
+
+.page-node-track {
+
+	.content {
+
+		table:nth-child(2) {
+
+			td {
+				padding: 10px;
+			}		
+		}
+	}
+
+	.item-list .pager {
+
+		width: auto;
+		margin-top: 1em;
+		border: none;
+	}
+}
+

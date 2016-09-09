@@ -1,0 +1,4 @@
+<?php
+/**
+ * This module is used to apply settings for the jQuery Update module.  See the .install file.
+ */

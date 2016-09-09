@@ -1,0 +1,87 @@
+
+/*regroom theme*/
+.mCustomScrollBox > .mCSB_scrollTools{
+  width:20px;
+  opacity: 1;
+}
+.mCSB_scrollTools .mCSB_dragger {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  background-color:$themeColor;
+}
+.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar{
+  border-radius:0;
+
+}
+.mCS-regroom>.mCSB_scrollTools .mCSB_draggerRail{
+  background:#000; /* rgba fallback */
+  //background:rgba(0,0,0,0.15);
+  background:none;
+}
+.mCS-regroom>.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar{
+  width:20px;
+  //background:#000; /* rgba fallback */
+  //background:rgba(0,0,0,0.75);
+  background:none;
+  background-image:url($appSprites);
+  background-position: -223px -7px;
+  width: 15px;
+  height: 20px;
+  background-color: transparent;
+  top:50%;
+  margin-top:-10px;
+}
+.mCS-regroom.mCSB_horizontal>.mCSB_scrollTools .mCSB_draggerRail{
+  width:100%;
+}
+.mCS-regroom.mCSB_horizontal>.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar{
+  width:100%;
+  height:2px;
+  margin:7px auto;
+}
+.mCS-regroom>.mCSB_scrollTools .mCSB_dragger:hover .mCSB_dragger_bar{
+  //background:rgba(0,0,0,0.85);
+}
+.mCS-regroom>.mCSB_scrollTools .mCSB_dragger:active .mCSB_dragger_bar,
+.mCS-regroom>.mCSB_scrollTools .mCSB_dragger.mCSB_dragger_onDrag .mCSB_dragger_bar{
+  //background:rgba(0,0,0,0.9);
+}
+.mCS-regroom>.mCSB_scrollTools .mCSB_buttonUp{
+  background-position:-80px 0;
+}
+.mCS-regroom>.mCSB_scrollTools .mCSB_buttonDown{
+  background-position:-80px -20px;
+}
+.mCS-regroom>.mCSB_scrollTools .mCSB_buttonLeft{
+  background-position:-80px -40px;
+}
+.mCS-regroom>.mCSB_scrollTools .mCSB_buttonRight{
+  background-position:-80px -56px;
+}
+
+.mCSB_draggerContainer {
+  width: 15px;
+}
+
+.mCSB_container {
+    margin-right: 18px;
+}
+
+.mCustomScrollBox > .mCSB_scrollTools {
+  width: 15px;
+}
+
+.mCS-regroom > .mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
+  background-position: -225px -7px;
+}
+
+.mCSB_scrollTools .mCSB_dragger {
+  height: 80px;
+}
+/*
+.custom_scrollbar_dragger{
+  background-position: -223px -7px;
+  width: 20px;
+  height: 20px;
+}
+*/

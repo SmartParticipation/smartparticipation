@@ -1,0 +1,13 @@
+name = SmartParticipation Complete Profile
+description = Forces users with incomplete profiles to complete their profiles.
+package = SmartParticipation
+core = 7.x
+
+
+; Information added by drupal.org packaging script on 2013-02-21
+version = "7.x-1.0-rc1"
+core = "7.x"
+datestamp = "1361454870"
+; This module contains custom modifications for regroom integration, and should 
+; no longer be updated.
+; project = "smartparticipation_complete_profile"

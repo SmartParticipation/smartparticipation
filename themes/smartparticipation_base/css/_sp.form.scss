@@ -1,0 +1,228 @@
+
+ 
+form {
+  .form-actions {
+    margin-top:.5em;
+  }
+
+  .form-item {
+    position: relative;
+    display: block;
+    margin:0;
+    font-size:$rrFontSize;
+
+    abbr.required {
+      background-image:url($rrImagesPath + "asterisk.png");
+      height:12px;
+      width:12px;
+      float:left;
+      margin: 14px 0 0 -25px;
+      span {
+        display:none;
+      }
+    }
+
+    .form-text, .form-textarea {
+      font-weight:bold;
+      padding:8px;
+    }
+    
+    .field-error {
+      color: #f00;
+    }
+  }
+
+  .form-type-textfield, .form-type-password, .form-type-textarea, .form-type-emailfield {
+    margin: 12px 0;
+    background-color: #F0EFED;
+    padding: 6px;
+    width:400px;
+    input, textarea {
+      width:100%;
+      resize:none;
+    }
+
+    label {
+      position:absolute;
+      top:0;
+      left:0;
+      margin-top:16px;
+      margin-left:16px;
+      color:$grayLight;
+      span.form-required {
+        display:none;
+      }
+    }
+  }
+
+  .form-type-textfield, .form-type-password, .form-type-emailfield {
+    padding-right:24px;
+  }
+
+  .form-type-checkbox {
+    margin: 18px 0;
+    padding-left:6px;
+    abbr.required {
+      margin-top:5px;
+    }
+
+    label {
+      span.form-required {
+        display:none;
+      }
+    }
+  }
+
+  .form-submit {
+        background-color: $rrButtonBackgroundColor;
+        color: $rrButtonTextColor;
+        border: medium none;
+        font-size: $rrButtonFontSize;
+        font-weight: $rrButtonFontWeight;
+        padding: $rrButtonPadding;
+        margin-right:1.5em;
+  }
+}
+
+button, a.button {
+  background-color: $rrButtonBackgroundColor;
+  color: $rrButtonTextColor;
+  border: medium none;
+  font-size: $rrButtonFontSize;
+  font-weight: $rrButtonFontWeight;
+  padding: $rrButtonPadding;
+}
+
+a.button {
+  &:hover {
+    color: $rrButtonTextColor;
+  }
+  &:visited {
+    color: $rrButtonTextColor;
+  }
+  &:active {
+    color: $rrButtonTextColor;
+  }
+}
+
+input.password-confirm, input.password-field {
+  margin-bottom:0;
+}
+
+.form-type-password-confirm {
+  > span.field-error {
+    display:none;
+  }
+}
+
+.form-type-checkbox {
+  .field-error {
+    display:block;
+  }
+}
+
+#smartparticipation-core-profile-form {
+  $labelColor: $rrGray;
+  label {
+    color: $labelColor;
+  }
+  .form-type-select {
+    select {
+      -webkit-box-shadow: 0 0 0 transparent;
+      box-shadow: 0 0 0 transparent;
+    }
+  }
+  .form-type-textarea {
+    label {
+      position:relative;
+      margin:0;
+      color: $labelColor;
+    }
+    textarea {
+      width: 550px;
+    }
+    width: 550px;
+    background-color: white;
+    padding:0;
+  }
+  .form-type-textfield {
+    label {
+      position: relative;
+      margin:0;
+      color: $labelColor;
+    }
+    background-color: white;
+    padding:0;
+    margin-top:0;
+    margin-bottom:1em;
+  }
+}
+
+//form {
+//
+//  //padding: 0 20px 20px 20px;
+//
+//  legend {
+//    display:none;
+//  }
+//
+//  p {
+//    position: relative;
+//    display: inline-block;
+//    &.text,&.password {
+//      margin: 6px 0;
+//      background-color: #F0EFED;
+//      padding: 6px 6px 2px;
+//      //.required {
+//      //  margin:11px 0px 0px -25px;
+//      //}
+//    }
+//    &.checkbox, &.radio-group {
+//      color: $rr-blue-gray;
+//      font-weight:bold;
+//      .required {
+//        margin:3px 0px 0px -19px;
+//      }
+//    }
+//    &.checkbox {
+//      input {
+//        vertical-align: middle;
+//      }
+//      label {
+//        vertical-align: middle;
+//      }
+//    }
+//    &.radio-group {
+//      .group-label {
+//        width:100%;
+//        display:block;
+//        margin-bottom:.5em;
+//      }
+//      label {
+//        margin-right:.7em;
+//      }
+//    }
+//    button {
+//      &.submit {
+//        background-color: $rr-button-background-color;
+//        color: $rr-button-text-color;
+//        border: medium none;
+//        font-size: $rr-button-font-size;
+//        font-weight: $rr-button-font-weight;
+//        padding: $rr-button-padding;
+//      }
+//    }
+//    //.required {
+//    //  background-image:url("img/asterisk.png");
+//    //  height:12px;
+//    //  width:12px;
+//    //  float:left;
+//    //}
+//  }
+//}
+
+.lt-ie8 form p {
+  display:inline;
+}
+
+

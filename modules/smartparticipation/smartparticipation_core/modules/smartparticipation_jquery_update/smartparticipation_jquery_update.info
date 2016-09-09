@@ -1,0 +1,8 @@
+name = SmartParticipation jQuery Update Config
+description = Apply settings for jQuery Update module
+package = SmartParticipation
+core = 7.x
+version = 7.x-1.0
+
+dependencies[] = jquery_update
+dependencies[] = smartparticipation_core

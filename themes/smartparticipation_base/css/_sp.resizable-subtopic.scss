@@ -1,0 +1,23 @@
+
+$resizable-hover-color: $linkColor;
+$resizable-hover-opacity: 0.4;
+
+.ui-resizable-e {
+  border-width: 0px 1px 0px 1px;
+  border-color: $grayLighter;
+  border-style: solid;
+  width: 6px;
+  right: -16px;
+  cursor: ew-resize;
+  &:hover {
+    background-color: $resizable-hover-color;
+    opacity: $resizable-hover-opacity;
+  }
+}
+
+.ui-resizable-resizing {
+  .ui-resizable-e {
+    background-color: $resizable-hover-color;
+    opacity: $resizable-hover-opacity;
+  }
+}

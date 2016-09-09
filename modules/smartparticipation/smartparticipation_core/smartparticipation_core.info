@@ -1,0 +1,82 @@
+name = SmartParticipation Core
+description = Core required module for SmartParticipation
+package = SmartParticipation
+configure = admin/config/system/smartparticipation_core
+core = 7.x
+version = 7.x-1.0
+
+; NB PLEASE LIST ALPHABETICALLY!
+
+dependencies[] = conditional_styles
+; This module might be useful for defining a context for each proposal
+; dependencies[] =  context
+dependencies[] = corresponding_node_references
+dependencies[] = ctools
+dependencies[] = date
+dependencies[] = date_api
+dependencies[] = date_popup
+dependencies[] = date_tools
+dependencies[] = diff
+dependencies[] = elements
+dependencies[] = entity
+dependencies[] = entityreference
+dependencies[] = entityreference_prepopulate
+dependencies[] = field_collection
+dependencies[] = flag
+dependencies[] = globalredirect
+dependencies[] = honeypot
+dependencies[] = html5_tools
+dependencies[] = hybridauth
+dependencies[] = image
+dependencies[] = imce
+dependencies[] = imce_wysiwyg
+;dependencies[] = jqmulti
+dependencies[] = libraries
+dependencies[] = list
+dependencies[] = logintoboggan
+dependencies[] = media
+dependencies[] = menu_node
+dependencies[] = menu_token
+dependencies[] = metatag
+dependencies[] = nice_menus
+dependencies[] = node_reference
+dependencies[] = pathauto
+; dependencies[] = profile2
+dependencies[] = references
+; This needs to be integrated into the smartparticipation_core module
+; dependences[] = smartparticipation_core_profile
+dependencies[] = role_delegation
+; dependencies[] = simplehtmldom
+dependencies[] = smartparticipation_ajax_comments
+dependencies[] = smartparticipation_ajax_throbber
+dependencies[] = smartparticipation_comments_filter_format
+dependencies[] = smartparticipation_complete_profile
+dependencies[] = smartparticipation_jquery_update
+dependencies[] = smartparticipation_mobile_menu
+dependencies[] = smartparticipation_proposal_comment_admin
+dependencies[] = special_menu_items
+dependencies[] = strongarm
+dependencies[] = subpathauto
+dependencies[] = taxonomy
+dependencies[] = taxonomy_display
+dependencies[] = token
+dependencies[] = webform
+dependencies[] = webform_conditional
+dependencies[] = webform_validation
+dependencies[] = weight
+dependencies[] = wysiwyg
+dependencies[] = wysiwyg_linebreaks
+
+
+; Stylesheets for the module
+;stylesheets[all][] = css/smartparticipation_core.css
+
+; Scripts to be loaded on every page
+;scripts[] = js/smartparticipation.js
+;scripts[] = js/form.js
+;scripts[] = js/jwplayer/jwplayer.js
+
+
+; Use files[] to load only files containing class or interface definitions.
+; Other files must be required in the .module file.
+; files[] = 

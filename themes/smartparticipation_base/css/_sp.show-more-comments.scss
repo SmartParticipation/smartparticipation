@@ -1,0 +1,15 @@
+
+$showMoreCommentsLinkColor: $white !default;
+
+.show-more-comments-button {
+  text-align: center;
+  a {
+    margin-top: 15px;
+    margin-right: 8px;
+    display: inline-block;
+    color: $showMoreCommentsLinkColor;
+    &:link {
+      color: $showMoreCommentsLinkColor;
+    }
+  }
+}

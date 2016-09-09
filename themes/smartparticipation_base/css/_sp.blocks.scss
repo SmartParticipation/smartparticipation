@@ -1,0 +1,88 @@
+/**
+ * Block styles
+ */
+
+.region-sidebar-second #block-smartparticipation-core-learn-node-links {
+  ul { 
+    padding-left:0;
+    li {
+      list-style-type:none;
+      margin-bottom: .5em;
+    }
+  }
+}
+
+#block-smartparticipation-core-submit-faq {
+  margin-top:2em;
+  padding-top:1em;
+  h2 {
+    display:block;
+    text-align: center;
+    background-color: $rrButtonBackgroundColor;
+    color: $rrButtonTextColor;
+    border: medium none;
+    font-size: $rrButtonFontSize;
+    font-weight: $rrButtonFontWeight;
+    padding: $rrButtonPadding;
+    cursor:pointer;
+    line-height:1.313em;
+    //.icon {
+    //  background:transparent url($rrImagesPath + "faqs/faqs_icon_ask_question.png") no-repeat left top;
+    //  width:21px;
+    //  height:21px;
+    //  display:inline-block;
+    //
+    //}
+    &.open {
+      background-color:$grayLight;
+      //.icon {
+      //  background-image: url($rrImagesPath + "faqs/faqs_icon_ask_open.png");
+      //}
+    }
+  }
+  #smartparticipation-core-submit-faq-form {
+    display:none;
+    margin-top:1em;
+
+    .form-item {
+      display:block;
+    }
+    input[type=text] {
+      width:100%;
+    }
+    textarea {
+      height: 200px;
+    }
+    .form-submit {
+      //margin-top:1em;
+    }
+    .form-type-textfield, .form-type-textarea {
+      width:auto;
+    }
+    
+  }
+}
+
+#block-smartparticipation-core-contact-form {
+
+  #smartparticipation-core-contact-form {
+    margin-top:1em;
+
+    .form-item {
+      display:block;
+    }
+    input[type=text] {
+      width:100%;
+    }
+    textarea {
+      height: 200px;
+    }
+    .form-submit {
+      //margin-top:1em;
+    }
+    .form-type-textfield, .form-type-textarea {
+      width:auto;
+    }
+
+  }
+}

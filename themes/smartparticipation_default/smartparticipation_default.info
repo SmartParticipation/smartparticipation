@@ -1,0 +1,38 @@
+name = SmartParticipation Default
+description =  A child theme of smartparticipation_base, used as the default theme for a SmartParticipation installation.
+base theme = smartparticipation_base
+version = VERSION
+core = 7.x
+
+;stylesheets[all][] = css/smartparticipation.css
+
+; CORE REGIONS - DISABLED
+;regions[featured] = Featured
+;regions[help] = Help
+regions[sidebar_first] = Sidebar first
+
+; BARTIK CUSTOM REGIONS - DISABLED
+;regions[footer_firstcolumn] = Footer first column
+;regions[footer_secondcolumn] = Footer second column
+;regions[footer_thirdcolumn] = Footer third column
+;regions[footer_fourthcolumn] = Footer fourth column
+;regions[highlighted] = Highlighted
+;regions[triptych_first] = Triptych first
+;regions[triptych_middle] = Triptych middle
+;regions[triptych_last] = Triptych last
+
+; CORE REGIONS - REQUIRED
+;regions[page_top] = Page top
+regions[content] = Content
+;regions[page_bottom] = Page bottom
+
+; CORE REGIONS
+regions[header] = Header
+; Sidebar second used in some pages
+regions[sidebar_second] = Sidebar second
+
+; BARTIK CUSTOM REGIONS
+regions[footer] = Footer
+
+settings[shortcut_module_link] = 0
+

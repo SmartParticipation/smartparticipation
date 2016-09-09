@@ -1,0 +1,116 @@
+/**
+ * Proposal phase tabs on topic carousel
+ */
+
+.xxs-device, .xs-device {
+  .proposal-phases {
+    .tabs {
+      li {
+        float: none;
+      }
+    }
+  }
+}
+
+.proposal-phases {
+  @extend .divider-hor-bot;
+  margin-bottom: 2.8em;
+  padding-bottom: 20px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  .tabs {
+    padding-left: 0;
+    
+    li {
+      list-style: none;
+      display: block;
+      float: left;
+      text-align: center;
+      padding-bottom: 10px;
+      
+      a {
+        font-size: 1em;
+        padding-bottom: 7px;
+        display: inline-block;
+        background: none;
+        color: $themeColor;
+        text-decoration: none;
+        padding-left: 15px;
+        padding-right: 15px;
+        border-bottom: 1px solid $themeColor; 
+  
+        .current-phase {
+          //in case we want to add an icon
+        }
+            
+        .future-phase {
+          background-image:url($appSprites);
+          background-position: -122px -30px;
+          width: 12px;
+          height: 13px;
+          display: inline-block;
+          margin-right: 5px;
+        }
+          
+        .past-phase {
+          background-image:url($appSprites);
+          background-position: -123px -6px;
+          width: 10px;
+          height: 13px;
+          display: inline-block;
+          margin-right: 5px;
+        }
+              
+        &.active {
+          color: $rrGray;
+          margin-top: 0;
+          border-bottom: 4px solid $rrGray; 
+        }
+        
+        &:hover {
+          color: $rrGray;
+          margin-top: 0;
+          border-bottom: 4px solid $rrGray;
+        }       
+
+      
+        .count-divider {
+          color: $grayLight;
+        }
+
+        .phase-comment-count {
+          font-size: .95em;
+          color: $grayLight;
+          font-weight: bold;
+        }
+
+        .icon-comments-phase {
+          background-image:url($appSprites);
+          display: inline-block;
+          height: 15px;
+          line-height: 15px;
+          margin-left: 2px;
+          margin-top: 2px;
+          width: 13px;
+        }
+      }
+    }
+  }
+}
+ 
+.proposal-topics {
+  //margin-left: 20px;
+}
+
+.phase-tab {
+  clear: both;
+  padding-top: 1em;
+  //padding-left: 10px;
+}
+
+.proposal-topics .no-content {
+  margin-top: -20px;
+}

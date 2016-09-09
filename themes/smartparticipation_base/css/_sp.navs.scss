@@ -1,0 +1,240 @@
+/**
+ * Regroom menu-specific
+ */
+
+// Main navigation
+
+$rrMainNavSeparatorColor: #9ba3a7;
+$rrMainNavSubmenuColor: #9ba3a7;
+
+ul.nice-menu-down {
+  float:none;
+
+  li {
+    border:0;
+    background-color: #ffffff;
+    
+    &.active-trail a {
+      color:$rrHeaderLinkColorActive;
+    }
+
+    &.over {
+      a {
+        color:$rrHeaderLinkColorActive;
+      }
+    }
+
+    a {
+      color:$rrHeaderLinkColor;
+      border-left: 1px solid $rrMainNavSeparatorColor;
+      margin-bottom: 2px;
+      margin-top: 2px;
+      padding-bottom: 2px;
+      padding-top: 2px;
+      line-height: 0.875em;
+      margin-right: 2px;
+      padding-left: 12px;
+      padding-right: 12px;
+      font-size: 1.1em;
+
+      &:hover {
+        color:$rrHeaderLinkColorActive;
+        text-decoration: none;
+      }
+    }
+
+    &:first-child a {
+      border-left: none;
+    }
+    
+    // submenus
+    &.menuparent {
+      background: url($rrThemeImagesPath + "menu/arrow-down.png") no-repeat scroll right center $bodyBackground;
+      margin-right: 10px;
+
+      &:hover {
+        background: url($rrThemeImagesPath + "menu/arrow-down.png") no-repeat scroll right center $bodyBackground;
+      }
+
+      a {
+        padding-right: 10px;
+      }
+
+      ul {
+        border-top:none;
+        z-index:100;
+
+        li {
+          border-bottom:1px dotted #fff;
+          background-color: $rrMainNavSubmenuColor;
+          
+          a {
+            //background-color: $rrGray;
+            background-color: $rrMainNavSubmenuColor;
+            margin:0;
+            //padding:7px;
+            color: #ffffff;
+            font-size: 1em;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            line-height: 1.4em;
+
+            &:hover {
+              //background-color: $themeColor;
+              background-color: $rrHeaderLinkColorActive;
+            }
+          }
+        }
+      }
+    }
+
+    &.menu-path-front {
+      a.active {
+        color: $rrHeaderLinkColorActive;
+      }
+    }
+
+  }
+}
+
+
+.header-nav {
+  a {
+    font-size: .875em;
+  }
+
+  .nav-pills {
+    margin-left:-12px;
+  }
+  ul.nice-menu-down {
+    margin-left:-12px;
+    z-index:40;
+  }
+  ul.nice-menu ul li {
+    width: 200px;
+  }
+  
+  li.menu-path-announcements {
+    span {
+      font-size: .7em;
+      background-color: $orange;
+      color: $white;
+      -webkit-border-radius: 3px;
+      -moz-border-radius: 3px;
+      border-radius: 3px;
+      font-weight: normal;
+      padding: 0 6px;
+    }
+  }
+}
+
+.user-nav {
+  ul.nice-menu-down {
+    float:right;
+  }
+}
+
+// User tools dropdown menu
+ul#nice-menu-sp-user-menu {
+
+  li {
+    height: 50px;
+    line-height: 50px;
+
+    ul {
+      li {
+        height:auto;
+        line-height:normal;
+        a {
+          display:block;
+        }
+      }
+    }
+
+    a {
+      display:inline-block;
+    }
+
+  }
+
+  &.nice-menu-down {
+  
+      li {
+      
+        a {
+          font-size: .8em;
+        }
+
+        // submenus
+        &.menuparent {
+
+          ul {
+            padding-top: 12px;
+            //margin-left: -80px;
+						
+            li {
+            width: 140px;
+           
+              a {
+                padding: 5px;
+                padding-left: 7px;
+                font-size: .8em;
+              }
+            }
+          }
+        }
+      }
+  }
+}
+
+// Regroom about pages nav
+
+#block-smartparticipation-core-about-menu {
+  padding-left: 0;
+  border-left: 0;
+}
+
+#about-pages {
+  ul {
+    li {
+      a {
+        display: block; 
+        padding: 2px 0 2px 20px;
+        background: url($rrImagesPath + "secondary-nav-default.gif") 0 0 no-repeat;
+        
+        &:hover {
+          background: url($rrImagesPath + "secondary-nav-active.gif") 0 -2px no-repeat;  
+        }
+      }
+      
+      a.active {
+        background: url($rrImagesPath + "secondary-nav-active.gif") 0 -2px no-repeat;  
+      }
+    }
+  }
+}
+
+@media (max-width: $mdDevice) {
+
+  #block-nice-menus-1 {
+    display: none;
+  }
+
+  #nice-menu-sp-user-menu {
+    display: none;
+  }
+
+  .site-header .span6.pull-right {
+    display:none;
+  }
+
+  .site-header .span6.pull-left {
+    width: 100%;
+    text-align: center;
+  }
+
+}
+
+.block-nice-menus.block {
+  padding-bottom: 0;
+}

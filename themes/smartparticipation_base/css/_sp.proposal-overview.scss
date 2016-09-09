@@ -1,0 +1,106 @@
+/**
+ * Proposal summary (used on home page and proposal page)
+ */
+
+ $font-header: 'museo_slab_900regular', sans-serif;
+ $font-body: "Open Sans",sans-serif;
+ 
+/* Proposal page only, not home page */
+.node-type-sp-proposal .proposal-overview {
+  margin-top: 1em;
+}
+ 
+.proposal-overview {
+  margin-bottom: 2em;
+
+  .status-label {
+    background-color: $gray;
+    color: $white;
+    display: inline-block;
+    font-size: 0.7em;
+    padding: 4px 7px;
+  }
+
+  .topic-header-image-wrapper {
+      display: block;
+    //float: left;
+    //margin-right: 1em;
+      margin-top: .2em;
+    //width: 210px;
+    //min-height: 133px;
+
+    .topic-header-image {
+      //width: 210px;
+      width: 100%;
+    }
+  }
+	
+	
+  //The two classes below are added when the topic image is available or unavailable.
+	.proposal-with-image {
+      //width: 72%;
+  }
+  .proposal-with-no-image {
+    //width: 99%;
+  }
+	
+	.proposal-header-details {
+      //float: left;
+    position: relative;
+  
+   h2 {
+     font-family: 'museo_slab_900regular', sans-serif;
+     font-size:1.733em;
+     color:$rrGray;
+
+     .total-comments {
+       font-family: 'Arial', sans-serif;
+       vertical-align: middle;
+       font-size:1.2em;
+       color:$grayLight;
+       display:inline-block;
+       line-height:1.125em;
+
+       .count {
+         float:left;
+         font-size: .6em;
+       }
+
+       .icon {
+         background: url($rrImagesPath + "front/icons-sprite.png") #ffffff no-repeat 0px -394px;
+         float:right;
+         width:13px;
+         height:13px;
+         line-height: 13px;
+         margin-top:2px;
+         margin-left:4px;
+       }
+     }
+   }
+  }
+  
+  .documents {   
+    margin-bottom: 0; 
+    float: right;
+    margin-top: 0;
+    display: inline-block;
+    
+      a {
+        display: block;
+        height: 29px;
+        text-align: center;
+        line-height: 29px;
+        color: $white;
+        padding-bottom: 5px;
+        padding-right: 10px;
+        padding-left: 10px;
+        background-color: $topicHeaderType;
+
+        &:hover {
+          text-decoration: none;
+          background-color: $rrGray;
+        }
+      }
+    }
+  }
+

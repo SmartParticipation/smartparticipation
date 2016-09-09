@@ -1,0 +1,31 @@
+
+
+.webform-client-form {
+
+	#webform-component-user-category {
+		margin-bottom: 1.5em;
+	}
+
+	.form-item {
+		margin-bottom: .7em;
+	}
+
+	label {
+		padding-bottom: .7em;	
+	}
+	
+	input.form-text,
+	input.form-textarea {
+	  font-weight: normal;
+	}
+	
+	input.form-checkbox,
+	input.form-radio {
+	  margin-right: .3em;
+	}
+
+	fieldset {
+		padding: .7em;
+		border: 1px dotted $grayLighter;
+	}
+}

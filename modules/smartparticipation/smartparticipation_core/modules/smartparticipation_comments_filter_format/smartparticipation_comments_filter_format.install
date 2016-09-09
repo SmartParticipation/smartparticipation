@@ -1,0 +1,7 @@
+<?php
+
+function smartparticipation_comments_filter_format_enable() {
+  smartparticipation_add_comments_filter_format();
+  smartparticipation_add_wysiwyg_profile_comments_filter_format();
+}
+

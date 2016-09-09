@@ -1,0 +1,87 @@
+/**
+ *  Contact us page
+ */
+ $appSprites: $rrImagesPath + 'app_sprites.png';
+ 
+ #contact-us {
+  h2 {
+    margin-bottom: 0;
+    padding-top: .6em;
+    border-top: 1px solid $grayLighter;
+  }
+
+  h3 {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  
+  .adr {
+    margin-top: 0;
+    border-bottom: 1px solid $grayLighter;
+    padding-bottom: 1em;
+  }
+  
+  .email {
+    padding: 10px;
+    color: $white;
+    background-color: $themeColor;
+    float: left;
+    width: auto;
+    clear: both;
+    margin-top: 0;
+    margin-bottom: 0;
+    
+    .email-icon {
+      background-image:url($appSprites);
+      background-position: -155px -14px ;
+      width: 14px;
+      height: 22px;
+      display: inline-block;
+      margin-right: 8px;
+      vertical-align: middle;
+      padding-left: 8px;
+      border-right: 1px solid $white;
+    }
+    
+    a {
+      color: $white;
+    }
+  }
+  
+  .tel {
+    padding: 10px;
+    color: $white;
+    background-color: $gray;
+    float: left;
+    width: auto;
+    clear: both;
+    margin-top: .5em;
+    margin-bottom: 0;
+    
+    .phone-icon {
+      background-image:url($appSprites);
+      background-position: -160px -41px ;
+    	width: 7px;
+    	height: 15px;
+    	display: inline-block;
+      margin-right: 8px;
+      padding-left: 8px;
+      border-right: 1px solid $white;
+    }
+    
+    a {
+      color: $white;
+    }
+       
+  }
+  
+  .alternative-contact {
+    margin-top: 0;
+    float: left;
+  }
+ 
+ }
+ 
+ #additional-info {
+  border-top: 1px solid $grayLighter;
+ }

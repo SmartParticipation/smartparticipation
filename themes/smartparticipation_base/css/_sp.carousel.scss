@@ -1,0 +1,552 @@
+/**
+ *  Carousel styles for every template that requires a carousel.
+ */
+
+#all-topics {
+  font-family: $rrFontFamily !important;
+  font-weight: normal;
+  font-size: 1.2em;
+  color: $grayLight;
+  padding-top: 1em;
+  margin-top: 2em;
+  border-top: 1px solid $grayLighter;
+}
+
+.rs-carousel .rs-carousel-mask {
+  overflow: hidden;
+}
+.rs-carousel.rs-carousel-horizontal .rs-carousel-item {
+  float: left;
+}
+.topics {
+  position: relative;
+}
+#carousel {
+  margin: 0 auto;
+}
+#carousel img {
+  border: 0;
+}
+
+/* rscarousel */
+#ui-carousel-next, #ui-carousel-prev {
+  width: 60px;
+  height: 100px;
+  background: url($rrImagesPath + "arrow-left.png") #fff center center no-repeat;
+  display: block;
+  position: absolute;
+  top: 0;
+  z-index: 100;
+}
+#ui-carousel-next {
+  right: 0;
+  background-image: url($rrImagesPath + "arrow-right.png");
+}
+
+.carousel-container .paging-link {
+  display: none;
+}
+
+/* colours (rs-carousel) */
+.color-1 {
+  background: #007cd2;
+}
+.color-2 {
+  background: #1788D7;
+}
+.color-3 {
+  background: #3798db;
+}
+.color-4 {
+  background: #62acdf;
+}
+.color-5 {
+  background: #86bbe0;
+}
+.color-6 {
+  background: #a7c7de;
+}
+.color-7 {
+  background: #d5dbdf;
+}
+#ui-carousel-prev {
+  left: 0;
+}
+#ui-carousel-next > span, #ui-carousel-prev > span {
+  display: none;
+}
+.rs-carousel {
+  ul {
+    list-style: none;
+    margin:0;
+    padding:0;
+
+    li {
+      line-height:1em;
+    }
+  }
+}
+.rs-carousel .rs-carousel-mask {
+  //border: 6px solid #444;
+}
+.rs-carousel .rs-carousel-action-next,
+.rs-carousel .rs-carousel-action-prev {
+  cursor: pointer;
+}
+.rs-carousel .rs-carousel-pagination-link {
+  display: inline;
+}
+.rs-carousel .rs-carousel-pagination-link a {
+  padding: 2px 6px;
+}
+.rs-carousel .rs-carousel-pagination-link a:hover {
+  text-decoration: none;
+}
+.rs-carousel .rs-carousel-pagination-link-active a {
+  background: #444;
+  color: #fff;
+}
+.rs-carousel.rs-carousel-disabled .rs-carousel-pagination-link a,
+.rs-carousel.rs-carousel-disabled .rs-carousel-action-next,
+.rs-carousel.rs-carousel-disabled .rs-carousel-action-prev,
+.rs-carousel .rs-carousel-action-disabled {
+  color: gray;
+  cursor: default;
+}
+
+/** horizontal **/
+.rs-carousel.rs-carousel-horizontal.rs-carousel-items-1 .rs-carousel-mask {
+  width: 150px;
+}
+.rs-carousel.rs-carousel-horizontal.rs-carousel-items-2 .rs-carousel-mask {
+  width: 300px;
+}
+.rs-carousel.rs-carousel-horizontal.rs-carousel-items-3 .rs-carousel-mask {
+  width: 450px;
+}
+.rs-carousel.rs-carousel-horizontal.rs-carousel-items-4 .rs-carousel-mask {
+  width: 600px;
+}
+/** vertical **/
+.rs-carousel.rs-carousel-vertical .rs-carousel-mask {
+  width: 150px;
+}
+.rs-carousel.rs-carousel-vertical.rs-carousel-items-1 .rs-carousel-mask {
+  height: 150px;
+}
+.rs-carousel.rs-carousel-vertical.rs-carousel-items-2 .rs-carousel-mask {
+  height: 300px;
+}
+.rs-carousel.rs-carousel-vertical.rs-carousel-items-3 .rs-carousel-mask {
+  height: 450px;
+}
+.rs-carousel.rs-carousel-vertical.rs-carousel-items-4 .rs-carousel-mask {
+  height: 600px;
+}
+
+/*MB note: If you need to create more carousels copy the code below and change the first line .topic.carousel-container to {.newCarouselName}.carousel-container, then style your new carousel.*/
+
+
+//Carousel without comment prompt
+.topic.carousel-container {
+  width: 100%; //inner
+  height: 94px;
+  line-height: 94px;
+  //margin-left: 20px;
+  //float: right;
+  //margin-right: 10px;
+
+  .with-prompt & {
+    //width: 730px; //inner
+    //width: 100%;
+    // Override to fit 5 items without the paging arrows
+    &.no-paging {
+      width:770px;
+      margin-right:0px;
+      .carousel-items {
+        width: 100%;
+        .rs-carousel {
+          .rs-carousel-item {
+            width:127px;
+            padding-right: 15px;
+            padding-left: 15px;
+          }
+        }
+      }
+    }
+  }
+
+  /*.paging-link {
+    //display: inline-block;
+    vertical-align:middle;
+
+    a.rs-carousel-action-prev,a.rs-carousel-action-next {
+      width:18px;
+      height:31px;
+      line-height: 31px;
+      display: inline-block;
+    }
+
+    a.rs-carousel-action-prev {
+      background: url($rrImagesPath + "front/icons-sprite.png") #ffffff no-repeat 0px -151px;
+      
+			&.rs-carousel-action-disabled {
+      background: url($rrImagesPath + "front/icons-sprite.png") #ffffff no-repeat 0px -70px;
+      }
+    }
+
+    a.rs-carousel-action-next {
+      background: url($rrImagesPath + "front/icons-sprite.png") #ffffff no-repeat 0px -313px;
+      
+			&.rs-carousel-action-disabled {
+        background: url($rrImagesPath + "front/icons-sprite.png") #ffffff no-repeat 0px -232px;
+      }
+    }
+  }*/
+  .paging-link {
+    vertical-align: middle;
+
+    a.rs-carousel-action-prev, a.rs-carousel-action-next {
+      width: 18px;
+      height: 31px;
+      line-height: 31px;
+      display: inline-block;
+    }
+
+    a.rs-carousel-action-prev {
+      background: url($rrImagesPath + "front/icons-sprite.png") #ffffff no-repeat 0px -70px;
+      &.rs-carousel-action-active {
+        background: url($rrImagesPath + "front/icons-sprite.png") #ffffff no-repeat 0px -151px;
+      }
+    }
+
+    a.rs-carousel-action-next {
+      background: url($rrImagesPath + "front/icons-sprite.png") #ffffff no-repeat 0px -232px;
+      &.rs-carousel-action-active {
+        background: url($rrImagesPath + "front/icons-sprite.png") #ffffff no-repeat 0px -313px;
+      }
+    }
+  }
+  .carousel-prev {
+    float:left;
+  }
+
+  .carousel-next {
+    float: right;
+    text-align: right;
+  }
+
+  .carousel-items {
+    width:92.553191489%;
+    width: calc(100% - 58px);
+    padding: 0px 10px;
+    vertical-align:middle;
+    line-height: 94px;
+    float:left;
+
+		.rs-carousel.module {
+		  margin: 0 0 1.384em;
+		}
+
+		.rs-carousel { //This has to be inside .rs-carousel.module. THIS WAS THE BIG PROBLEM. TOO MUCH SPECIFICITY!!!!
+			
+			.rs-carousel-runner {
+			  position: relative;
+			
+		  .rs-carousel-item {
+		    width: 130px;
+        padding-right: 10px;
+		    padding-left:25px;
+		    background: url($rrImagesPath + "topic-divider.png") #ffffff no-repeat right -15px;
+        min-height: 100px;
+
+        &:last-child {
+          background-image: none;
+        }
+		  }
+		}
+	}
+}
+
+  .title {
+    line-height:1.3em;
+    font-size:.938em;
+    margin-top: 0;
+    padding-right: 10px;
+    
+    a {
+      color:$rrLinkColor;
+      display: inline-block;
+      width: 130px;
+      word-wrap:break-word;
+      opacity: 1 !important; 
+    
+      em {
+        font-weight: bold;
+        font-style:normal;
+      }
+    }
+    
+
+   .count {
+      font-weight: bold;
+      color: $grayLight;
+      margin-top: 4px;
+      float: left;
+      margin-right: 10px;
+      font-size:1em;
+      vertical-align: middle;
+      margin-top: 2px;
+      
+      .icon-comment {
+        background: url($rrImagesPath + "front/icons-sprite.png") #ffffff no-repeat 0px -394px;
+        display: inline-block;
+        width:13px;
+        height:13px;       
+        line-height: 13px;
+        margin-left: 2px;
+        margin-top: 2px;
+        //.sprite-icon-dialog{ background-position: 0 -394px; width: 13px; height: 13px; }
+      }
+ 			.icon-recommended {
+        background: url($rrImagesPath + "front/icons-sprite.png") #ffffff no-repeat 0px -457px;
+        width:15px;
+        height:11px;
+        line-height: 11px;
+        display: inline-block;
+        padding-top: 2px;
+        margin-left: 2px;
+        margin-top: 2px;
+        //.sprite-icon-heart{ background-position: 0 -457px; width: 15px; height: 11px; }
+      }
+    }    
+  } 
+}
+
+// Override 0.35 opacity assigned by the carousel's css
+.rs-carousel.ui-state-disabled, 
+.ui-widget-content .rs-carousel.ui-state-disabled, 
+.ui-widget-header .rs-carousel.ui-state-disabled {
+  opacity: 1;
+}
+
+// Carousel for closed proposals
+
+.topic-closed.carousel-container {
+  width:100%;
+  height:94px;
+  line-height:94px; 
+
+  .paging-link {
+    vertical-align:middle;
+
+    a.rs-carousel-action-prev,a.rs-carousel-action-next {
+      width:18px;
+      height:31px;
+      line-height: 31px;
+      display: inline-block;
+    }
+
+    a.rs-carousel-action-prev {
+      background: url($rrImagesPath + "front/icons-sprite.png") #ffffff no-repeat 0px -70px;
+      &.rs-carousel-action-active {
+        background: url($rrImagesPath + "front/icons-sprite.png") #ffffff no-repeat 0px -151px;
+      }
+    }
+
+    a.rs-carousel-action-next {
+      background: url($rrImagesPath + "front/icons-sprite.png") #ffffff no-repeat 0px -232px;
+      &.rs-carousel-action-active {
+              background: url($rrImagesPath + "front/icons-sprite.png") #ffffff no-repeat 0px -313px;
+      }
+    }
+  }
+  .carousel-prev {
+    float:left;
+		margin-top: 100px;
+  }
+
+  .carousel-next {
+    float: right;
+    text-align: right;
+		margin-top: 100px;
+  }
+
+  .carousel-items {
+    width: 92.553191489%;
+    width: calc(100% - 58px);
+    padding: 0px 10px;
+    vertical-align:middle;
+    line-height: 94px;
+    float:left;
+
+		.rs-carousel.module {
+		  margin: 0 0 1.384em;
+		}
+
+		.rs-carousel { //This has to be inside .rs-carousel.module. THIS WAS THE BIG PROBLEM. TOO MUCH SPECIFICITY!!!!
+			
+			.rs-carousel-runner {
+			  position: relative;
+			
+		  .rs-carousel-item {
+				padding-top: 20px;
+		   	width: 260px;
+				margin-right: 20px;
+		    padding-left:25px;
+				@extend .divider-hor-top;
+				
+				.title {
+			    line-height:1.3em;
+			    font-size:.938em;	   
+			    margin-top: 0;
+			    padding-right: 10px;
+			    min-height: 65px;
+
+					& > span {
+					  float: left;
+					  margin-left: 3px;
+            width: 170px;					  
+					}
+					
+					img {
+						float: left;
+						border: 3px solid #c8c8c8;
+            margin-right: 10px;
+					}
+
+			    a {
+			      color:$rrLinkColor;
+						//padding-left: 9px;
+						//display: inline-block;
+						//float: left;
+						//padding-top: 5px;	
+					}
+
+					.date {
+						display: block;
+						padding: 0;
+						margin: 0;
+						font-size: .8em;
+						//padding-left: 75px;
+						
+						time {
+						  font-style: italic;
+						}
+					}
+			
+			  	
+			  }
+				.description {
+					float: left;
+					line-height: 1.2em;
+					font-size: 1em;
+					color: $gray;
+				}
+		  }
+		}
+	}
+}
+
+  
+}
+
+// Carousel prompt arrow
+// -------------------------
+
+@mixin carousel-prompt-arrow-margin-left($value) {
+  .row {
+    .carousel-prompt {
+      &:after {
+        margin-left: $value;
+      }
+    }
+  }
+}
+
+@mixin carousel-prompt-arrow-direction-left {
+  .row {
+    .carousel-prompt {
+      &:after {
+        margin-top: -54px;
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+        border-left: 10px solid $rrGray;
+      }
+    }
+  }
+
+}
+
+@mixin carousel-prompt-arrow-direction-down {
+  .row {
+    .carousel-prompt {
+      &:after {
+        margin-top: -15px;
+        border-top: 10px solid $rrGray;
+        border-right: 10px solid transparent;
+        border-left: 10px solid transparent;
+        left: 50%;
+        left: calc(50% - 10px);
+      }
+    }
+  }
+}
+
+.lg-device {
+  @include carousel-prompt-arrow-direction-left;
+  @include carousel-prompt-arrow-margin-left(170px);
+}
+
+.md-device {
+  @include carousel-prompt-arrow-direction-left;
+  @include carousel-prompt-arrow-margin-left(140px);
+}
+
+.sm-device {
+  @include carousel-prompt-arrow-direction-left;
+  @include carousel-prompt-arrow-margin-left(104px);
+}
+
+.xs-device, .xxs-device {
+  @include carousel-prompt-arrow-direction-down;
+}
+
+// Carousel prompt
+// -------------------------
+
+.row {
+  
+  .carousel-prompt {
+    //width: 150px;
+    //width: 100%;
+
+    &:after {
+      // this holds the arrow
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 0;
+    }
+  
+    p {
+      color: white;
+      //padding: 10px;
+      -webkit-border-radius: 6px;
+      -moz-border-radius: 6px;
+      border-radius: 6px;
+      display: block;
+      text-align: center;
+      background-color: $rrGray; /*#243038;*/
+      //width: 120px;
+      //width: 100%;
+      max-width: 100%;
+      //height: 51px;
+      //line-height: 51px;
+      font-size: .9em;
+      margin-top: 0;
+      text-transform: uppercase;
+      padding: 20px 10px;
+    }
+  }
+}

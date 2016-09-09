@@ -1,0 +1,25 @@
+
+ 
+.accordion  {
+  .slide {
+    > h2 {
+      z-index:2;
+    }
+    > div {
+      z-index:1;
+    }
+  }
+}
+
+.rs-carousel {
+  display:none;
+}
+
+#learn-accordion {
+  display:none;
+
+  h2 {
+    border-right: none;
+  }
+}
+

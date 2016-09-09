@@ -1,0 +1,156 @@
+
+/* Overrides for mmenu (Mobile sliding menu) */
+
+body .mmenu-nav.mm-basic .mm-subclose:before{
+  border-left: 2px solid;
+  margin-bottom: -5px;
+  border-color: inherit;
+}
+
+body .mm-menu.mm-hasheader li.mm-subtitle {
+  display: block;
+}
+
+body .mm-menu .mm-list > li > a.mm-subclose {
+  color: inherit;
+}
+
+#nav-icon {
+  color: white;
+  background-color: $themeColor;
+  box-sizing: border-box;
+  //border: .08em solid #c73a11;
+  border-radius: .25em;
+  box-shadow: 0 .08em .08em rgba(0, 0, 0, .25);
+  padding: .5em;
+  min-width: 65px;
+  float: left;
+  .close-nav {
+    display: none;
+  }
+  .open-nav {
+    display: inline;
+    text-transform: uppercase;
+  }
+}
+
+.xxs-device {
+  /*#nav-icon {
+    width: 100%;
+  }*/
+}
+
+.mm-opening {
+  #nav-icon {
+    .close-nav {
+      display: inline;
+    }
+    .open-nav {
+      display: none;
+    }
+  }
+}
+
+/* Icon source: http://codepen.io/rugor/pen/eIzDa */
+
+/* Icon */
+
+/*#nav-icon {
+  width: 60px;
+  height: 45px;
+  display: block;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  -o-transform: rotate(0deg);
+  transform: rotate(0deg);
+  -webkit-transition: .5s ease-in-out;
+  -moz-transition: .5s ease-in-out;
+  -o-transition: .5s ease-in-out;
+  transition: .5s ease-in-out;
+  cursor: pointer;
+  display: block;
+}
+
+#nav-icon span {
+  display: block;
+  position: absolute;
+  height: 9px;
+  width: 100%;
+  background: $themeColor;
+  border-radius: 9px;
+  opacity: 1;
+  left: 0;
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  -o-transform: rotate(0deg);
+  transform: rotate(0deg);
+  -webkit-transition: .25s ease-in-out;
+  -moz-transition: .25s ease-in-out;
+  -o-transition: .25s ease-in-out;
+  transition: .25s ease-in-out;
+}*/
+
+/* Icon */
+
+/*#nav-icon span:nth-child(1) {
+  top: 0px;
+  -webkit-transform-origin: left center;
+  -moz-transform-origin: left center;
+  -o-transform-origin: left center;
+  transform-origin: left center;
+}
+
+#nav-icon span:nth-child(2) {
+  top: 18px;
+  -webkit-transform-origin: left center;
+  -moz-transform-origin: left center;
+  -o-transform-origin: left center;
+  transform-origin: left center;
+}
+
+#nav-icon span:nth-child(3) {
+  top: 36px;
+  -webkit-transform-origin: left center;
+  -moz-transform-origin: left center;
+  -o-transform-origin: left center;
+  transform-origin: left center;
+}
+
+.mm-opening #nav-icon span:nth-child(1) {
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  transform: rotate(45deg);
+  top: -3px;
+  left: 8px;
+}
+
+.mm-opening #nav-icon span:nth-child(2) {
+  width: 0%;
+  opacity: 0;
+}
+
+.mm-opening #nav-icon span:nth-child(3) {
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  top: 39px;
+  left: 8px;
+}*/
+
+@media (min-width: ($mdDevice + 1)) {
+
+  #nav-icon {
+    display: none;
+  }
+
+}
+
+.mmenu-nav.mm-basic > .mm-list li.active-trail > a {
+  background-color: rgba(0, 0, 0, 0.4);
+  color: white;
+}

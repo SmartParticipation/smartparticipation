@@ -1,0 +1,12 @@
+<?php
+
+function smartparticipation_bot_logger_enable() {
+  if (!db_table_exists('botlog')) {
+    create_smartparticipation_bot_logger_schema();
+  }
+}
+
+function smartparticipation_bot_logger_uninstall() {
+  include_once drupal_get_path('module', 'smartparticipation_bot_logger') . '/smartparticipation_bot_logger.module';
+  remove_smartparticipation_bot_logger_schema();
+}

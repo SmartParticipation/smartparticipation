@@ -1,0 +1,11 @@
+<?php
+
+function smartparticipation_jquery_update_enable() {
+  variable_set("jquery_update_compression_type", "min");
+  variable_set("jquery_update_jquery_cdn", "none");
+  variable_set("jquery_update_jquery_migrate_cdn", "none");
+  variable_set("jquery_update_jquery_migrate_enable", 0);
+  variable_set("jquery_update_jquery_migrate_trace", 0);
+  variable_set("jquery_update_jquery_migrate_warnings", 0);
+  variable_set("jquery_update_jquery_version", "1.7");
+}

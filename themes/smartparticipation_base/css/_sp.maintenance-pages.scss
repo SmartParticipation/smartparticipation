@@ -1,0 +1,34 @@
+/**
+ *  maintenance-page.tpl.php: This file controls the page that is 
+ *  displayed when the site is in "maintenance mode" but the database 
+ *  connection and database are still functioning correctly.
+ *
+ *  maintenance-page--offline.tpl.php: This file controls the page 
+ *  that is displayed when Drupal cannot access the database (for whatever reason).
+ */
+ 
+ .maintenance-page,
+ .maintenance-page--offline {
+    #name-and-slogan {
+      margin-bottom: 20px;
+    }
+ }
+ 
+ #maintenance-page {
+  
+  img {
+    display: block;
+    margin: 1em auto 5em auto;
+    
+    //.maintenance {
+      // placeholder for maintenance-page.tpl.php 
+    //}
+    //.maintenance-offline-db {
+      // placeholder for maintenance-page--offline.tpl.php 
+    //}
+  }
+ }
+
+a.back-home {
+	color: $rrLinkColor !important;
+}

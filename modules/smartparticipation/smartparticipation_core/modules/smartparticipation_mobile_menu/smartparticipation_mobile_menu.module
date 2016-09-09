@@ -1,0 +1,364 @@
+<?php
+
+function build_mobile_user_menu() {
+
+  $menu = array(
+    'menu_name' => 'sp-user-menu-mobile',
+    'title' => 'RegRoom User Menu Logged In (mobile)',
+    'description' => 'A user menu for RegRoom sites when the user is logged in (mobile optimized version).'
+  );
+
+  menu_save($menu);
+
+  // Exported menu link: sp-user-menu-mobile:menutoken/519d0e553646e
+  $menu_links['sp-user-menu-mobile:menutoken/519d0e553646e'] = array(
+    'menu_name' => 'sp-user-menu-mobile',
+    'link_path' => 'menutoken/519d0e553646e',
+    'router_path' => 'menutoken/%',
+    'link_title' => 'Stats',
+    'options' => array(
+      'menu_token_link_path' => 'user/[current-user:uid]/stats',
+      'menu_token_data' => array(),
+      'menu_token_options' => array(
+        'clear' => 0,
+      ),
+      'attributes' => array(
+        'title' => '',
+      ),
+      'alter' => TRUE,
+    ),
+    'module' => 'menu',
+    'hidden' => '0',
+    'external' => '0',
+    'has_children' => '0',
+    'expanded' => '0',
+    'weight' => '25',
+    //'parent_path' => 'user',
+  );
+
+  // Exported menu link: sp-user-menu-mobile:menutoken/51c37684f1e7c
+  $menu_links['sp-user-menu-mobile:menutoken/51c37684f1e7c'] = array(
+    'menu_name' => 'sp-user-menu-mobile',
+    'link_path' => 'menutoken/51c37684f1e7c',
+    'router_path' => 'menutoken/%',
+    'link_title' => 'Account',
+    'options' => array(
+      'attributes' => array(
+        'title' => '',
+      ),
+      'menu_token_link_path' => 'user/[current-user:uid]/edit',
+      'menu_token_data' => array(),
+      'menu_token_options' => array(
+        'clear' => 0,
+      ),
+      'alter' => TRUE,
+    ),
+    'module' => 'menu',
+    'hidden' => '0',
+    'external' => '0',
+    'has_children' => '0',
+    'expanded' => '0',
+    'weight' => '35',
+    //'parent_path' => 'user',
+  );
+
+  // Exported menu link: sp-user-menu-mobile:menutoken/519d16e9e2ef4
+  $menu_links['sp-user-menu-mobile:menutoken/519d16e9e2ef4'] = array(
+    'menu_name' => 'sp-user-menu-mobile',
+    'link_path' => 'menutoken/519d16e9e2ef4',
+    'router_path' => 'menutoken/%',
+    'link_title' => 'My comments',
+    'options' => array(
+      'attributes' => array(
+        'title' => '',
+      ),
+      'menu_token_link_path' => 'user/[current-user:uid]/comments',
+      'menu_token_data' => array(),
+      'menu_token_options' => array(
+        'clear' => 0,
+      ),
+      'alter' => TRUE,
+    ),
+    'module' => 'menu',
+    'hidden' => '0',
+    'external' => '0',
+    'has_children' => '0',
+    'expanded' => '0',
+    'weight' => '40',
+    //'parent_path' => 'user',
+  );
+
+  // Exported menu link: sp-user-menu-mobile:menutoken/519d16f8a10a1
+  $menu_links['sp-user-menu-mobile:menutoken/519d16f8a10a1'] = array(
+    'menu_name' => 'sp-user-menu-mobile',
+    'link_path' => 'menutoken/519d16f8a10a1',
+    'router_path' => 'menutoken/%',
+    'link_title' => 'Comments I endorsed',
+    'options' => array(
+      'attributes' => array(
+        'title' => '',
+      ),
+      'menu_token_link_path' => 'user/[current-user:uid]/endorsements',
+      'menu_token_data' => array(),
+      'menu_token_options' => array(
+        'clear' => 0,
+      ),
+      'alter' => TRUE,
+    ),
+    'module' => 'menu',
+    'hidden' => '0',
+    'external' => '0',
+    'has_children' => '0',
+    'expanded' => '0',
+    'weight' => '45',
+    //'parent_path' => 'user',
+  );
+
+  // Exported menu link: sp-user-menu-mobile:menutoken/519d170565c2c
+  $menu_links['sp-user-menu-mobile:menutoken/519d170565c2c'] = array(
+    'menu_name' => 'sp-user-menu-mobile',
+    'link_path' => 'menutoken/519d170565c2c',
+    'router_path' => 'menutoken/%',
+    'link_title' => 'Replies to my comments',
+    'options' => array(
+      'attributes' => array(
+        'title' => '',
+      ),
+      'menu_token_link_path' => 'user/[current-user:uid]/replies',
+      'menu_token_data' => array(),
+      'menu_token_options' => array(
+        'clear' => 0,
+      ),
+      'alter' => TRUE,
+    ),
+    'module' => 'menu',
+    'hidden' => '0',
+    'external' => '0',
+    'has_children' => '0',
+    'expanded' => '0',
+    'weight' => '50',
+    //'parent_path' => 'user',
+  );
+
+  $menu_links['sp-user-menu-mobile:user/logout'] = array(
+    'menu_name' => 'sp-user-menu-mobile',
+    'link_path' => 'user/logout',
+    'router_path' => 'user/logout',
+    'link_title' => 'Log out',
+    'options' => array(
+      'attributes' => array(
+        'title' => '',
+      ),
+    ),
+    'module' => 'menu',
+    'hidden' => '0',
+    'external' => '0',
+    'has_children' => '0',
+    'expanded' => '0',
+    'weight' => '55',
+  );
+
+  $mlid = NULL;
+  $parent = array();
+  foreach ($menu_links as $menu_link) {
+    // set the parent link id if this link has a parent path
+    if (count($parent) && isset($menu_link['parent_path'])) {
+      if (isset($parent[$menu_link['parent_path']])) {
+        $menu_link['plid'] = $parent[$menu_link['parent_path']];
+      }
+    }
+    $mlid = menu_link_save($menu_link);
+    menu_cache_clear_all();
+    // store the link id if it has children
+    if ($menu_link['has_children']) {
+      $parent[$menu_link['link_path']] = $mlid;
+    }
+  }
+
+  menu_rebuild();
+}
+
+function remove_mobile_user_menu() {
+  menu_delete(array('menu_name' => 'sp-user-menu-mobile'));
+}
+
+function apply_mmenu_settings() {
+  $mmenu_settings = array(
+    'enabled' => '1',
+    'title' => 'Left menu',
+    'name' => 'mmenu_left',
+    'blocks' =>
+      array(
+        0 =>
+          array(
+            'module_delta' => 'system|main-menu',
+            'menu_parameters' =>
+              array(
+                'min_depth' => '1',
+              ),
+            'title' => 'Site menu',
+            'collapsed' => '0',
+            'wrap' => '0',
+            'module' => 'system',
+            'delta' => 'main-menu',
+          ),
+        1 =>
+          array(
+            'module_delta' => 'menu|sp-user-menu-logged-out',
+            'menu_parameters' =>
+              array(
+                'min_depth' => '1',
+              ),
+            'title' => 'Account menu',
+            'collapsed' => '0',
+            'wrap' => '0',
+            'module' => 'menu',
+            'delta' => 'sp-user-menu-logged-out',
+          ),
+        2 =>
+          array(
+            'module_delta' => 'menu|sp-user-menu-mobile',
+            'menu_parameters' =>
+              array(
+                'min_depth' => '1',
+              ),
+            'title' => 'Account menu',
+            'collapsed' => '0',
+            'wrap' => '0',
+            'module' => 'menu',
+            'delta' => 'sp-user-menu-mobile',
+          ),
+      ),
+    'options' =>
+      array(
+        'classes' => 'mm-basic',
+        'effects' =>
+          array(),
+        'slidingSubmenus' => TRUE,
+        'clickOpen' =>
+          array(
+            'open' => TRUE,
+            'selector' => '#nav-icon',
+          ),
+        'counters' =>
+          array(
+            'add' => FALSE,
+            'update' => TRUE,
+          ),
+        'dragOpen' =>
+          array(
+            'open' => TRUE,
+            'pageNode' => 'body',
+            'threshold' => 100,
+            'maxStartPos' => 50,
+          ),
+        'footer' =>
+          array(
+            'add' => FALSE,
+            'content' => '',
+            'title' => 'Copyright ©2015',
+            'update' => TRUE,
+          ),
+        'header' =>
+          array(
+            'add' => FALSE,
+            'content' => '',
+            'title' => 'RegulationRoom',
+            'update' => TRUE,
+          ),
+        'labels' =>
+          array(
+            'collapse' => FALSE,
+          ),
+        'offCanvas' =>
+          array(
+            'enabled' => TRUE,
+            'modal' => FALSE,
+            'moveBackground' => FALSE,
+            'position' => 'left',
+            'zposition' => 'next',
+          ),
+        'searchfield' =>
+          array(
+            'add' => FALSE,
+            'addTo' => 'menu',
+            'search' => FALSE,
+            'placeholder' => 'Search',
+            'noResults' => 'No results found.',
+            'showLinksOnly' => TRUE,
+          ),
+      ),
+    'configurations' =>
+      array(
+        'clone' => FALSE,
+        'preventTabbing' => FALSE,
+        'panelNodetype' => 'div, ul, ol',
+        'transitionDuration' => 400,
+        'classNames' =>
+          array(
+            'label' => 'Label',
+            'panel' => 'Panel',
+            'selected' => 'Selected',
+            'buttonbars' =>
+              array(
+                'buttonbar' => 'anchors',
+              ),
+            'counters' =>
+              array(
+                'counter' => 'Counter',
+              ),
+            'fixedElements' =>
+              array(
+                'fixedTop' => 'FixedTop',
+                'fixedBottom' => 'FixedBottom',
+              ),
+            'footer' =>
+              array(
+                'panelFooter' => 'Footer',
+              ),
+            'header' =>
+              array(
+                'panelHeader' => 'Header',
+                'panelNext' => 'Next',
+                'panelPrev' => 'Prev',
+              ),
+            'labels' =>
+              array(
+                'collapsed' => 'Collapsed',
+              ),
+            'toggles' =>
+              array(
+                'toggle' => 'Toggle',
+                'check' => 'Check',
+              ),
+          ),
+        'dragOpen' =>
+          array(
+            'width' =>
+              array(
+                'perc' => 0.80000000000000004,
+                'min' => 140,
+                'max' => 440,
+              ),
+            'height' =>
+              array(
+                'perc' => 0.80000000000000004,
+                'min' => 140,
+                'max' => 880,
+              ),
+          ),
+        'offCanvas' =>
+          array(
+            'menuInjectMethod' => 'prepend',
+            'menuWrapperSelector' => 'body',
+            'pageNodetype' => 'div',
+            'pageSelector' => '#page-container',
+          ),
+      ),
+  );
+  variable_set('mmenu_item_mmenu_left', $mmenu_settings);
+}
+
+function delete_mmenu_settings() {
+  variable_del('mmenu_item_mmenu_left');
+}

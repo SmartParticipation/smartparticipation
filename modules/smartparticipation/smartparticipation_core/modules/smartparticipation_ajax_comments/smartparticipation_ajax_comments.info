@@ -1,0 +1,8 @@
+name = SmartParticipation AJAX Comments
+description = Module makes comments load without a page refresh via AJAX
+core = 7.x
+dependencies[] = comment
+package = SmartParticipation
+configure = admin/config/content/smartparticipation_ajax_comments
+
+

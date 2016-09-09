@@ -1,0 +1,108 @@
+<?php
+
+/**
+ * Implements hook_preprocess().
+ *
+ * Add a hidden link to the footer to 'catch' the bots.
+ */
+function smartparticipation_bot_logger_preprocess_page(&$vars) {
+  $vars['page']['footer']['machine_welcome']['#markup'] =
+    '<div class="machine-welcome" style="display: none">'
+    . '<a href="'
+    . $GLOBALS['base_url'] . '/machine/welcome'
+    . '" rel="nofollow">Do NOT follow this link!</a>'
+    . '</div>';
+}
+
+function remove_smartparticipation_bot_logger_schema() {
+  db_drop_table('botlog');
+}
+
+function smartparticipation_bot_logger_menu() {
+  $items['machine/welcome'] = array(
+    'title' => 'Bot log event',
+    'page callback' => 'smartparticipation_bot_logger_event',
+    'type' => MENU_CALLBACK,
+    'access callback' => TRUE,
+  );
+  return $items;
+}
+
+function smartparticipation_bot_logger_event() {
+
+  global $user;
+
+  $record = array(
+    'hostname' => isset($user->hostname) ? $user->hostname : ip_address(),
+    'timestamp' => time(),
+  );
+
+  if (!empty($_SERVER['HTTP_USER_AGENT'])) {
+    $record['useragent'] = $_SERVER['HTTP_USER_AGENT'];
+  }
+
+  $session_id = session_id();
+  if (!empty($session_id)) {
+    $record['sid'] = $session_id;
+  }
+
+  return drupal_write_record('botlog', $record);
+}
+
+function create_smartparticipation_bot_logger_schema() {
+  $schema = smartparticipation_bot_logger_schema();
+  db_create_table('botlog', $schema['botlog']);
+}
+
+function smartparticipation_bot_logger_schema() {
+  $t = get_t();
+
+  return array(
+
+    'botlog' => array(
+
+      'description' => $t('Stores access data from robots.'),
+
+      'fields' => array(
+        'eid' => array(
+          'description' => $t('Event ID for the request.'),
+          'type' => 'serial',
+          'not null' => TRUE,
+        ),
+        'hostname' => array(
+          'type' => 'varchar',
+          'length' => 128,
+          'not null' => FALSE,
+          'description' => $t('Hostname of robot that initiated the event.'),
+        ),
+        'useragent' => array(
+          'type' => 'varchar',
+          'length' => 255,
+          'not null' => FALSE,
+          'description' => 'User agent of robot that initiated the event.',
+        ),
+        'sid' => array(
+          'type' => 'varchar',
+          'length' => 128,
+          'not null' => FALSE,
+          'description' => 'Browser session ID of robot that initiated the event.',
+        ),
+        'timestamp' => array(
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+          'default' => 0,
+          'description' => $t('Timestamp of when the event occurred.'),
+        ),
+      ),
+
+      'indexes' => array(
+        'hostname' => array('hostname'),
+        'timestamp' => array('timestamp'),
+      ),
+
+      'primary key' => array('eid'),
+    )
+  );
+
+}

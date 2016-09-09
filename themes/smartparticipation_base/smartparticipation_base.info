@@ -1,0 +1,15 @@
+name = SmartParticipation Base
+description = Base theme for all SmartParticipation sites. Not meant to be set as the active theme, since it has not been fully fleshed out.
+package = SmartParticipation
+version = VERSION
+core = 7.x
+
+scripts[] = js/form.js
+
+regions[sidebar_first] = Sidebar first
+regions[content] = Content
+regions[header] = Header
+regions[sidebar_second] = Sidebar second
+regions[footer] = Footer
+
+settings[shortcut_module_link] = 0

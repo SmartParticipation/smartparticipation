@@ -1,0 +1,17 @@
+<?php
+
+function smartparticipation_mobile_menu_enable() {
+  _delete_existing_mobile_menu_settings();
+  build_mobile_user_menu();
+  apply_mmenu_settings();
+}
+
+function smartparticipation_mobile_menu_disable() {
+  delete_mmenu_settings();
+  remove_mobile_user_menu();
+}
+
+function _delete_existing_mobile_menu_settings() {
+  smartparticipation_mobile_menu_disable();
+}
+

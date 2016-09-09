@@ -1,0 +1,109 @@
+
+
+//
+// Alerts
+// --------------------------------------------------
+
+.alert {
+  position: fixed;
+  top: 0;
+  left: 0;
+  text-align: center;
+  width: 100%;
+  z-index: 1000;
+  display: none;
+  //padding: 26px 35px 26px 14px;
+  //margin-bottom: $baseLineHeight;
+  background-color: $warningBackground;
+  color: $warningText;
+  font-size: 1.2em;
+  opacity: .9;
+  font-weight: normal;
+  z-index: 999;
+  max-height: 100%;
+  overflow-y: auto;
+  padding: 0;
+  margin: 0;
+
+  .message {
+    padding: 30px;
+  }
+  
+  .close {
+    opacity: 1;
+    //left: -35px;
+    //position: relative;
+    //top: 2px;
+    //right: -21px;
+    line-height: $baseLineHeight;
+    margin-top: -20px;
+  }
+  
+  a,
+  a:link {
+    //border-bottom: 2px dotted #3F424A;
+    color: $warningLink;
+    font-weight: bold;
+    text-decoration: none;
+    opacity: 1;
+  }
+  a:hover {
+    color: $white;
+  }
+  
+  h4 {
+    margin: 0;
+  }
+  
+  &#browser-alert {
+    display: block;
+  }
+  
+}
+
+// Alternate styles
+// -------------------------
+
+// TODO Should these be nested under .alert?
+
+.alert-success {
+  background-color: $successBackground;
+  border-color: $successBorder;
+  color: $successText;
+}
+
+.alert-danger,
+.alert-error {
+  background-color: $errorBackground;
+  border-color: $errorBorder;
+  color: $errorText;
+}
+
+.alert-info {
+  background-color: $infoBackground;
+  border-color: $infoBorder;
+  color: $infoText;
+}
+
+// Block alerts
+// -------------------------
+
+.alert-block {
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+.alert-block > p,
+.alert-block > ul {
+  margin-bottom: 0;
+}
+
+.alert-block p + p {
+  margin-top: 5px;
+}
+
+// Info warnings
+// -------------------------
+.no-content {
+  color: $infoWarning;
+}

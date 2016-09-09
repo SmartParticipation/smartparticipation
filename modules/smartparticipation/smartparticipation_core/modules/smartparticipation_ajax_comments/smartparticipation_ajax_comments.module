@@ -1,0 +1,630 @@
+<?php
+
+/**
+ * @file
+ * AJAX comments module file.
+ */
+
+/**
+ * Implements hook_init().
+ * See README.txt for why this is necessary.
+ */
+function smartparticipation_ajax_comments_init() {
+  if (isset($_POST['ajax_html_ids']) && count($_POST['ajax_html_ids']) == 1) {
+    $_POST['ajax_html_ids'] = explode(',', $_POST['ajax_html_ids'][0]);
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function smartparticipation_ajax_comments_menu() {
+  $items['smartparticipation_ajax_comments/reply/%node'] = array(
+    'page callback' => 'smartparticipation_ajax_comments_reply',
+    'page arguments' => array(2),
+    'access arguments' => array('post comments'),
+    'delivery callback' => 'ajax_deliver',
+    'type' => MENU_CALLBACK,
+  );
+  $items['smartparticipation_ajax_comments/edit/cancel/%node/%comment'] = array(
+    'page callback' => 'smartparticipation_ajax_comments_edit_cancel',
+    'page arguments' => array(3,4),
+    'access callback' => 'node_access',
+    'access arguments' => array('view', 3),
+    'delivery callback' => 'ajax_deliver',
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['smartparticipation_ajax_comments/edit/%comment'] = array(
+    'page callback' => 'smartparticipation_ajax_comments_edit',
+    'page arguments' => array(2),
+    'access callback' => 'comment_access',
+    'access arguments' => array('edit', 2),
+    'delivery callback' => 'ajax_deliver',
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['smartparticipation_ajax_comments/delete/%'] = array(
+    'page callback' => 'smartparticipation_ajax_comments_delete',
+    'page arguments' => array(2),
+    'access arguments' => array('administer comments'),
+    'delivery callback' => 'ajax_deliver',
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['admin/config/content/smartparticipation_ajax_comments'] = array(
+    'title' => 'AJAX comments',
+    'description' => 'AJAXifies comments on site.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('smartparticipation_ajax_comments_settings'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'smartparticipation_ajax_comments.admin.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_preprocess_node().
+ *
+ * AJAXify "Add new comment" link when there is no default form.
+ */
+function smartparticipation_ajax_comments_preprocess_node(&$variables) {
+  // Only show on full nodes.
+  if ($variables['teaser'] || $variables['view_mode'] != 'full') {
+    return;
+  }
+
+  $node = $variables['node'];
+
+  if (!smartparticipation_ajax_comments_node_type_active($node->type)) {
+    return;
+  }
+
+  if (variable_get('comment_form_location_' . $node->type, COMMENT_FORM_BELOW) == COMMENT_FORM_BELOW) {
+    return;
+  }
+
+  drupal_add_library('system', 'drupal.ajax');
+
+  $variables['content']['links']['comment']['#links']['comment-add']['attributes']['class'] = 'use-ajax';
+  $variables['content']['links']['comment']['#links']['comment-add']['href'] = 'smartparticipation_ajax_comments/reply/' . $node->nid;
+  $variables['content']['links']['comment']['#links']['comment-add']['fragment'] = NULL;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function smartparticipation_ajax_comments_form_comment_form_alter(&$form, &$form_state, $form_id) {
+  // Check to see if this node type uses ajax comments.
+  if (!smartparticipation_ajax_comments_node_type_active($form['#node']->type)) {
+    return;
+  }
+
+  $form['actions']['submit']['#ajax'] = array(
+    'callback' => 'smartparticipation_ajax_comments_submit_js',
+    'wrapper' => $form['#id'],
+    'method' => 'replace',
+    'effect' => 'fade',
+    'progress' => array('type' => 'throbber', 'message' => "<script>RR.Topic.Comment.showCommentSubmitThrobber('{$form['#id']}');</script>"),
+  );
+  $form['actions']['preview']['#ajax'] = array(
+    'callback' => 'smartparticipation_ajax_comments_preview_js',
+    'wrapper' => $form['#id'],
+    'method' => 'replace',
+    'effect' => 'fade',
+  );
+  $form['#attached'] = array(
+    'js' => array(drupal_get_path('module', 'smartparticipation_ajax_comments') . '/smartparticipation_ajax_comments.js'),
+  );
+
+  // HACK, stop ctools from modifying us in node_comment_form.inc
+  $form_state['ctools comment alter'] = FALSE;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function smartparticipation_ajax_comments_form_comment_confirm_delete_alter(&$form, &$form_state, $form_id) {
+  $comment = $form['#comment'];
+  $node = node_load($comment->nid);
+
+  $form['actions']['cancel']['#attributes']['onclick'][] = 'window.location.href = "#overlay=%3Fq%3Dadmin%252Fcontent%252Fcomment"; return false;';
+  $form['#submit'][] = 'smartparticipation_ajax_comments_form_comment_confirm_delete_submit';
+
+  // Check to see if this node type uses ajax comments.
+  /*
+  if (!smartparticipation_ajax_comments_node_type_active($node->type)) {
+    return;
+  }
+
+  $form['actions']['submit']['#ajax'] = array(
+    'callback' => 'smartparticipation_ajax_comments_delete_js',
+    'wrapper' => $form['#id'],
+    'method' => 'replace',
+    'effect' => 'fade',
+  );
+
+  $form['actions']['cancel']['#attributes']['onclick'][] = 'jQuery(\'#' . $form['#id'] . '\').siblings().show().end().remove(); return false;';
+  */
+}
+
+function smartparticipation_ajax_comments_form_comment_confirm_delete_submit($form, &$form_state) {
+
+  global $base_url;
+
+  $form_state['redirect'] = $base_url . '/#overlay=%3Fq%3Dadmin%252Fcontent%252Fcomment';
+}
+
+
+/**
+ * Previews the comment.
+ */
+function smartparticipation_ajax_comments_preview_js($form, &$form_state) {
+  // Return the actual form if it contains errors.
+  if (form_get_errors()) {
+    return $form;
+  }
+
+  $notify_text = variable_get('smartparticipation_ajax_comments_notify', '') ? theme('smartparticipation_ajax_comments_notify_text', array('type' => 'preview')) : '';
+
+  $comment = comment_form_submit_build_comment($form, $form_state);
+  $comment_pre_render = comment_preview($comment);
+  $comment_output = drupal_render($comment_pre_render['comment_preview']);
+
+  // This is a reply.
+  if (isset($form_state['values']['pid'])) {
+    $new_form_state = array();
+    $new_form_state['build_info']['args'][] = (object) array('nid' => $node->nid);
+    $new_form_state['input'] = $form_state['input'];
+    $form['#action'] = '/smartparticipation_ajax_comments/reply/' . $comment->nid . '/' . $comment->pid;
+    $new_form_build = drupal_build_form($form['#form_id'], $new_form_state);
+    // Don't build comment and body.
+    unset($new_form_build['comment_preview']);
+    unset($new_form_build['comment_output_below']);
+    $new_form_output = drupal_render($new_form_build);
+
+    $commands[] = ajax_command_replace('[action="/smartparticipation_ajax_comments/reply/' . $comment->nid . '/' . $comment->pid . '"]', $new_form_output);
+    // TODO: fix this. Needed because action changes after multiple previews.
+    $commands[] = ajax_command_replace('[action="/system/ajax"]', $new_form_output);
+    $commands[] = ajax_command_prepend('#comment-wrapper-' . $comment->pid . ' .comment-form', $notify_text . $comment_output);
+  }
+  // Or is this a brand new comment.
+  else {
+    $commands[] = ajax_command_append('#comment-wrapper', $notify_text . $comment_output);
+    $new_form_state = array();
+    $new_form_state['build_info']['args'][] = (object) array('nid' => $node->nid);
+    $new_form_state['input'] = $form_state['input'];
+    $new_form_build = drupal_build_form($form['#form_id'], $new_form_state);
+    // Don't build comment and body.
+    unset($new_form_build['comment_preview']);
+    unset($new_form_build['comment_output_below']);
+    $new_form_output = drupal_render($new_form_build);
+
+    $commands[] = ajax_command_replace('[action="/comment/reply/' . $comment->nid . '"]', $new_form_output);
+
+  }
+
+  return array('#type' => 'ajax', '#commands' => $commands);
+}
+
+/**
+ * Re-grabs comment after editing is cancelled.
+ */
+function smartparticipation_ajax_comments_edit_cancel($node, $comment) {
+  $comment_build = comment_view($comment, $node);
+  unset($comment_build['#prefix']);
+  unset($comment_build['#suffix']);
+  $comment_output = trim(drupal_render($comment_build));
+  $commands[] = ajax_command_replace('#comment-wrapper-' . $comment->cid . ' form:first', $comment_output);
+  return array('#type' => 'ajax', '#commands' => $commands);
+}
+
+/**
+ * Builds the comment.
+ */
+function smartparticipation_ajax_comments_submit_js($form, &$form_state) {
+  // Return the actual form if it contains errors.
+  if (form_get_errors()) {
+
+    if (!empty($form['cid']['#value'])) {
+      $form['actions']['cancel'] = array(
+        '#markup' => '<a class=\'use-ajax ajax-comments-edit-cancel\' href="/smartparticipation_ajax_comments/edit/cancel/' . $form['nid']['#value'] . '/' . $form['cid']['#value'] . '">' . t('Cancel') . '</a>',
+        '#weight' => 21,
+      );
+    } else if (isset($form_state['values']['pid'])) {
+      $form['actions']['cancel'] = array(
+        '#markup' => '<a id=\'ajax-comments-reply-' . $form_state['values']['pid'] . '\' class=\'ajax-comments-reply-cancel\' href="#' . $form['#id'] . '">' . t('Cancel') . '</a>',
+        '#weight' => 21,
+      );
+    }
+
+    $commands[] = ajax_command_replace('#' . $form['#id'], drupal_render($form));
+
+    return array('#type' => 'ajax', '#commands' => $commands);
+  }
+
+  // This is to remove the "Your comment has been posted" status message that
+  // will appear upon refresh. This seems dirty but it means we don't have to
+  // rewrite the whole comment_form_submit(). Please chime in if you think this
+  // is dumb.
+  smartparticipation_ajax_comments_remove_status();
+
+  $comment = $form_state['comment'];
+  $node = $form['#node'];
+  $notify_text = variable_get('smartparticipation_ajax_comments_notify', '') ? theme('smartparticipation_ajax_comments_notify_text') : '';
+
+  $comment_build = comment_view($comment, $node);
+
+  if (variable_get('comment_preview_' . $node->type)) {
+    $commands[] = ajax_command_remove('.comment-preview');
+    $commands[] = ajax_command_remove('.messages.ajax-comments.warning');
+  }
+
+  // Don't display as a preview as this is being submitted.
+  unset($comment_build['comment_body']['#object']->in_preview);
+
+  // Are we editing a comment.
+  if (isset($form['cid']['#value'])) {
+    // Remove wrapper because the form we replace exists inside the wrapper.
+    unset($comment_build['#prefix']);
+    unset($comment_build['#suffix']);
+
+    // Trim surrounding whitespace so ajax.js doesn't wrap us in a new div.
+    $comment_output = trim(drupal_render($comment_build));
+    $commands[] = ajax_command_replace('#' . $form['#id'], $comment_output);
+  }
+  // Or are we replying to another comment.
+  elseif (isset($form_state['values']['pid'])) {
+    // Append comment to parent wrapper.
+    $comment_output = drupal_render($comment_build);
+    $comment_wrapper = '#comment-wrapper-' . $comment->pid;
+    $commands[] = ajax_command_append($comment_wrapper, $notify_text . $comment_output);
+//    $commands[] = ajax_command_invoke($comment_wrapper, 'RegRoomInvoke', array('Topic.Comment.afterReply'));
+
+    // Delete the form.
+    $commands[] = ajax_command_invoke('#' . $form['#id'], 'remove');
+  }
+  // Or is this a brand new comment?
+  else {
+    // Append comment to root comment wrapper.
+    $comment_output = drupal_render($comment_build);
+//    $commands[] = ajax_command_append('#comment-wrapper-nid-' . $node->nid, $notify_text . $comment_output);
+
+    $subtopic_body = '.subtopic-body-node-' . $comment->nid;
+    $commands[] = ajax_command_append($subtopic_body.' .comments-container', $notify_text . $comment_output);
+//    $commands[] = ajax_command_invoke($subtopic_body, 'RegRoomInvoke', array('Topic.Comment.afterComment'));
+
+    // If we have a default form, update it with a new one.
+//    if (variable_get('comment_form_location_' . $node->type, COMMENT_FORM_BELOW) == COMMENT_FORM_BELOW) {
+      $node = $form['#node'];
+
+      $new_form_state = array();
+      $new_form_state['build_info']['args'][] = (object) array('nid' => $node->nid);
+      // Don't pull from cache.
+      $new_form_state['input'] = array();
+      $new_form_build = drupal_build_form($form['#form_id'], $new_form_state);
+      $new_form_output = drupal_render($new_form_build);
+
+      $commands[] = ajax_command_replace('#' . $form['#id'], $new_form_output);
+//    }
+//    // Otherwise, delete it.
+//    else {
+//      $commands[] = ajax_command_remove('#' . $form['#id']);
+//    }
+  }
+  $output = array('#type' => 'ajax', '#commands' => $commands);
+  return $output;
+}
+
+/**
+ * Removes the comment.
+ */
+function smartparticipation_ajax_comments_delete_js($form, &$form_state) {
+  $comment = $form['#comment'];
+
+  smartparticipation_ajax_comments_remove_status();
+
+  $notify_text = variable_get('smartparticipation_ajax_comments_notify', '') ? theme('smartparticipation_ajax_comments_notify_text', array('type' => 'delete')) : '';
+
+  if ($notify_text) {
+    $commands[] = ajax_command_replace('#comment-wrapper-' . $comment->cid, $notify_text);
+  }
+  else {
+    $commands[] = ajax_command_remove('#comment-wrapper-' . $comment->cid);
+  }
+
+  return array('#type' => 'ajax', '#commands' => $commands);
+}
+
+/**
+ * Implements hook_comment_view().
+ */
+function smartparticipation_ajax_comments_comment_view($comment, $view_mode, $langcode) {
+  $active = smartparticipation_ajax_comments_node_type_active(substr($comment->node_type, strlen('comment_node_')));
+
+  if (!$active) {
+    return;
+  }
+
+  // Reply.
+  if (isset($comment->content['links']['comment']['#links']['comment-reply'])) {
+    $comment->content['links']['comment']['#links']['comment-reply']['attributes']['class'] = array('use-ajax', 'ajax-comment-reply');
+    $comment->content['links']['comment']['#links']['comment-reply']['attributes']['id'] = array('reply-' . $comment->cid);
+    $comment->content['links']['comment']['#links']['comment-reply']['href'] = 'smartparticipation_ajax_comments/reply/' . $comment->nid . '/' . $comment->cid;
+  }
+
+  // Edit.
+  if (isset($comment->content['links']['comment']['#links']['comment-edit'])) {
+    $comment->content['links']['comment']['#links']['comment-edit']['attributes']['class'] = array('use-ajax', 'ajax-comment-edit');
+    $comment->content['links']['comment']['#links']['comment-edit']['href'] = 'smartparticipation_ajax_comments/edit/' . $comment->cid;
+  }
+
+  // Delete.
+  if (isset($comment->content['links']['comment']['#links']['comment-delete'])) {
+    $comment->content['links']['comment']['#links']['comment-delete']['attributes']['class'] = array('use-ajax');
+    $comment->content['links']['comment']['#links']['comment-delete']['href'] = 'smartparticipation_ajax_comments/delete/' . $comment->cid;
+  }
+
+}
+
+/**
+ * Implements hook_node_view_alter().
+ * Wrap all comments in #comment-wrapper
+ */
+function smartparticipation_ajax_comments_node_view_alter(&$build) {
+  $build['comments']['comments']['#prefix'] = '<div id="comment-wrapper-nid-' . $build['#node']->nid . '">';
+  $build['comments']['comments']['#suffix'] = '</div>';
+}
+
+/**
+ * Implements hook_panels_pane_content_alter().
+ * Wrap all comments in #comment-wrapper
+ */
+function smartparticipation_ajax_comments_panels_pane_content_alter(&$content, $pane, $args, $context) {
+  if ($pane->type == 'node_comments') {
+    $content->content = '<div id="comment-wrapper">' . $content->content . '</div>';
+  }
+}
+
+/**
+ * Implements hook_comment_view_alter().
+ * Wrap comments and their replies in a #comment-wrapper-(cid) div
+ */
+function smartparticipation_ajax_comments_comment_view_alter(&$build, $view_mode) {
+  $comment = $build['#comment'];
+  $node = $build['#node'];
+
+  $prefix = '';
+
+  // Close any previous wrapper elements.
+  if ($comment->wrappers_to_close > 0) {
+    $prefix .= str_repeat('</div>', $comment->wrappers_to_close);
+  }
+
+  // Add 'new' anchor if needed.
+  if (!empty($comment->first_new)) {
+    $prefix .= "<a id=\"new\"></a>\n";
+  }
+
+  // Add wrapper tag.
+  $indent = $comment->pid != 0 && variable_get('comment_default_mode_' . $node->type, COMMENT_MODE_THREADED) == COMMENT_MODE_THREADED;
+  $prefix .= '<div class="ajax-comment-wrapper" id="comment-wrapper-' . $comment->cid . '"' . ($indent == TRUE ? ' class="indented"' : '') . '>';
+
+  // Add anchor tag.
+  $prefix .= "<a id=\"comment-$comment->cid\"></a>\n";
+
+  $build['#prefix'] = $prefix;
+
+  // Close last wrapper element.
+  if (!empty($comment->final_wrappers_to_close)) {
+    $build['#suffix'] = str_repeat('</div>', $comment->final_wrappers_to_close);
+  }
+
+  if (!isset($build['#comment']->depth)) {
+    $build['#comment']->depth = count(explode('.', $comment->thread)) - 1;
+  }
+}
+
+/**
+ * Prepares entity view.
+ */
+function smartparticipation_ajax_comments_entity_prepare_view($entities, $entity_type, $langcode) {
+  if ($entity_type == 'comment') {
+    $i = 0;
+    $opened = 0;
+
+    foreach ($entities as $id => $entity) {
+
+      $depth = count(explode('.', $entity->thread)) - 1;
+
+      $entity->wrappers_to_close = 0;
+
+      if ($depth > $opened) {
+        if ($i) {
+          $opened++;
+        }
+      }
+      else {
+        $entity->wrappers_to_close = ($i == 0 ? 0 : 1) + ($opened - $depth);
+
+        while ($depth < $opened) {
+          $opened--;
+        }
+      }
+      // This is a very poor hack to get user pictures to show up. Alternatives
+      // gladly accepted.
+      if (isset($entity->form_build_id)) {
+        if (isset($entity->uid) && theme_get_setting('toggle_comment_user_picture')) {
+          $result = db_select('users', 'u')
+                 ->fields('u', array('picture'))
+                 ->condition('uid', $entity->uid, '=')
+                 ->execute()
+                 ->fetchAssoc();
+          $entity->picture = isset($result['picture']) ? $result['picture'] : '';
+        }
+      }
+
+      $i++;
+    }
+
+    $entities[$id]->final_wrappers_to_close = $opened + 1;
+  }
+}
+
+/**
+ * Callback for clicking "reply".
+ * Note: $pid is an optional parameter. This functionality is utilized by the
+ * "Add new comment" link on pages where there is no default comment form
+ * (comment_form_location is COMMENT_FORM_SEPARATE_PAGE)
+ */
+function smartparticipation_ajax_comments_reply($node, $pid = NULL) {
+
+  if (!user_access('post comments')) {
+    return MENU_ACCESS_DENIED;
+  }
+
+  // If there is a pid this is a reply to a comment.
+  if ($pid) {
+    if (!user_access('access comments')) {
+      return MENU_ACCESS_DENIED;
+    }
+
+    // Make sure the comment is valid and published.
+    if (!($comments = comment_load_multiple(array($pid), array('status' => COMMENT_PUBLISHED)))) {
+      return MENU_NOT_FOUND;
+    }
+    $comment = $comments[$pid];
+
+    // Make sure the comment belongs to this node.
+    if ($comment->nid != $node->nid) {
+      return MENU_NOT_FOUND;
+    }
+  }
+
+  // Build form.
+  $form_build = drupal_get_form("comment_node_{$node->type}_form", (object) array('nid' => $node->nid, 'pid' => $pid));
+
+  // Offer 'cancel' link for reply. This will just remove the reply form so
+  // there is no callback.
+  $form_build['actions']['cancel'] = array(
+    '#markup' => '<a id=\'ajax-comments-reply-' . $pid . '\' class=\'ajax-comments-reply-cancel\' href="#' . $form_build['#id'] . '">' . t('Cancel') . '</a>',
+    '#weight' => 21,
+  );
+  $form = drupal_render($form_build);
+
+  // Add the new form.
+  if ($pid) {
+    $commands[] = ajax_command_after('#comment-wrapper-' . $pid . '>.comment', $form);
+  }
+  else {
+    $commands[] = ajax_command_append('#comment-wrapper-nid-' . $node->nid, $form);
+  }
+
+//  $commands[] = ajax_command_invoke('#ajax-comments-reply-' . $pid, 'RegRoomInvoke', array('Topic.Comment.afterOpenReplyForm'));
+
+  return array('#type' => 'ajax', '#commands' => $commands);
+}
+
+/**
+ * Callback for clicking "edit".
+ */
+function smartparticipation_ajax_comments_edit($comment) {
+  $node = node_load($comment->nid);
+
+  // Build form.
+  $form_build = drupal_get_form("comment_node_{$node->type}_form", $comment);
+  // Allow cancelling of edit.
+  $form_build['actions']['cancel'] = array(
+    '#markup' => '<a class=\'use-ajax ajax-comments-edit-cancel\' href="/smartparticipation_ajax_comments/edit/cancel/' . $node->nid . '/' . $comment->cid . '">' . t('Cancel') . '</a>',
+    '#weight' => 21,
+  );
+  $form = drupal_render($form_build);
+
+  // Replace comment with form.
+  $commands[] = ajax_command_replace('#comment-wrapper-' . $comment->cid . ' >.comment', $form);
+
+  return array('#type' => 'ajax', '#commands' => $commands);
+}
+
+/**
+ * Callback for clicking "delete".
+ */
+function smartparticipation_ajax_comments_delete($cid) {
+  if (!($comment = comment_load($cid))) {
+    return MENU_NOT_FOUND;
+  }
+
+  // Need to include comment module admin file for delete form.
+  $form_state = array();
+  $form_state['build_info']['args'] = array($comment);
+
+  // Load this using form_load_include so it's cached properly and works in the
+  // ajax callback.
+  form_load_include($form_state, 'inc', 'comment', 'comment.admin');
+  $form_build = drupal_build_form('comment_confirm_delete', $form_state);
+  $form = drupal_render($form_build);
+
+  // Hide contents.
+  $commands[] = ajax_command_invoke('#comment-wrapper-' . $cid . ' >*', 'hide');
+
+  // Put form inside main comment wrapper.
+  $commands[] = ajax_command_prepend('#comment-wrapper-' . $cid, $form);
+
+  return array('#type' => 'ajax', '#commands' => $commands);
+}
+
+/**
+ * Removes "Your comment has been posted." or "Your comment has been queued.."
+ *   from the status message.
+ */
+function smartparticipation_ajax_comments_remove_status() {
+  $deleted = t('The comment and all its replies have been deleted.');
+  $published = t('Your comment has been posted.');
+  $not_published = t('Your comment has been queued for review by site administrators and will be published after approval.');
+  foreach ($_SESSION['messages']['status'] as $key => $value) {
+    if ($value == $published || $value == $not_published || $value = $deleted) {
+      unset($_SESSION['messages']['status']);
+    }
+  }
+}
+
+/**
+ * Returns TRUE if this node uses ajax comments or if no nodes are selected.
+ */
+function smartparticipation_ajax_comments_node_type_active($node_type) {
+  $types = variable_get('smartparticipation_ajax_comments_node_types');
+  if (!$types || !array_filter($types)) {
+    return TRUE;
+  }
+  else {
+    return isset($types[$node_type]) ? $types[$node_type] : NULL;
+  }
+}
+
+ /**
+  * Implements hook_theme().
+  */
+function smartparticipation_ajax_comments_theme($existing, $type, $theme, $path) {
+  return array(
+    'smartparticipation_ajax_comments_notify_text' => array(
+      'variables' => array('type' => NULL),
+    ),
+  );
+}
+
+ /**
+  * Returns text to notify user their comment has been added.
+  */
+function theme_smartparticipation_ajax_comments_notify_text($vars = array()) {
+  $text = t('Your comment has been posted');
+  $status = 'status';
+  if ($vars['type'] == 'delete') {
+    $text = t('Your comment has been deleted');
+  }
+  elseif ($vars['type'] == 'preview') {
+    $text = t('This is the preview for your comment. You must click SAVE or your comment will be lost.');
+    $status = 'warning';
+  }
+  // Using messages (minus .session which defaults to 960px in bartik) for now.
+  return '<div id="messages"><div class="clearfix"><div class="messages ajax-comments ' . $status . '"><h2 class="element-invisible">Status message</h2>' . $text . '</div></div></div>';
+}

@@ -1,0 +1,60 @@
+/**
+ * CSS for Announcement and single announcement pages
+ */
+ 
+#new-announcements {
+  border-bottom: 1px solid $grayLighter;
+  padding-bottom: 1em;
+  margin-bottom: 0;
+}
+
+#new-announcements,
+.all-announcements {
+
+  article {
+    p {
+      margin-top: .3em;
+    }
+
+    time {
+      font-size: .8em;
+      padding: 4px 9px;
+      @include border-radius(4px);
+      background-color: $grayLight;
+      color: $white;
+      margin-top: .5em;
+      margin-bottom: .8em;
+      display: inline-block;
+    }
+    &:first-child {
+      h2 {
+        margin-top: 0;
+      }
+    }
+  }
+}
+ 
+.all-announcements {
+  margin-left: 0;
+
+  h2 {
+    margin-top: 2em;
+    border-bottom: 1px solid $grayLight;
+    margin-bottom: 1em;
+    padding-bottom: 0.5em;
+  }
+  
+  article {
+    margin-bottom: 1.3em;
+    
+    h2 {
+      border-bottom: none;
+      margin-bottom: 0; 
+      padding-bottom: 0;
+    }
+    
+    p {
+      margin-top: .3em;
+    }
+  }   
+}

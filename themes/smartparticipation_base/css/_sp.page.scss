@@ -1,0 +1,434 @@
+
+ 
+html, button, input, select, textarea {
+  font-family: $rrFontFamily;
+}
+
+body {
+  //font-size: $rrFontSize;
+  padding-bottom: 40px;
+}
+
+//@import "bootstrap/responsive.less";
+
+@media (min-width: $mdDevice) {
+  .nav-collapse.collapse {
+    height: auto !important;
+    overflow: visible !important;
+  }
+}
+
+
+/* ===== Primary Styles ========================================================
+   Author:
+   ========================================================================== */
+
+
+/*.logo {
+  color:#34A0FF;
+  font-size: 2.133em;
+  line-height: @baseLineHeight * 2;
+  font-family: 'MuseoSlab-500', Georgia, serif;
+  span:first-child {
+    font-weight:bolder;
+  }
+}*/
+
+body {
+  padding-bottom: 0px;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+}
+
+header {
+  padding-top:10px;
+  padding-bottom:13px;
+  border-bottom:1px solid $grayLighter;
+  .user-thumbnail {
+    float: right;
+  }
+}
+
+h3 {
+  .user-thumbnail {
+    float: left;
+  }
+}
+
+h1, h2 {
+  font-family: $rrHeadingFontFamily;
+  font-weight:normal;
+  padding:0;
+  margin:0;
+}
+
+h1 {
+  color: $theme-header;
+  font-size:2em;
+}
+
+h2 {
+  //font-size:19px;
+  color: $theme-header;
+}
+
+.proposal-overview {
+  margin-bottom: 3em;
+  
+  p {
+    margin: .5em 0;
+  }
+
+  h1, h2 {
+    font-family: 'museo_slab_900regular', sans-serif;
+    color:$rrGray;
+    //font-weight:bold;
+  }
+    
+  h2 {
+    font-size:1.733em;
+  }
+  
+  .total-comments {
+    font-family: 'Arial', sans-serif;
+    vertical-align: middle;
+    font-size: .9em;
+    color:$grayLight;
+    display:inline-block;
+    line-height:1.125em;
+    font-weight:bold;
+    margin-top:-4px;
+    .count {
+      float:left;
+    }
+    .icon {
+      background: url($rrImagesPath + "front/icons-sprite.png") #ffffff no-repeat 0px -394px;
+      float:right;
+      width:13px;
+      height:13px;
+      line-height: 13px;
+      margin-top:4px;
+      margin-left:4px;
+    }
+  }
+}
+
+#open-proposals div.proposal-overview:last-child {
+  margin-bottom: 2em;
+}
+
+.proposal-topics {
+  //margin-left: 40px;
+  //width: 940px; //outer
+  
+  &.with-prompt {
+    //margin-left: 20px;
+    //width: 760px; //outer
+  }
+  
+  h3 {
+    font-size:.933em;
+    color: $theme-header;
+    margin:0;
+    margin-bottom:1em;
+    border-bottom:1px solid $theme-header;
+    display:inline-block;
+  }
+}
+
+section {
+  //padding-top: 2em;
+  margin-top:1.5em;
+}
+
+.ir { border:0; font: 0/0 a; text-shadow: none; color: transparent; background-color: transparent; }
+
+
+.logo {
+  margin-left:-52px;
+  max-width:none;
+}
+
+/* Shift the logo to support 1024px width */
+@media (max-width: 1056px) {
+  .logo {
+    margin-left:-25px;
+  }
+}
+
+.site-header {
+  a.btn {
+    margin-top:3px;
+  }
+}
+
+/*.logo {
+  background: url("../img/rulemakingroom-logo.png") top right no-repeat #ffffff;
+  width:342px;
+  height:47px;
+  margin-left:-52px;
+
+  @media (max-width: 480px) {
+    margin:0 auto;
+  }
+}*/
+
+#closed-proposals {
+  margin-bottom:2em;
+  
+  h1 {
+    opacity: .5;
+    padding-bottom: 15px;
+  }
+}
+
+.section-heading {
+  //border-bottom:1px solid #cccccc;
+
+  //padding-bottom: 1em;
+  margin-bottom:1em;
+}
+
+/*#whats-happening-now {
+  h2 {
+    font-family: Arial, sans-serif;
+    color: $grayLight;
+    border-bottom: 1px solid #cccccc;
+    font-size: 1.2em;
+  }
+  .section-heading {
+    margin-bottom: .5em;
+  }
+  .comment-info {
+    padding-top:1em;
+    padding-bottom: .5em;
+    .username a {
+      font-weight:bold;
+      font-size:larger;
+    }
+  }
+  .comment-text {
+    padding-bottom:1em;
+  }
+  .feature-content {
+    text-align:center;
+    img {
+      padding-top:5em;
+      display:block;
+      margin:0 auto;
+    }
+    a {
+      padding-top:3em;
+      display: block;
+      float:right;
+    }
+  }
+} */
+
+.block {
+  padding-bottom:2em;
+}
+
+.region-sidebar-second {
+  .block {
+    padding-left:2em;
+    //&:first-child {
+      border-left:1px solid $grayLighter;
+    //}
+    h2 {
+      font-size:1.267em;
+      display:inline-block;
+      border-bottom: 1px solid $grayLighter;
+      margin-top: 10px;
+    }
+  }
+}
+
+.region-footer, .region-header {
+  //min-width: 980px;
+  .block {
+    padding-bottom:0;
+  }
+}
+
+.ui-widget {
+  font-size:100%;
+}
+
+/*
+ * Footer 
+ */
+ 
+footer {
+  background-color: $rrFooterColor;
+  border-top: 1px solid #cfcfcf;
+  border-bottom: 1px solid #cfcfcf;
+  margin-top: 2em;
+  padding-top: 2em;
+  padding-bottom: 2em;
+  
+  div.row {
+
+    div.span2, 
+    div.span3,
+    div.span4 {
+
+      padding-top: 20px;
+      
+      p {
+        font-size: .8em;
+        margin-top: 0;
+        
+        &.copyright {
+          font-size: .7em;
+        }
+      }
+    }
+    
+    div.span2.social-links {
+
+      border-right: none;
+
+      .copyright {
+        display: none;
+      }
+      
+      ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        
+        li {
+         font-size: .8em;  
+         line-height: 1.8em;     
+        }
+      }
+    }
+    
+    div.span3.footer-nav {
+      ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        
+        li {
+          font-size: .8em;  
+          line-height: 1.8em;       
+        }
+      }
+    }
+    
+    div.span3:first-child {
+
+      img {
+        max-width: 100%;
+      }
+    }
+    
+    div.footer-nav {
+      
+      ul li.leaf {
+        list-style: none;
+      }
+    }
+  }
+}
+
+aside {
+  .powered-by {
+    background-color: white;
+    text-align: center;
+    
+    img {
+      margin: 20px 0px;
+      max-width: 100%;
+      }
+    }
+ }
+
+// Divider lines
+// For separating sections will use solid lines, for content within a section will use dotted lines
+// For example, divider-hor-top will add a horizontal (hor) top border, 
+// .divider-hor-top-dot will add a horizontal top border with dotted (dot) style, etc.
+// hor = horizontal | ver = vertical | dot = dotted border | without dot is a solid border
+// Position of the border: top = top | bot = bottom | left = left | right = right
+
+.divider-hor-top {
+  border-top: 1px solid $grayLighter !important;
+}
+
+.divider-hor-top-dot {
+  border-top: 1px dotted $grayLighter !important;
+}
+
+.divider-hor-bot {
+  border-bottom: 1px solid $grayLighter !important;
+}
+
+.divider-hor-bot-dot {
+  border-bottom: 1px dotted $grayLighter !important;
+}
+
+.divider-ver-right {
+  border-right: 1px solid $grayLighter !important;
+}
+
+.divider-ver-right-dot {
+  border-right: 1px dotted $grayLighter !important;
+}
+
+.divider-ver-left {
+  border-left: 1px solid $grayLighter !important;
+}
+
+.divider-ver-left-dot {
+  border-left: 1px dotted $grayLighter !important;
+}
+
+// Overwrite the default to keep the scrollbar always visible in Mac Lion or greater
+// Source:  http://simurai.com/post/8083942390/force-lion-scrollbar
+
+.show-scroll::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 7px;
+}
+
+.show-scroll::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0,0,0,.5);
+  -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+}
+
+.xs-device, .xxs-device {
+  footer {
+    div.row > div {
+      text-align: center;
+      padding: 15px 30px;
+      ul.menu {
+        text-align: center;
+      }
+    }
+    .copyright {
+      display: none;
+    }
+    .social-links {
+      #mobile-copyright {
+        margin-top: 15px;
+        display: block;
+      }
+    }
+  }
+}

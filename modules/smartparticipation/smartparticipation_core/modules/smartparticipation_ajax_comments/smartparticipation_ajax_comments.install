@@ -1,0 +1,9 @@
+<?php
+
+/**
+ * Implements hook_uninstall().
+ */
+function smartparticipation_ajax_comments_uninstall() {
+  variable_del('smartparticipation_ajax_comments_node_types');
+  variable_del('smartparticipation_ajax_comments_notify');
+}

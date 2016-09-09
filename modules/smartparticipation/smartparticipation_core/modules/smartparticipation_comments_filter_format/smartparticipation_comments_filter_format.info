@@ -1,0 +1,10 @@
+name = SmartParticipation Comments Filter Format
+description = Add a filter format (text format) for comments.
+package = SmartParticipation
+core = 7.x
+version = 7.x-1.0
+
+dependencies[] = smartparticipation_core
+dependencies[] = filter
+dependencies[] = profanity
+dependencies[] = wysiwyg

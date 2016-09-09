@@ -1,0 +1,28 @@
+/**
+ * Link styles
+ */
+
+a {
+	text-decoration: none; 
+	color: $rrLinkColor;
+}
+
+a:link {
+	text-decoration: none; 
+	color: $rrLinkColor;
+}
+
+a:visited {
+	//text-decoration: none; 
+	//color: $rrVisitedColor;
+}
+
+a:active {
+	text-decoration: none; 
+	color: $rrActiveColor;
+}
+
+a:hover {
+	text-decoration: none; 
+	color: $rrHoverColor;
+}

@@ -1,0 +1,192 @@
+/**
+ * Splash page
+ */
+
+//@import url(http://fonts.googleapis.com/css?family=Nunito:400,700,300);
+
+
+.splash {
+
+  .messages.error {
+    display:none;
+  }
+
+  color:$rrGray;
+  p {
+    font-size: .875em;
+    line-height:1.5em;
+  }
+
+  a, a:link, a:visited, a:hover {
+    color: $rrBlue;
+  }
+
+  h1, h2 {
+    font-family: 'Open Sans', sans-serif;
+    font-weight:300;
+    color:$rrGray;
+  }
+
+  .splash-header {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    /*.register {
+      a {
+        float:right;
+        margin-top:14px;
+      }
+    }*/
+  }
+
+  .splash-hero {
+    //margin-top:10px;
+  }
+
+  .splash-discussion-header {
+    h1 { // image replacement
+      margin: 0 auto;
+      background-image: url($rrImagesPath + "splash/current_discussion_head.png");
+      background-repeat: no-repeat;
+      width:341px;
+      height:30px;
+      padding-bottom:7px;
+      border-bottom:1px solid $grayLighter;
+      margin-bottom:50px;
+      margin-top:35px;
+    }
+  }
+
+  .splash-open-discussion {
+
+    margin-top:5px;
+    margin-bottom:30px;
+
+    .discussion-title {
+      text-align: center;
+      margin-bottom:25px;
+      h2 {
+        font-family: 'Open Sans', sans-serif;
+        color:$grayLight;
+        font-size:1.25em;
+        margin-top:7px;
+      }
+    }
+
+    .login-form {
+      h3 {
+        margin-top:0;
+        margin-bottom:10px;
+      }
+
+      .form-type-textfield, .form-type-password {
+        abbr.required {
+          display:none;
+        }
+        label {
+          margin-top:14px;
+        }
+        width:329px;
+        padding:0px;
+        margin-bottom:10px;
+        background-color:white;
+        input {
+          &:focus {
+            outline: 0;
+          }
+          border:2px solid $grayLighter;
+          outline: 0;
+          padding:12px;
+          border-radius: 5px;
+          -moz-border-radius: 5px;
+          -khtml-border-radius: 5px;
+          -webkit-border-radius: 5px;
+          background-color:$grayLighter;
+          outline:none;
+        }
+      }
+      .form-actions {
+        display: inline-block;
+        float:right;
+        input[type=submit] {
+          border-radius: 5px;
+          -moz-border-radius: 5px;
+          -khtml-border-radius: 5px;
+          -webkit-border-radius: 5px;
+          font-size: 1.15em;
+          margin-right:2px;
+        }
+      }
+      .item-list { // lost password link
+        display:inline-block;
+        float:left;
+        li {
+          list-style-type: none;
+          margin-left:0;
+        }
+      }
+      .register {
+        display: block;
+        clear: both;
+        padding: 8px;
+        //background-color: #EAEAEA;
+        //font-size: .9em;
+        font-weight:bold;
+      }
+    }
+    .discussion-left {
+      //padding-right:20px;
+    }
+
+    .discussion-right {
+      padding-left:20px;
+      border-left:1px solid $grayLighter;
+    }
+
+    .about-text {
+      h2 {
+        font-family: 'Open Sans', sans-serif;
+        color:$grayLight;
+        font-size:1.25em;
+        margin-top:7px;
+        font-weight:bold;
+      }
+    }
+
+  }
+
+  .splash-contact-us {
+    text-align:center;
+    h1 { // image replacement
+      margin: 0 auto;
+      background-image: url($rrImagesPath + "splash/have_questions_head.png");
+      background-repeat: no-repeat;
+      width:259px;
+      height:28px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid $grayLighter;
+      margin-bottom:25px;
+    }
+    .or {
+      color:$rrGray;
+      font-size:1.5em;
+      font-style:italic;
+      font-weight:300;
+    }
+    margin-bottom:3em;
+  }
+
+}
+
+.page-toboggan-denied {
+  #dlgRegister {
+    .private-discussion.email-not-found {
+      input {
+        display:none;
+      }
+      abbr.required {
+        display:none;
+      }
+    }
+  }
+}

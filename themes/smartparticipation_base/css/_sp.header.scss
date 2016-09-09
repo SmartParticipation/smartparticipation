@@ -1,0 +1,26 @@
+/**
+ * Page header rules.  See _regroom.page.scss for additional header rules.
+ */
+
+@media (max-width: $xsDevice) {
+  .logo {
+    float: right;
+    width: 250px;
+    margin-top: 4px;
+  }
+}
+
+@media (max-width: 550px) {
+  #smartparticipation-logo {
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 365px) {
+  .xxs-device {
+    .logo {
+      width: 200px;
+      margin-top: 8px;
+    }
+  }
+}

@@ -1,0 +1,9 @@
+name = SmartParticipation AJAX Throbber
+description = Adds an improved ajax throbber.
+package = SmartParticipation
+core = 7.x
+version = 7.x-1.0
+
+scripts[] = smartparticipation_ajax_throbber.js
+
+stylesheets[all][] = smartparticipation_ajax_throbber.css

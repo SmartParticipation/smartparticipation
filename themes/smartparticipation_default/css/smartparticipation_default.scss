@@ -1,0 +1,132 @@
+
+//#FAA823 orange
+//#1E8192 blue
+
+// General theme color
+$themeColor: #f37953;
+$themeColorGray: #383844;
+$themeColorBlue: #57bbff;
+
+// Horizontal Multi accordion (homepage)
+$themeColorHorAccordion: $themeColor;
+
+// Vertical Multi accordion (topic and profile pahges)
+$themeColorVerAccordion: $themeColor;
+$themeColorVerAccordionActive: $themeColorGray;
+
+// Theme Headers (h1, h2, h3)
+$theme-header: $themeColorGray;
+
+// Theme Learn Background
+$theme-learn-background: $themeColorGray;
+
+// Link styles
+$rrLinkColor: $themeColorBlue;
+$rrHoverColor: $themeColorGray;
+$rrActiveColor: $themeColorBlue;
+//$rrVisitedColor: ;
+
+// Text color for empty content warning
+$infoWarning: #C09853;
+
+$rrThemeImagesPath: "/profiles/smartparticipation/themes/smartparticipation_default/images/";
+
+@import "sp";
+
+// Overrides base theme
+// This won't probably be neccesary to add, once we have 
+// the right size images for the learn accordion (MB)
+
+#sp-learn figure figcaption .read-more-wrapper .read-more {
+  background-color: $themeColorBlue;
+}
+
+h2 a, #topic-header-details #proposal-title h1 a {
+  &:link {
+    color: $themeColor !important;
+  }
+  &:active {
+    color: $themeColor !important;
+  }
+  &:visited {
+    color: $themeColor !important;
+  }
+  &:hover:visited {
+    color: $themeColorGray !important;
+  }
+  &:hover {
+    color: $themeColorGray !important;
+  }
+}
+
+.proposal-phases .tabs li a {
+  &.active {
+    border-bottom-color: $themeColorGray;
+  }
+  border-bottom-color: $themeColorGray;
+}
+
+
+
+#learn-accordion h2 span {
+   padding-bottom: 4px;
+   padding-top: 10px;
+}
+
+#topic-header-details #proposal-title #proposal-summary #proposal-summary-link .expand-summary {
+   border-top: 5px solid #d7711e;
+}
+
+#topic-header-details #proposal-title #proposal-summary #proposal-summary-link .collapse-summary {
+   border-bottom: 5px solid #d7711e;
+}
+
+//Overrides theme color links for proposal phases
+.proposal-phases .tabs li a {
+	color: $rrLinkColor;
+}
+
+//Overrides background color for alert slider, and commenting is closed
+.alert,
+#comments-closed p {
+	background-color: #9b0a3d !important;
+}
+
+.alert {
+  a:visited, a:link {
+    color: $rrLinkColor;
+  }
+  a:hover, a:active {
+    color: #B9DCFF;
+  }
+}
+
+//Overrides some css properties for the header
+.site-header {
+	margin-bottom: 1em;
+}
+
+
+//Overrides some css properties for the footer
+footer {
+    background-color: #f5fafa;
+    border: none;
+}
+
+// About header
+// -------------------------
+#about-header {
+  .span2 {
+    display: none;
+  }
+}
+
+// Comment tips alert
+// -------------------------
+.sm-device, .md-device, .lg-device {
+  #comment-tips-button-alert, #comment-tips-prompt-alert {
+    span.tip-divider {
+      height: 100px;
+    }
+  }
+}

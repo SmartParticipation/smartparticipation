@@ -1,0 +1,371 @@
+/**
+ *	General About pages, such as Overview and Media
+ */
+ 
+$yearColor: #9BA3A7;
+
+.xxs-device, .xs-device {
+  #about-header {
+	.span2 {
+	  display: none;
+	}
+	h1.about-image-header {
+	  position: relative;
+	  background-color: transparent;
+	  height: auto;
+	  color: inherit;
+	}
+  }
+}
+
+#about-header {
+	margin-bottom: 1.8em;
+
+	.span2 {
+	  //width: 160px;
+	}
+	
+	.span10 {
+	  //width: 760px;
+	}
+	
+	h1.about-image-header	 {
+		position: absolute;
+		background-color: $rrGray;
+		height: 44px;
+		width: auto;
+		padding: .2em 1em .2em 1em;
+		color: #fff;
+		text-align: center;
+		/* Lower z-index from 9999 to 10, to prevent it from floating on top of the
+		 * admin overlay.
+		 */
+		z-index: 10;
+		opacity: .9;
+	}
+	
+	img {
+		width: 100%;
+	}
+}
+
+#about-pages ul {
+	
+	font-size: .875em;
+	padding-left: 0;
+	margin-top: 0;
+
+	li {
+		float: none;
+		
+		&:first-child {
+			margin-top: 0;
+		}
+	}
+}
+
+
+/*
+ * Meet the Team page
+ */
+
+#meet-the-team {
+
+	article {
+		padding-bottom: 1em;
+		overflow: hidden;
+  }
+}
+
+article.team-member {
+
+  margin-top: 16px;  
+  margin-bottom: 16px;
+
+	.field-name-field-image {
+		float: left;
+		margin-right: 20px;
+	}
+
+  div.info {
+    
+    &.withImage {
+      float: left;
+      width: 90%;
+    }
+    
+    h2 {
+      font-size: 1.1em;
+    }
+    
+    h3 {
+      font-size: .9em;
+      margin: .5em 0;
+      color: $theme-header;
+    }
+    	
+  	p {
+  	  margin: .5em 0;
+  	}
+  }
+}
+
+#meet-team.carousel-container {
+	width: 722px;
+	height: 259px;
+	position: relative;
+
+	.paging-link {
+		//display: block;
+		vertical-align: middle;
+		position: absolute;
+	
+		a.rs-carousel-action-prev,a.rs-carousel-action-next {
+			width:18px;
+			height:31px;
+			line-height: 31px;
+			display: block;
+		}
+
+		a.rs-carousel-action-prev {
+			background: url($rrImagesPath + "front/icons-sprite.png") #ffffff no-repeat 0px -151px;
+
+			&.rs-carousel-action-disabled {
+				background: url($rrImagesPath + "front/icons-sprite.png") #ffffff no-repeat 0px -70px;
+			}
+		}
+
+		a.rs-carousel-action-next {
+			background: url($rrImagesPath + "front/icons-sprite.png") #ffffff no-repeat 0px -313px;
+	
+			&.rs-carousel-action-disabled {
+				background: url($rrImagesPath + "front/icons-sprite.png") #ffffff no-repeat 0px -232px;
+			}
+		}
+	}
+		
+	.carousel-prev {
+		top: 120px;
+		left: 0px;
+		z-index: 99;
+	}
+		
+	.carousel-next {
+		top: 120px;
+		right: 0px;
+		text-align: right;
+		z-index: 99;
+	}
+		
+	// CAROUSEL ITEMS
+	.carousel-items {
+		width: 100%;
+		vertical-align: middle;
+		line-height: 0;
+		float: left;
+			
+			.rs-carousel-pagination-link {
+				list-style-type: none;
+				float: left;
+				display: inline-block;
+			}
+
+		.rs-carousel.module {
+			margin: 0;
+		}
+			
+		.rs-carousel-pagination {
+			margin-top: 0;
+			padding-left: 0;
+				
+			li {
+				padding-top: 10px;
+				a {
+					opacity: .5;
+						
+					&:hover {
+						opacity: 1;
+					};
+						
+					&.active {
+						opacity: 1;
+					}
+						
+					img {
+						width: auto;
+							
+					}
+				}
+			}
+				
+		}
+			
+		.rs-carousel { //This has to be inside .rs-carousel.module. THIS WAS THE BIG PROBLEM. TOO MUCH SPECIFICITY!!!!
+			.rs-carousel-runner {
+				position: relative;
+
+				// CAROUSEL ITEM
+					
+				.rs-carousel-item {
+					position: relative;
+					width: 722px;
+					height: 259px;
+					padding-left: 0;
+					padding-top: 20;
+						
+					.team-member {
+							position: absolute;
+							top: 90px;
+							left: 32px;
+						}
+
+						 .bio-member {
+							position: absolute;
+							top: 105px;
+							left: 32px;
+							width: 450px;
+							font-size: 0.8em;
+							line-height: 1.3em;
+						}
+
+						 .url-member {
+						}
+					}
+				}
+			}
+		}
+	}
+
+
+.all-alums-team {
+	margin-top: 3em;
+}
+
+/**
+ *	Media and single media pages
+ */
+	
+#all-media {
+	
+	@extend .divider-hor-top;
+	
+	margin-left: 0;
+
+
+	h2 {
+		padding-top: .7em;
+	}
+	
+	article {
+	 	@extend .divider-hor-bot;
+    padding-bottom: 1em;
+	}
+}
+
+#new-media article,
+#all-media article {
+  
+  h2 {
+    border-top: none;
+  }
+  
+  h3 {
+    background: none; 
+    padding: 0;
+    margin-top: .3em;
+    margin-bottom: .3em;
+  }
+  
+  time {
+    display: inline-block;
+    color: $gray;
+  }
+
+}
+
+
+
+/**
+ *	Sponsors & Partners
+ */
+
+#sponsors-and-partners {
+
+	/*.span3 {
+		width: 200px;
+		margin-left: 0;
+	}
+	
+	.span7 {
+		width: 530px;
+	}*/
+}
+
+article.sponsor_partner {
+  
+	padding-top: 3em;
+	@extend .divider-hor-bot; 
+	overflow: hidden;
+	padding-bottom: 2em;
+
+	h2 {
+		border-bottom: none;
+		margin-bottom: 0;
+		padding-bottom: .2em;
+	}
+	
+	img {
+		border: 1px solid $grayLighter !important;
+	}
+
+	p {
+		margin-top: .3em;
+	}
+}
+
+
+/* Research and Publications */
+
+#research-publications {
+	.span6 {
+		padding-bottom: .8em; 
+  }
+}	
+		
+article.publication,
+article.research {
+  
+	padding-top: 0.5em;
+	overflow: hidden;
+	padding-bottom: 1em;
+	@extend .divider-hor-bot; 
+	margin-bottom: .8em;	
+	
+	h3 {
+		border-bottom: none;
+		margin-top: 0;
+		margin-bottom: 0;
+		padding-bottom: .2em;
+		font-size: 1em;
+		
+	}
+ 
+	p {
+		margin-top: .3em;
+		margin-bottom: .5em;
+
+		&.author {
+			font-weight: bold;
+		}
+	
+		&.data {
+			color: $gray;
+			font-style: italic;
+			
+			.date {
+			  font-style: normal;
+			}
+		}
+	}
+}
+

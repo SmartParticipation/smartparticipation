@@ -1,0 +1,18 @@
+
+/* Fix for height issue: http://dev.ckeditor.com/ticket/7979#comment:8 */
+
+html {
+    height: 100%;
+}
+
+.cke_editable {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.875em;
+    margin: 8px;
+    height: calc(100% - 16px);
+}
+
+.cke_editable p {
+    margin: 0px;
+    margin-bottom: 1em;
+}

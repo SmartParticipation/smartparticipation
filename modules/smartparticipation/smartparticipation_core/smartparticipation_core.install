@@ -1,0 +1,643 @@
+<?php
+
+/**
+ * @file 
+ * Install, update and uninstall functions for the smartparticipation_core module.
+ * 
+ * @ingroup smartparticipation_core
+ */
+ 
+
+
+////////////////////////// INSTALL /////////////////////////////////////////////
+
+/**
+ * Implements hook_schema().
+ * 
+ * NB The .module file has not been loaded when this function runs.
+ */
+function smartparticipation_core_schema() {
+  
+  $module_dir = drupal_get_path('module', 'smartparticipation_core');
+  $files = array();
+  $files += file_scan_directory($module_dir . '/schemas', '/\.inc/');
+  foreach (array_keys($files) as $filename) {
+    require_once $filename;
+  }
+  
+  $schema = array();
+  $schema += smartparticipation_core_order_schema();
+  $schema += smartparticipation_core_flag_schema();
+  $schema += smartparticipation_core_event_log_schema();
+  $schema += smartparticipation_core_ab_test_schema();
+  return $schema;
+}
+
+/**
+ * Implements hook_enable().
+ *
+ */
+function smartparticipation_core_enable() {
+//  smartparticipation_core_create_custom_roles();
+//  smartparticipation_core_assign_permissions_to_system_roles();
+  smartparticipation_core_alter_node_types();
+  smartparticipation_core_create_custom_menus();
+  //smartparticipation_core_configure_jqmulti();
+  smartparticipation_core_configure_user_register();
+  smartparticipation_core_configure_logintoboggan();
+  smartparticipation_core_configure_comments();
+  smartparticipation_core_configure_webform();  
+  smartparticipation_core_configure_wysiwyg(); 
+  smartparticipation_core_configure_honeypot();
+
+  //drupal_flush_all_caches();
+}
+
+
+
+/**
+ * Implements hook_install().
+ * 
+ * TODO Which of these, if any, should be done from hook_enable() rather than
+ * hook_install()? Then the undo function would be called from hook_disable()
+ * rather than hook_uninstall(). The current distribution of actions between
+ * install/uninstall and enable/disable is not consistent or coherent. 
+ * Disabling the module should not delete the data, but should restore all 
+ * settings.
+ */
+function smartparticipation_core_install() {
+  smartparticipation_core_smartparticipation_install();
+  smartparticipation_core_create_fields();
+  smartparticipation_core_create_vocabularies();
+  smartparticipation_core_create_node_types();
+  smartparticipation_core_create_default_non_smartparticipation_core_nodes();
+  smartparticipation_core_add_corresponding_node_references();
+  //smartparticipation_core_set_default_smartparticipation_core_themes();
+  smartparticipation_core_create_flags();
+  //smartparticipation_core_create_custom_roles();
+  smartparticipation_core_assign_permissions_to_system_roles();
+  smartparticipation_core_set_special_menu_items();
+  smartparticipation_core_add_shortcuts();
+  smartparticipation_core_create_custom_image_styles();
+
+}
+
+function smartparticipation_core_smartparticipation_install() {
+    // Add text formats.
+    $filtered_html_format = array(
+        'format' => 'filtered_html',
+        'name' => 'Filtered HTML',
+        'weight' => 0,
+        'filters' => array(
+            // URL filter.
+            'filter_url' => array(
+                'weight' => 0,
+                'status' => 1,
+            ),
+            // HTML filter.
+            'filter_html' => array(
+                'weight' => 1,
+                'status' => 1,
+            ),
+            // Line break filter.
+            'filter_autop' => array(
+                'weight' => 2,
+                'status' => 1,
+            ),
+            // HTML corrector filter.
+            'filter_htmlcorrector' => array(
+                'weight' => 10,
+                'status' => 1,
+            ),
+        ),
+    );
+    $filtered_html_format = (object) $filtered_html_format;
+    filter_format_save($filtered_html_format);
+
+    $full_html_format = array(
+        'format' => 'full_html',
+        'name' => 'Full HTML',
+        'weight' => 1,
+        'filters' => array(
+            // URL filter.
+            'filter_url' => array(
+                'weight' => 0,
+                'status' => 1,
+            ),
+            // Line break filter.
+            'filter_autop' => array(
+                'weight' => 1,
+                'status' => 1,
+            ),
+            // HTML corrector filter.
+            'filter_htmlcorrector' => array(
+                'weight' => 10,
+                'status' => 1,
+            ),
+        ),
+    );
+    $full_html_format = (object) $full_html_format;
+    filter_format_save($full_html_format);
+
+    // Enable some standard blocks.
+    $default_theme = variable_get('theme_default', 'smartparticipation_default');
+    $admin_theme = 'smartparticipation_admin';
+    /*$blocks = array(
+      array(
+        'module' => 'system',
+        'delta' => 'main',
+        'theme' => $default_theme,
+        'status' => 1,
+        'weight' => 0,
+        'region' => 'content',
+        'pages' => '',
+        'cache' => -1,
+      ),
+      array(
+        'module' => 'search',
+        'delta' => 'form',
+        'theme' => $default_theme,
+        'status' => 1,
+        'weight' => -1,
+        'region' => 'sidebar_first',
+        'pages' => '',
+        'cache' => -1,
+      ),
+      array(
+        'module' => 'node',
+        'delta' => 'recent',
+        'theme' => $admin_theme,
+        'status' => 1,
+        'weight' => 10,
+        'region' => 'dashboard_main',
+        'pages' => '',
+        'cache' => -1,
+      ),
+      array(
+        'module' => 'user',
+        'delta' => 'login',
+        'theme' => $default_theme,
+        'status' => 1,
+        'weight' => 0,
+        'region' => 'sidebar_first',
+        'pages' => '',
+        'cache' => -1,
+      ),
+      array(
+        'module' => 'system',
+        'delta' => 'navigation',
+        'theme' => $default_theme,
+        'status' => 1,
+        'weight' => 0,
+        'region' => 'sidebar_first',
+        'pages' => '',
+        'cache' => -1,
+      ),
+      array(
+        'module' => 'system',
+        'delta' => 'powered-by',
+        'theme' => $default_theme,
+        'status' => 1,
+        'weight' => 10,
+        'region' => 'footer',
+        'pages' => '',
+        'cache' => -1,
+      ),
+      array(
+        'module' => 'system',
+        'delta' => 'help',
+        'theme' => $default_theme,
+        'status' => 1,
+        'weight' => 0,
+        'region' => 'help',
+        'pages' => '',
+        'cache' => -1,
+      ),
+      array(
+        'module' => 'system',
+        'delta' => 'main',
+        'theme' => $admin_theme,
+        'status' => 1,
+        'weight' => 0,
+        'region' => 'content',
+        'pages' => '',
+        'cache' => -1,
+      ),
+      array(
+        'module' => 'system',
+        'delta' => 'help',
+        'theme' => $admin_theme,
+        'status' => 1,
+        'weight' => 0,
+        'region' => 'help',
+        'pages' => '',
+        'cache' => -1,
+      ),
+      array(
+        'module' => 'user',
+        'delta' => 'login',
+        'theme' => $admin_theme,
+        'status' => 1,
+        'weight' => 10,
+        'region' => 'content',
+        'pages' => '',
+        'cache' => -1,
+      ),
+      array(
+        'module' => 'user',
+        'delta' => 'new',
+        'theme' => $admin_theme,
+        'status' => 1,
+        'weight' => 0,
+        'region' => 'dashboard_sidebar',
+        'pages' => '',
+        'cache' => -1,
+      ),
+      array(
+        'module' => 'search',
+        'delta' => 'form',
+        'theme' => $admin_theme,
+        'status' => 1,
+        'weight' => -10,
+        'region' => 'dashboard_sidebar',
+        'pages' => '',
+        'cache' => -1,
+      ),
+    );*/
+    /*$query = db_insert('block')->fields(array('module', 'delta', 'theme', 'status', 'weight', 'region', 'pages', 'cache'));
+    foreach ($blocks as $block) {
+      $query->values($block);
+    }
+    $query->execute();*/
+
+    // Insert default pre-defined node types into the database. For a complete
+    // list of available node type attributes, refer to the node type API
+    // documentation at: http://api.drupal.org/api/HEAD/function/hook_node_info.
+    $types = array(
+        array(
+            'type' => 'page',
+            'name' => st('Basic page'),
+            'base' => 'node_content',
+            'description' => st("Use <em>basic pages</em> for your static content, such as an 'About us' page."),
+            'custom' => 1,
+            'modified' => 1,
+            'locked' => 0,
+        ),
+        //array(
+        //  'type' => 'article',
+        //  'name' => st('Article'),
+        //  'base' => 'node_content',
+        //  'description' => st('Use <em>articles</em> for time-sensitive content like news, press releases or blog posts.'),
+        //  'custom' => 1,
+        //  'modified' => 1,
+        //  'locked' => 0,
+        //),
+
+    );
+
+    foreach ($types as $type) {
+        $type = node_type_set_defaults($type);
+        node_type_save($type);
+        node_add_body_field($type);
+    }
+
+    /* rdf module not enabled in this profile.
+    // Insert default pre-defined RDF mapping into the database.
+    $rdf_mappings = array(
+      array(
+        'type' => 'node',
+        'bundle' => 'page',
+        'mapping' => array(
+          'rdftype' => array('foaf:Document'),
+        ),
+      ),
+      array(
+        'type' => 'node',
+        'bundle' => 'article',
+        'mapping' => array(
+          'field_image' => array(
+            'predicates' => array('og:image', 'rdfs:seeAlso'),
+            'type' => 'rel',
+          ),
+          'field_tags' => array(
+            'predicates' => array('dc:subject'),
+            'type' => 'rel',
+          ),
+        ),
+      ),
+    );
+    foreach ($rdf_mappings as $rdf_mapping) {
+      rdf_mapping_save($rdf_mapping);
+    }
+    */
+
+    // Default "Basic page" to not be promoted and have comments disabled.
+    variable_set('node_options_page', array('status'));
+    variable_set('comment_page', COMMENT_NODE_HIDDEN);
+
+    // Don't display date and author information for "Basic page" nodes by default.
+    variable_set('node_submitted_page', FALSE);
+
+    // Enable user picture support and set the default to a square thumbnail option.
+    variable_set('user_pictures', '1');
+    variable_set('user_picture_dimensions', '1024x1024');
+    variable_set('user_picture_file_size', '800');
+    variable_set('user_picture_style', 'thumbnail');
+
+    // Allow visitor account creation with administrative approval.
+    variable_set('user_register', USER_REGISTER_VISITORS_ADMINISTRATIVE_APPROVAL);
+
+    // Create a default vocabulary named "Tags", enabled for the 'article' content type.
+    $description = st('Use tags to group articles on similar topics into categories.');
+    $help = st('Enter a comma-separated list of words to describe your content.');
+    $vocabulary = (object) array(
+        'name' => st('Tags'),
+        'description' => $description,
+        'machine_name' => 'tags',
+        'help' => $help,
+
+    );
+    taxonomy_vocabulary_save($vocabulary);
+
+    $field = array(
+        'field_name' => 'field_' . $vocabulary->machine_name,
+        'type' => 'taxonomy_term_reference',
+        // Set cardinality to unlimited for tagging.
+        'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+        'settings' => array(
+            'allowed_values' => array(
+                array(
+                    'vocabulary' => $vocabulary->machine_name,
+                    'parent' => 0,
+                ),
+            ),
+        ),
+    );
+    field_create_field($field);
+
+    $instance = array(
+        'field_name' => 'field_' . $vocabulary->machine_name,
+        'entity_type' => 'node',
+        'label' => 'Tags',
+        'bundle' => 'article',
+        'description' => $vocabulary->help,
+        'widget' => array(
+            'type' => 'taxonomy_autocomplete',
+            'weight' => -4,
+        ),
+        'display' => array(
+            'default' => array(
+                'type' => 'taxonomy_term_reference_link',
+                'weight' => 10,
+            ),
+            'teaser' => array(
+                'type' => 'taxonomy_term_reference_link',
+                'weight' => 10,
+            ),
+        ),
+    );
+    field_create_instance($instance);
+
+
+    // Create an image field named "Image", enabled for the 'article' content type.
+    // Many of the following values will be defaulted, they're included here as an illustrative examples.
+    // See http://api.drupal.org/api/function/field_create_field/7
+
+    $field = array(
+      'field_name' => 'field_image',
+      'type' => 'image',
+      'cardinality' => 1,
+      'locked' => FALSE,
+      'indexes' => array('fid' => array('fid')),
+      'settings' => array(
+        'uri_scheme' => 'public',
+        'default_image' => FALSE,
+      ),
+      'storage' => array(
+        'type' => 'field_sql_storage',
+        'settings' => array(),
+      ),
+    );
+    field_create_field($field);
+
+
+    // Many of the following values will be defaulted, they're included here as an illustrative examples.
+    // See http://api.drupal.org/api/function/field_create_instance/7
+    $instance = array(
+      'field_name' => 'field_image',
+      'entity_type' => 'node',
+      'label' => 'Image',
+      'bundle' => 'article',
+      'description' => st('Upload an image to go with this article.'),
+      'required' => FALSE,
+
+      'settings' => array(
+        'file_directory' => 'field/image',
+        'file_extensions' => 'png gif jpg jpeg',
+        'max_filesize' => '',
+        'max_resolution' => '',
+        'min_resolution' => '',
+        'alt_field' => TRUE,
+        'title_field' => '',
+      ),
+
+      'widget' => array(
+        'type' => 'image_image',
+        'settings' => array(
+          'progress_indicator' => 'throbber',
+          'preview_image_style' => 'thumbnail',
+        ),
+        'weight' => -1,
+      ),
+
+      'display' => array(
+        'default' => array(
+          'label' => 'hidden',
+          'type' => 'image',
+          'settings' => array('image_style' => 'large', 'image_link' => ''),
+          'weight' => -1,
+        ),
+        'teaser' => array(
+          'label' => 'hidden',
+          'type' => 'image',
+          'settings' => array('image_style' => 'medium', 'image_link' => 'content'),
+          'weight' => -1,
+        ),
+      ),
+    );
+    field_create_instance($instance);
+
+    // Enable default permissions for system roles.
+    $filtered_html_permission = filter_permission_name($filtered_html_format);
+    user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, array('access content', 'access comments', $filtered_html_permission));
+    user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array('access content', 'access comments', 'post comments', 'skip comment approval', $filtered_html_permission));
+
+    // Create a default role for site administrators, with all available permissions assigned.
+    $admin_role = new stdClass();
+    $admin_role->name = 'administrator';
+    $admin_role->weight = 2;
+    user_role_save($admin_role);
+    user_role_grant_permissions($admin_role->rid, array_keys(module_invoke_all('permission')));
+    // Set this as the administrator role.
+    variable_set('user_admin_role', $admin_role->rid);
+
+    // Assign user 1 the "administrator" role.
+    db_insert('users_roles')
+        ->fields(array('uid' => 1, 'rid' => $admin_role->rid))
+        ->execute();
+
+    // Create a Home link in the main menu.
+    $item = array(
+        'link_title' => st('Home'),
+        'link_path' => '<front>',
+        'menu_name' => 'main-menu',
+    );
+    menu_link_save($item);
+
+    // Update the menu router information.
+    menu_rebuild();
+
+    // Enable the admin theme.
+    db_update('system')
+        ->fields(array('status' => 1))
+        ->condition('type', 'theme')
+        ->condition('name', 'seven')
+        ->execute();
+    variable_set('admin_theme', 'seven');
+    variable_set('node_admin_theme', '1');
+
+    //module_enable(array('smartparticipation_core'));
+}
+
+
+
+////////////////////////// UNINSTALL ///////////////////////////////////////////
+
+/**
+ * Implements hook_disable().
+ * 
+ * The .module file is available at this stage.
+ * 
+ */
+function smartparticipation_core_disable() {
+  smartparticipation_core_set_default_themes('bartik', 'seven');
+  smartparticipation_core_restore_node_types();
+  smartparticipation_core_delete_custom_menus();
+  smartparticipation_core_unconfigure_user_register();
+  smartparticipation_core_unconfigure_logintoboggan();
+  smartparticipation_core_unconfigure_hybridauth();
+  smartparticipation_core_unconfigure_wysiwyg();
+  smartparticipation_core_unconfigure_webform();
+  smartparticipation_core_unconfigure_honeypot();
+}
+
+
+/**
+ * Implements hook_uninstall().
+ * 
+ * NB This hook is called when the user not only has disabled the module,
+ * but also uninstalls it from the uninstall tab in the module page.
+ * 
+ * Module functions are not available at this stage, so any required functions
+ * must be loaded with a require_once() call.
+ *
+ */
+function smartparticipation_core_uninstall() {
+
+  // Explicitly require any files needed during the uninstall. Module files are
+  // not available at this point. 
+  $module_dir = drupal_get_path('module', 'smartparticipation_core');
+  $files = file_scan_directory($module_dir . '/node_types', '/\.inc/');
+  $files += file_scan_directory($module_dir . '/taxonomy', '/\.inc/');
+  $paths = array_keys($files);
+  $paths[] = $module_dir . '/includes/comment.inc';  
+  $paths[] = $module_dir . '/includes/cnr.inc';
+  $paths[] = $module_dir . '/includes/fields.inc';
+  $paths[] = $module_dir . '/includes/flag.inc';  
+  $paths[] = $module_dir . '/includes/modules.inc'; 
+  $paths[] = $module_dir . '/includes/permissions.inc';  
+  $paths[] = $module_dir . '/includes/roles.inc';  
+  $paths[] = $module_dir . '/includes/user.inc';  
+  $paths[] = $module_dir . '/includes/wysiwyg.inc'; 
+   
+
+  foreach ($paths as $path) {
+    require_once $path;
+  }
+
+  smartparticipation_core_delete_custom_node_types();
+  smartparticipation_core_delete_default_non_smartparticipation_core_nodes();
+  smartparticipation_core_delete_corresponding_node_references();
+  
+  // NB Delete vocabularies after custom node types. The taxonomy module deletes
+  // term reference fields along with the vocabulary. Then when the deletion of
+  // the custom node type tries to delete the field, it no longer exists and 
+  // generates an error: EntityFieldQueryException: Unknown field: 
+  // field_sp_proposal_phase in EntityFieldQuery->addFieldCondition()
+  // (line 770 of application/includes/entity.inc). See RR-1711.
+  // Is this a Drupal bug?
+  smartparticipation_core_delete_vocabularies();
+    
+  smartparticipation_core_delete_fields();
+  
+  smartparticipation_core_delete_flags();
+  
+  // Purge all field information.
+  // TODO This is a hack: fields with instances attached to actual entities 
+  // don't get deleted on the first pass. Need to make a second pass to delete
+  // them. Is there some circularity in field_purge_batch()? It won't delete a
+  // field if it has an instance, even if that instance is marked for deletion.
+  // This doesn't seem correct.
+  field_purge_batch(1000);
+  
+  smartparticipation_core_delete_variables();
+  
+  // Remove smartparticipation_core public directory 
+  file_unmanaged_delete_recursive('public://smartparticipation_core');
+
+  smartparticipation_core_delete_custom_roles();
+  smartparticipation_core_restore_permissions_to_system_roles();
+    
+  smartparticipation_core_uninstall_schemas();
+  
+  smartparticipation_core_delete_shortcuts();
+
+  //drupal_uninstall_modules(array(
+  //  'smartparticipation_core_profile',
+  // ));
+}
+
+/**
+ * Module function to uninstall smartparticipation_core schemas.
+ */
+function smartparticipation_core_uninstall_schemas() {
+
+  drupal_uninstall_schema('sp_flag_content_history');
+  drupal_uninstall_schema('sp_document_node_order');
+  drupal_uninstall_schema('sp_subtopic_node_order');
+  drupal_uninstall_schema('sp_topic_node_order');
+  drupal_uninstall_schema('sp_event_log');
+
+}
+
+/** 
+ * Module function to clean up variables at uninstall time.
+ */
+function smartparticipation_core_delete_variables() {
+  db_delete('variable')
+    ->condition(db_or()
+      ->condition('name', 'smartparticipation\_%', 'LIKE')
+      ->condition('name', '%\_smartparticipation\_%', 'LIKE'))
+    ->execute();
+    
+  variable_del('user_mail_register_no_approval_required_notify');
+}
+
+
+
+
+////////////////////////// UPDATE //////////////////////////////////////////////
+
+//require_once('smartparticipation_core.update');
+
+

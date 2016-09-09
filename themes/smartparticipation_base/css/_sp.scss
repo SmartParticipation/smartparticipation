@@ -1,0 +1,250 @@
+
+
+//$rrGray: #394752;
+$rrGray: #3E4751 !default;
+$rrBlue: #31A2FF !default;
+
+$rrLinkColor: $rrBlue !default;
+
+$secondaryBlue: #1b6a9a !default;
+
+//$rrFontSize: 13px;
+$rrFontSize: .938em;
+//$rrFontFamily: Verdana, Geneva, sans-serif;
+$rrFontFamily: 'Open Sans', sans-serif;
+
+$rrHeadingFontFamilyNormal: 'museo_slab500', sans-serif;
+$rrHeadingFontFamily: 'museo_slab_900regular', sans-serif;
+
+
+$faqAnswerColor: #FE7921 !default;
+
+$rrButtonFontSize: 1.063em;
+$rrButtonPadding: 8px 11px;
+$rrButtonBackgroundColor: $themeColor;
+$rrButtonTextColor: #ffffff;
+$rrButtonFontWeight: bold;
+
+$profileRootPath: "/profiles/smartparticipation/";
+$rrImagesPath: $profileRootPath + "themes/smartparticipation_base/images/";
+$rrBaseCSSPath: $profileRootPath + "themes/smartparticipation_base/css/";
+$rrUIImagesPath: $rrBaseCSSPath + "jquery-ui/images/";
+
+$rrHeaderLinkColor: #808080;
+$rrHeaderLinkColorActive: $rrGray;
+$rrHeaderLinkFontWeight: bold;
+
+$appSprites: $rrImagesPath + 'app_sprites.png';
+
+$grayLighter: #d3d3d3;
+
+$rrFooterColor: #e7e7e7;
+
+/*
+ * Variables from Twitter Bootstrap
+ */
+
+$baseLineHeight: 20px !default;
+$inputHeight: $baseLineHeight + 10px; // base line-height + 8px vertical padding + 2px top/bottom border
+
+
+// Grays
+// -------------------------
+$black:                 #000 !default;
+$grayDarker:            #222 !default;
+$grayDark:              #333 !default;
+$gray:                  #555 !default;
+$grayLight:             #999 !default;
+$grayLighter:           #eee !default;
+$white:                 #fff !default;
+
+
+// Accent colors
+// -------------------------
+$blue:                  #049cdb !default;
+$blueDark:              #0064cd !default;
+$green:                 #46a546 !default;
+$red:                   #9d261d !default;
+$yellow:                #ffc40d !default;
+$orange:                #f89406 !default;
+$pink:                  #c3325f !default;
+$purple:                #7a43b6 !default;
+
+
+// Scaffolding
+// -------------------------
+$bodyBackground:        $white !default;
+$textColor:             $grayDark !default;
+
+
+// Links
+// -------------------------
+$linkColor:             #08c !default;
+$linkColorHover:        darken($linkColor, 15%) !default;
+
+// Forms
+// -------------------------
+$formError:            #f00 !default;
+
+
+// GRID
+// --------------------------------------------------
+
+
+// Default 940px grid
+// -------------------------
+$gridColumns:             12 !default;
+$gridColumnWidth:         60px !default;
+$gridGutterWidth:         20px !default;
+$gridRowWidth:            ($gridColumns * $gridColumnWidth) + ($gridGutterWidth * ($gridColumns - 1)) !default;
+
+// 1200px min
+$gridColumnWidth1200:     70px !default;
+$gridGutterWidth1200:     30px !default;
+$gridRowWidth1200:        ($gridColumns * $gridColumnWidth1200) + ($gridGutterWidth1200 * ($gridColumns - 1)) !default;
+
+// 768px-979px
+$gridColumnWidth768:      42px !default;
+$gridGutterWidth768:      20px !default;
+$gridRowWidth768:         ($gridColumns * $gridColumnWidth768) + ($gridGutterWidth768 * ($gridColumns - 1)) !default;
+
+
+// Fluid grid
+// -------------------------
+$fluidGridColumnWidth:    percentage($gridColumnWidth/$gridRowWidth) !default;
+$fluidGridGutterWidth:    percentage($gridGutterWidth/$gridRowWidth) !default;
+
+// 1200px min
+$fluidGridColumnWidth1200:     percentage($gridColumnWidth1200/$gridRowWidth1200) !default;
+$fluidGridGutterWidth1200:     percentage($gridGutterWidth1200/$gridRowWidth1200) !default;
+
+// 768px-979px
+$fluidGridColumnWidth768:      percentage($gridColumnWidth768/$gridRowWidth768) !default;
+$fluidGridGutterWidth768:      percentage($gridGutterWidth768/$gridRowWidth768) !default;
+
+// Tooltips
+// -------------------------
+$zindexTooltip:           1030 !default;
+$tooltipColor:            #fff !default;
+$tooltipBackground:       #999 !default;
+$tooltipArrowWidth:       5px !default;
+$tooltipArrowColor:       $tooltipBackground !default;
+
+// Form states and alerts
+// -------------------------
+$warningText:             #ffffff !default;
+$warningLink:             #2c3e50 !default;
+$warningBackground:       #d35400 !default;
+$warningBorder:           darken(adjust-hue($warningBackground, -10), 3%) !default;
+
+$errorText:               #b94a48 !default;
+$errorBackground:         #f2dede !default;
+$errorBorder:             darken(adjust-hue($errorBackground, -10), 3%) !default;
+
+$successText:             #468847 !default;
+$successBackground:       #dff0d8 !default;
+$successBorder:           darken(adjust-hue($successBackground, -10), 5%) !default;
+
+$infoText:                #3a87ad !default;
+$infoBackground:          #d9edf7 !default;
+$infoBorder:              darken(adjust-hue($infoBackground, -10), 7%) !default;
+
+// Typography
+// -------------------------
+$sansFontFamily:        "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$serifFontFamily:       Georgia, "Times New Roman", Times, serif !default;
+$monoFontFamily:        Monaco, Menlo, Consolas, "Courier New", monospace !default;
+
+$baseFontSize:          14px !default;
+$baseFontFamily:        $sansFontFamily !default;
+$baseLineHeight:        20px !default;
+$altFontFamily:         $serifFontFamily !default;
+
+$headingsFontFamily:    inherit !default; // empty to use BS default, $baseFontFamily
+$headingsFontWeight:    bold !default;    // instead of browser default, bold
+$headingsColor:         inherit !default; // empty to use BS default, $textColor
+
+// Component sizing
+// -------------------------
+// Based on 14px font-size and 20px line-height
+
+$fontSizeLarge:         $baseFontSize * 1.25 !default; // ~18px
+$fontSizeSmall:         $baseFontSize * 0.85 !default; // ~12px
+$fontSizeMini:          $baseFontSize * 0.75 !default; // ~11px
+
+$paddingLarge:          11px 19px !default; // 44px
+$paddingSmall:          2px 10px !default;  // 26px
+$paddingMini:           0px 6px !default;   // 22px
+
+$baseBorderRadius:      4px !default;
+$borderRadiusLarge:     6px !default;
+$borderRadiusSmall:     3px !default;
+
+// Responsive breakpoints
+// -------------------------
+
+$xxsDevice: 320px;
+$xsDevice: 480px;
+$smDevice: 767px;
+$mdDevice: 979px;
+$lgDevice: 1200px;
+
+@import "mixins";
+@import "grid";
+@import "layouts";
+
+@import "utilities";
+@import "navs";
+@import "accordion";
+@import "component-animations";
+
+//@import "alerts";
+@import "close";
+@import "tooltip";
+@import "liteaccordion";
+@import "mcsb";
+
+@import "sp.mixins";
+@import "sp.fonts";
+@import "sp.track";
+@import "sp.navs";
+@import "sp.page";
+@import "sp.dialog";
+@import "sp.form";
+@import "sp.carousel";
+@import "sp.rs-carousel";
+@import "sp.faqs";
+@import "sp.front";
+@import "sp.topic";
+@import "sp.proposal-overview";
+@import "sp.proposal-phase-tabs";
+@import "sp.recent-comments";
+@import "sp.contact";
+@import "sp.error-pages";
+@import "sp.announcements";
+@import "sp.maintenance-pages";
+@import "sp.about";
+@import "sp.blocks";
+@import "sp.profile";
+@import "sp.alerts";
+@import "sp.comment-tips";
+@import "sp.tabledrag";
+@import "sp.survey";
+@import "sp.moderator";
+@import "sp.learn-panel";
+@import "sp.learn-panel-mobile";
+@import "sp.coming-soon";
+@import "sp.scrollbar";
+@import "sp.splash";
+@import "sp.mmenu";
+@import "sp.header";
+@import "sp.ckeditor";
+@import "sp.show-more-comments";
+@import "sp.resizable-subtopic";
+
+@import "responsive-767px-max.scss";
+@import "responsive-768px-979px.scss";
+@import "responsive-1200px-min.scss";
+
+// ALWAYS keep this file at the end, so we overwrite link styles.
+@import "sp.links";

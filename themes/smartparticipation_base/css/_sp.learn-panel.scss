@@ -1,0 +1,196 @@
+
+
+#sp-learn {
+  padding-top:0px;
+
+  figure {
+    display: block;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    background-color: $theme-learn-background;
+
+    .learn-video-wrapper {
+      float: right;
+
+      div,
+      .learn-video {
+        //float: right;
+      }
+
+      img {
+        float: right;
+      }
+    }
+
+    .about-video-wrapper {
+      width:528px;
+      margin-left:25px;
+    }
+
+    figcaption {
+      padding: 25px;
+      z-index: 3;
+      color: white;
+      font-size: 14px;
+      display: block;
+      float: left;
+      width: 25%;
+      padding-right: 5px;
+      .title {
+        font-family: 'museo_slab_700italic';
+        display: block;
+        font-size:1.5em;
+        padding-bottom:.5em;
+        line-height: 1.1em;
+      }
+
+      .read-more-wrapper {
+        display:block;
+        text-align:left;
+        .read-more {
+          @include read-more-button;
+        }
+      }
+    }
+  }
+
+  .learn-items-1 {
+    figcaption {
+      width: 35%;
+    }
+  }
+
+  .learn-items-2 {
+    figcaption {
+      width: 30%;
+    }
+  }
+
+  .learn-items-3 {
+    figcaption {
+      width: 28%;
+    }
+  }
+
+  .learn-items-4 {
+    figcaption {
+      width: 25%;
+      padding: 20px;
+      padding-right: 5px;
+      .title {
+        font-size: 19.6px;
+      }
+    }
+  }
+
+  .learn-items-5 {
+    figcaption {
+      width: 20%;
+      padding: 12px;
+      padding-right: 5px;
+      font-size: .85em;
+      .title {
+        font-size: 1.2em;
+      }
+    }
+  }
+}
+
+.node-type-sp-learn #sp-learn figure figcaption {
+  width: 35%
+}
+
+#learn-accordion {
+  img {
+    max-width: none;
+  }
+  h2 {
+    border: 1px solid white;
+    border-right: none;
+    //background: url($rrImagesPath + "accordian-label-bg2.png") #00A3FF repeat-x bottom right;
+    background-color:$themeColorHorAccordion;
+    font-size: 17.6px;
+    line-height:1.889em;
+    font-family: 'museo_slab_700italic';
+    span {
+      text-align: center;
+      padding-right: 0px;
+      background-color: $themeColorHorAccordion;
+      padding-top:5px;
+      padding-bottom:2px;
+      margin:0;
+      height:auto;
+    }
+  }
+  margin-top:.5em;
+  //margin-bottom:1.5em;
+}
+
+#block-smartparticipation-core-learn-panel.block {
+  padding-bottom: 0;
+}
+
+.lg-device {
+  #sp-learn {
+    #learn-accordion {
+      h2 {
+        font-size: 19.2px;
+      }
+
+      figcaption {
+        font-size: 17px;
+      }
+
+      figure {
+        .learn-video-wrapper {
+          img {
+            width: 657px;
+          }
+        }
+      }
+
+      &.learn-items-1 {
+        figcaption {
+          width: 35%;
+        }
+      }
+
+      &.learn-items-2 {
+        figcaption {
+          width: 30%;
+        }
+      }
+
+      &.learn-items-3 {
+        figcaption {
+          width: 32%;
+        }
+      }
+
+      &.learn-items-4 {
+        figcaption {
+          width: 30%;
+          padding: 20px;
+          padding-right: 5px;
+          .title {
+            font-size: 23.8px;
+          }
+        }
+      }
+
+      &.learn-items-5 {
+        figcaption {
+          width: 20%;
+          padding: 12px;
+          padding-right: 5px;
+          font-size: .85em;
+          .title {
+            font-size: 1.2em;
+          }
+        }
+      }
+
+    }
+  }
+}

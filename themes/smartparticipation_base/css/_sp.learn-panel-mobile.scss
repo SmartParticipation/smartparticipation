@@ -1,0 +1,77 @@
+@media (min-width: $mdDevice) {
+
+  //#learn-accordion-mobile {
+  #block-smartparticipation-core-learn-panel-mobile {
+    display: none;
+  }
+
+  h2.node-title {
+    display: none;
+  }
+
+}
+
+@media (max-width: $mdDevice) {
+
+  #block-smartparticipation-core-learn-panel-mobile {
+    display: block;
+  }
+
+  //#learn-accordion {
+  #block-smartparticipation-core-learn-panel, section#sp-learn {
+    display: none;
+  }
+
+  h2.node-title {
+    display: block;
+  }
+
+}
+
+#block-smartparticipation-core-learn-panel-mobile {
+  padding-bottom: 0;
+  margin-top: 1.5em;
+}
+
+#learn-accordion-mobile {
+  .accordion-heading {
+    background-color: $themeColorHorAccordion;
+    font-size: 1.1em;
+    line-height: 1.889em;
+    font-family: 'museo_slab_700italic';
+    a {
+      color: white;
+    }
+  }
+  .accordion-body {
+    background-color: $theme-learn-background;
+    color: white;
+    span.title {
+      padding: 10px 0;
+      font-family: 'museo_slab_700italic';
+      display: block;
+      font-size: 1.5em;
+      //padding-bottom:.5em;
+      line-height: 1.1em;
+    }
+    span.text {
+      display: block;
+      padding-bottom: 10px;
+    }
+  }
+  .read-more {
+    @include read-more-button;
+    margin: 1em 0;
+  }
+  .learn-video-wrapper {
+    img {
+      width: 100%;
+    }
+  }
+}
+
+.node-type-sp-learn {
+  #sp-learn {
+    margin-top: 0;
+  }
+}

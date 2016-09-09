@@ -1,0 +1,97 @@
+<?php
+
+function smartparticipation_add_comments_filter_format()
+{
+
+  $comments_format = array(
+    'format' => 'comments',
+    'name' => 'Comments',
+    'cache' => '1',
+    'status' => '1',
+    'weight' => '50',
+    'filters' => array(
+      'filter_url' => array(
+        'weight' => '25',
+        'status' => '1',
+        'settings' => array(
+          'filter_url_length' => '72',
+        ),
+      ),
+      'filter_html' => array(
+        'weight' => '20',
+        'status' => '1',
+        'settings' => array(
+          'allowed_html' => '<a> <p>',
+          'filter_html_help' => 1,
+          'filter_html_nofollow' => 0,
+        ),
+      ),
+      'profanity' => array(
+        'weight' => '35',
+        'status' => '1',
+        'settings' => array(
+          'lists' => array(
+            'comments_filter' => 'comments_filter',
+          ),
+        ),
+      ),
+      'filter_autop' => array(
+        'weight' => '30',
+        'status' => '1',
+        'settings' => array(),
+      ),
+      'filter_htmlcorrector' => array(
+        'weight' => '15',
+        'status' => '1',
+        'settings' => array(),
+      ),
+    ),
+  );
+  $comments_format = (object) $comments_format;
+  if (!filter_format_exists('comments')) {
+    filter_format_save($comments_format);
+  }
+  $comments_format_permission = filter_permission_name($comments_format);
+  user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, array($comments_format_permission));
+  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array($comments_format_permission));
+}
+
+function smartparticipation_add_wysiwyg_profile_comments_filter_format()
+{
+  if (!wysiwyg_profile_load('comments')) {
+    $profile_settings = array(
+      'default' => 1,
+      'user_choose' => 0,
+      'show_toggle' => 0,
+      'add_to_summaries' => 0,
+      'theme' => '',
+      'language' => 'en',
+      'buttons' => array(
+        'default' => array(
+          'Link' => 1,
+          'Unlink' => 1,
+        ),
+      ),
+      'toolbarLocation' => 'bottom',
+      'resize_enabled' => 1,
+      'default_toolbar_grouping' => 0,
+      'simple_source_formatting' => 0,
+      'acf_mode' => '0',
+      'acf_allowed_content' => '',
+      'css_setting' => 'self',
+      'css_path' => '%bprofiles/smartparticipation/themes/smartparticipation_base/css/ckeditor/editor.css',
+      'stylesSet' => '',
+      'block_formats' => 'p,address,pre,h2,h3,h4,h5,h6,div',
+      'advanced__active_tab' => 'edit-css',
+      'forcePasteAsPlainText' => 1,
+    );
+
+    db_insert('wysiwyg')
+      ->fields(array(
+        'format' => 'comments',
+        'editor' => 'ckeditor',
+        'settings' => serialize($profile_settings)
+      ))
+      ->execute();
+  }
+}
