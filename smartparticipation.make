@@ -2,15 +2,15 @@
 core = 7.x
 api = 2
 
-defaults[projects][subdir] = contrib
+defaults[projects][subdir] = "contrib"
 
 ; Core
-projects[drupal][version] = "7.50"
+;projects[drupal][version] = "7.50"
 
 ; Profiles
-projects[smartparticipation][download][type] = "git"
-projects[smartparticipation][download][url] = "https://github.com/SmartParticipation/smartparticipation.git"
-projects[smartparticipation][type] = "profile"
+;projects[smartparticipation][download][type] = "git"
+;projects[smartparticipation][download][url] = "https://github.com/SmartParticipation/smartparticipation.git"
+;projects[smartparticipation][type] = "profile"
 
 ; Contrib modules
 projects[advanced_help][version] = "1.1"
@@ -73,7 +73,7 @@ projects[references][version] = "2.1"
 
 projects[pathauto][version] = "1.2"
 
-projects[profanity][version] = "1.1+2-dev"
+projects[profanity][version] = "1.1-dev"
 
 projects[role_delegation][version] = "1.1"
 
