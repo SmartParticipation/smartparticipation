@@ -4,14 +4,6 @@ api = 2
 
 defaults[projects][subdir] = "contrib"
 
-; Core
-;projects[drupal][version] = "7.50"
-
-; Profiles
-;projects[smartparticipation][download][type] = "git"
-;projects[smartparticipation][download][url] = "https://github.com/SmartParticipation/smartparticipation.git"
-;projects[smartparticipation][type] = "profile"
-
 ; Contrib modules
 projects[advanced_help][version] = "1.1"
 
