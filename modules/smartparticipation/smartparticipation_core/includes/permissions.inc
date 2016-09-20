@@ -233,6 +233,17 @@ function smartparticipation_core_access_check_surveys($node) {
   return FALSE;
 }
 
+/**
+ * Determine whether to display data export tab on proposal page.
+ */
+function smartparticipation_core_access_check_export($node) {
+
+  if ($node->type == 'sp_proposal') {
+    return user_access('export smartparticipation_core data', $account = NULL);
+  }
+
+  return FALSE;
+}
 
 /**
  * Return true iff user can export smartparticipation_core user data.
