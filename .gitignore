@@ -1,2 +1,4 @@
+libraries/hybridauth
+modules/contrib
 node_modules
 .DS_Store
