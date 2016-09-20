@@ -40,7 +40,4 @@ dependencies[] = syslog
 ;dependencies[] = regroom
 dependencies[] = smartparticipation_core
 
-dependencies[] = devel
-dependencies[] = chromephp
-
 
