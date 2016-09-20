@@ -215,7 +215,7 @@ function smartparticipation_core_form_sp_document_node_form_alter(&$form, &$form
   $options_first = _smartparticipation_core_get_proposal_options();
 
   if (count($options_first) == 0) {
-	  $message = 'There are no open proposals in the system. You must '.l('add at least one open proposal','node/add/smartparticipation_core-proposal').' before you can create a proposal document.';
+	  $message = 'There are no open proposals in the system. You must '.l('add at least one open proposal','node/add/sp-proposal').' before you can create a proposal document.';
     drupal_set_message($message, $type = 'error', $repeat = FALSE);
     hide($form);
   } else {

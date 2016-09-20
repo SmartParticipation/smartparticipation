@@ -352,14 +352,14 @@ function smartparticipation_core_form_sp_subtopic_node_form_alter(&$form, &$form
   $open_proposals = _smartparticipation_core_get_proposal_options();
 
   if (count($open_proposals) == 0) {
-    $message = 'There are no open proposals in the system. You must '.l('add at least one open proposal','node/add/smartparticipation_core-proposal').' before you can create a subtopic.';
+    $message = 'There are no open proposals in the system. You must '.l('add at least one open proposal','node/add/sp-proposal').' before you can create a subtopic.';
     drupal_set_message($message, $type = 'error', $repeat = FALSE);
     hide($form);
     return;
   } 
   
   if (count($form['field_sp_subtopic_topic'][LANGUAGE_NONE]['#options']) == 0) {
-    $message = 'There are no topics in the system. You must '.l('add at least one topic to an open proposal','node/add/smartparticipation_core-topic').' before you can create a subtopic.';
+    $message = 'There are no topics in the system. You must '.l('add at least one topic to an open proposal','node/add/sp-topic').' before you can create a subtopic.';
     drupal_set_message($message, $type = 'error', $repeat = FALSE);
     hide($form);
     return;

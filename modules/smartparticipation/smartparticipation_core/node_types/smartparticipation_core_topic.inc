@@ -468,7 +468,7 @@ function smartparticipation_core_form_sp_topic_node_form_alter(&$form, &$form_st
   // second dropdown.
 
   if (count($options_first) == 0) {
-    $message = 'There are no open proposals in the system. You must '.l('add at least one open proposal','node/add/smartparticipation_core-proposal').' before you can create a topic.';
+    $message = 'There are no open proposals in the system. You must '.l('add at least one open proposal','node/add/sp-proposal').' before you can create a topic.';
       drupal_set_message($message, $type = 'error', $repeat = FALSE);
       hide($form);
       return;
