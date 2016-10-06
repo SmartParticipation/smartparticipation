@@ -105,7 +105,7 @@ function smartparticipation_ajax_comments_form_comment_form_alter(&$form, &$form
     'wrapper' => $form['#id'],
     'method' => 'replace',
     'effect' => 'fade',
-    'progress' => array('type' => 'throbber', 'message' => "<script>RR.Topic.Comment.showCommentSubmitThrobber('{$form['#id']}');</script>"),
+    'progress' => array('type' => 'throbber', 'message' => "<script>SP.Topic.Comment.showCommentSubmitThrobber('{$form['#id']}');</script>"),
   );
   $form['actions']['preview']['#ajax'] = array(
     'callback' => 'smartparticipation_ajax_comments_preview_js',
