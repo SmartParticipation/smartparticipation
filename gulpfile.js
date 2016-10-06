@@ -27,24 +27,17 @@ var paths = {
   libraries: [
     librariesPath + 'infieldlabel/jquery.infieldlabel.min.js',
     librariesPath + 'jquery_easing/jquery.easing.1.3.js',
-    //librariesPath + 'jquery_ui/jquery-ui-1.9.1.custom.min.js',
     librariesPath + 'jquery_ui/jquery-ui-1.11.4/jquery-ui.min.js',
     librariesPath + 'bootstrap-tooltip/tooltip.js',
     librariesPath + 'bootstrap-collapse/bootstrap-collapse.js',
     librariesPath + 'bootstrap-transition/bootstrap-transition.js',
-    //librariesPath + 'jquery_ui_carousel/vendor/jquery.event.drag.js',
-    //librariesPath + 'jquery_ui_carousel/vendor/jquery.translate3d.js',
     librariesPath + 'jquery_ui_carousel/jquery.rs.carousel.js',
-    //librariesPath + 'jquery_ui_carousel/jquery.rs.carousel-touch.js',
     librariesPath + 'jquery_ui_multi_open_accordion/jquery.multi-accordion.js',
     librariesPath + 'jTruncate/jquery_truncator.js',
     librariesPath + 'liteaccordion/liteaccordion.jquery.min.js',
     librariesPath + 'modernizr/modernizr-2.6.2.min.js',
     librariesPath + 'mutate/mutate.js',
-    librariesPath + 'ua_parser/ua-parser-0.7.9.min.js',
-    librariesPath + 'GoogleNexusWebsiteMenu/js/classie.js',
-    librariesPath + 'GoogleNexusWebsiteMenu/js/gnmenu.js',
-    librariesPath + '/ResponsiveMultiLevelMenu/js/jquery.dlmenu.js'
+    librariesPath + 'ua_parser/ua-parser-0.7.9.min.js'
   ]
 };
 
@@ -58,7 +51,7 @@ gulp.task('sp.libraries', function () {
     .pipe(plumber({errorHandler: onError}))
     .pipe(uglify({mangle: false}))
     .pipe(concat('smartparticipation.libraries.js'))
-    .pipe(gulp.dest(librariesPath + 'smartparticipation'))
+    .pipe(gulp.dest(buildPath))
 });
 
 gulp.task('sp.scripts', function () {

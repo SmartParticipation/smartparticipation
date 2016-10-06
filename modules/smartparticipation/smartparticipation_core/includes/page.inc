@@ -497,7 +497,7 @@ function smartparticipation_core_js_alter(&$javascript) {
   }
 
   // Use a newer jQuery version for libraries used by this module.
-  // Most of this is lifted from the jQuery Multi module.
+  // Based on the jQuery Multi module.
   // Add the following files:
   //  1) Newer jQuery
   //  2) Libraries script (concatenated library scripts used by this module)
@@ -505,7 +505,7 @@ function smartparticipation_core_js_alter(&$javascript) {
   $jquery_version = '1.8.2';
   $jquery_path = libraries_get_path('jquery') . '/jquery-' . $jquery_version . '.min.js';
   $switch_path = drupal_get_path('module', 'smartparticipation_core') . '/js/jqmulti/switch.js';
-  $libraries_path = libraries_get_path('smartparticipation') . '/smartparticipation.libraries.js';
+  $libraries_path = drupal_get_path('module', 'smartparticipation_core') . '/build/js/smartparticipation.libraries.js';
 
   $jquery = array(
     $jquery_path => array(

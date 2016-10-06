@@ -1,11 +1,15 @@
 /*
  * jQuery UI Multi Open Accordion Plugin
- * Derived from https://code.google.com/p/jquery-multi-open-accordion/
- *
- * Original Author : Anas Nakawa (http://anasnakawa.wordpress.com/)
- * Original Date   : 22-Jul-2011
+ * Author	: Anas Nakawa (http://anasnakawa.wordpress.com/)
+ * Date		: 25-01-2011
  * Released Under MIT License
+ * You are welcome to enhance this plugin at https://code.google.com/p/jquery-multi-open-accordion/
  */
+
+/*
+ * This plugin has been modified for use with SmartParticipation.
+ */
+
 (function ($) {
 
   $.widget('ui.multiAccordion', {
