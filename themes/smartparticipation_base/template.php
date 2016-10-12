@@ -453,7 +453,7 @@ function smartparticipation_base_form_element($variables) {
 /*
  * Implements hook_preprocess_user_thumbnail().
  */
-function smartparticpation_core_preprocess_user_thumbnail(&$variables)
+function smartparticipation_core_preprocess_user_thumbnail(&$variables)
 {
   $uid = null;
   if (! empty($variables['uid'])) {
