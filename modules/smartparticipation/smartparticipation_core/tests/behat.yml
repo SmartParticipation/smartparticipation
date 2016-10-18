@@ -1,0 +1,21 @@
+default:
+  suites:
+    default:
+      contexts:
+        - FeatureContext
+        - Drupal\DrupalExtension\Context\DrupalContext
+        - Drupal\DrupalExtension\Context\MinkContext
+        - Drupal\DrupalExtension\Context\MessageContext
+        - Drupal\DrupalExtension\Context\DrushContext
+  extensions:
+    Behat\MinkExtension:
+      goutte: ~
+      selenium2: ~
+      base_url: http://smartparticipation.local
+    Drupal\DrupalExtension:
+      api_driver: "drupal"
+      blackbox: ~
+      drush:
+        root: /Users/bmp74/Sites/smartparticipation
+      drupal:
+        drupal_root: /Users/bmp74/Sites/smartparticipation

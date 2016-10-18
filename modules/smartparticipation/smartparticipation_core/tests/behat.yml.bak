@@ -1,0 +1,11 @@
+default:
+  suites:
+    default:
+      contexts:
+        - Drupal\DrupalExtension\Context\DrupalContext
+  extensions:
+    Behat\MinkExtension:
+      goutte: ~
+      base_url: http://example.org/  # Replace with your site's URL
+    Drupal\DrupalExtension:
+      blackbox: ~
