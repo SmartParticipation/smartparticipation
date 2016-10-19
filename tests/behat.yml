@@ -16,6 +16,6 @@ default:
       api_driver: "drupal"
       blackbox: ~
       drush:
-        root: /Users/bmp74/Sites/smartparticipation
+        root: ../../../
       drupal:
-        drupal_root: /Users/bmp74/Sites/smartparticipation
+        drupal_root: ../../../

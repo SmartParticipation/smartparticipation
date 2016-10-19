@@ -2,4 +2,4 @@ libraries/hybridauth
 modules/contrib
 node_modules
 .DS_Store
-modules/smartparticipation/smartparticipation_core/tests/vendor
+tests/vendor
