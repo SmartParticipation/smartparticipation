@@ -2,4 +2,5 @@ libraries/hybridauth
 modules/contrib
 node_modules
 .DS_Store
-tests/vendor
+tests/Behat/vendor
+tests/Selenium/vendor

@@ -16,6 +16,6 @@ default:
       api_driver: "drupal"
       blackbox: ~
       drush:
-        root: ../../../
+        root: ../../../../
       drupal:
-        drupal_root: ../../../
+        drupal_root: ../../../../
