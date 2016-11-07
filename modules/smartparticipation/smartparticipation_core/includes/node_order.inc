@@ -303,7 +303,7 @@ function smartparticipation_core_topic_order_form($form, $node) {
     $phases = $phases_keyed;
 
     $in_phases = implode(',',$phase_field_collections_ids);
-    $query = 'SELECT o.ttid, o.tnid, o.weight FROM {smartparticipation_core_topic_node_order} o WHERE o.ttid IN ('.$in_phases.') ORDER BY o.weight ASC';
+    $query = 'SELECT o.ttid, o.tnid, o.weight FROM {sp_topic_node_order} o WHERE o.ttid IN ('.$in_phases.') ORDER BY o.weight ASC';
     $result = db_query($query,array(':pnid' => $nid))->fetchAllAssoc('tnid');
     $topics_weights = $result;
 
