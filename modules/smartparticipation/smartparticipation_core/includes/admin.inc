@@ -20,7 +20,7 @@ function smartparticipation_core_admin_settings() {
     '#weight' => 0,
   ); 
   
-  $form['general']['smartparticipation_core_site_proposal_type'] = array(
+  $form['general']['smartparticipation_site_proposal_type'] = array(
     '#type' => 'textfield',
     '#title' => t('Proposal type'),
     '#description' => t('Specify proposal type for this site: rule, plan, recommendation, etc. Use singular and lowercase.'),
@@ -30,7 +30,7 @@ function smartparticipation_core_admin_settings() {
     '#weight' => 5,
   );  
   
-  $form['general']['smartparticipation_core_default_document_label'] = array(
+  $form['general']['smartparticipation_default_document_label'] = array(
       '#type' => 'textfield',
       '#title' => t('Proposal documents display name'),
       '#description' => t('Specify the proposal documents display name. Use lowercase.'),
@@ -40,7 +40,7 @@ function smartparticipation_core_admin_settings() {
       '#weight' => 10,
   );
 
-  $form['general']['smartparticipation_core_data_truncate_limit'] = array(
+  $form['general']['smartparticipation_data_truncate_limit'] = array(
       '#type' => 'textfield',
       '#title' => t('Proposal summary truncate value'),
       '#description' => t('How many characters to truncate the proposal summary to.'),
@@ -50,7 +50,7 @@ function smartparticipation_core_admin_settings() {
       '#weight' => 15,
   );
 
-  $form['general']['smartparticipation_core_comment_truncate_limit'] = array(
+  $form['general']['smartparticipation_comment_truncate_limit'] = array(
       '#type' => 'textfield',
       '#title' => t('Topic comment truncate value'),
       '#description' => t('How many characters to truncate comments on the topic page to.'),
@@ -60,7 +60,7 @@ function smartparticipation_core_admin_settings() {
       '#weight' => 20,
   );
 
-  $form['general']['smartparticipation_core_featured_comment_truncate_limit'] = array(
+  $form['general']['smartparticipation_featured_comment_truncate_limit'] = array(
       '#type' => 'textfield',
       '#title' => t('Featured comment truncate value'),
       '#description' => t('How many characters to truncate comments in the featured comments section to.'),
@@ -70,7 +70,7 @@ function smartparticipation_core_admin_settings() {
       '#weight' => 25,
   );
 
-  $form['general']['smartparticipation_core_comment_length_limit'] = array(
+  $form['general']['smartparticipation_comment_length_limit'] = array(
       '#type' => 'textfield',
       '#title' => t('Comment length limit'),
       '#description' => t('Maximum characters to allow for comments.'),
@@ -81,9 +81,9 @@ function smartparticipation_core_admin_settings() {
   );
 
   $site = variable_get('smartparticipation_site_machine_name');
-  $form['general']['smartparticipation_core_user_placeholder_image'] = array(
+  $form['general']['smartparticipation_user_placeholder_image'] = array(
       '#type' => 'managed_file',
-      '#field_name' => 'smartparticipation_core_user_placeholder_image',
+      '#field_name' => 'smartparticipation_user_placeholder_image',
       '#title' => t('User placeholder image'),
       '#default_value' => variable_get('smartparticipation_user_placeholder_image'),
       '#description' => t('Image displayed when user has not uploaded one 50x50.'),
@@ -95,9 +95,9 @@ function smartparticipation_core_admin_settings() {
       '#weight' => 30,
   );
 
-  $form['general']['smartparticipation_core_moderator_placeholder_image'] = array(
+  $form['general']['smartparticipation_moderator_placeholder_image'] = array(
       '#type' => 'managed_file',
-      '#field_name' => 'smartparticipation_core_moderator_placeholder_image',
+      '#field_name' => 'smartparticipation_moderator_placeholder_image',
       '#title' => t('Moderator placeholder image'),
       '#default_value' => variable_get('smartparticipation_moderator_placeholder_image'),
       '#description' => t('Image displayed when moderator has not uploaded one 50x50.'),
@@ -138,7 +138,7 @@ function smartparticipation_core_admin_settings() {
     '#description' => t('The comment endorsement counter link will always display for advanced users (admins, moderators, etc.).  Select the options below to enable this feature for basic site users.'),
   );
 
-  $form['endorsements']['smartparticipation_core_endorsements_counter_show_all_users'] = array(
+  $form['endorsements']['smartparticipation_endorsements_counter_show_all_users'] = array(
     '#type' => 'checkbox',
     '#title' => t('Show comment endorsement counter to all users.'),
     '#required' => false,
@@ -146,7 +146,7 @@ function smartparticipation_core_admin_settings() {
     '#weight' => 15,
   );
 
-  $form['endorsements']['smartparticipation_core_endorsements_users_show_all_users'] = array(
+  $form['endorsements']['smartparticipation_endorsements_users_show_all_users'] = array(
     '#type' => 'checkbox',
     '#title' => t('Show the list of users who endorsed a comment to all users.'),
     '#description' => t('The endorsement counter will be changed to a clickable link.  The link will open a pop-up containing the users who endorsed the comment.  Requires that the comment endorsement counter is also enabled for all users.'),
@@ -155,7 +155,7 @@ function smartparticipation_core_admin_settings() {
     '#weight' => 20,
     '#states' => array(
       'visible' => array(
-        ':input[name="smartparticipation_core_endorsements_counter_show_all_users"]' => array('checked' => TRUE),
+        ':input[name="smartparticipation_endorsements_counter_show_all_users"]' => array('checked' => TRUE),
       ),
     ),
   );
@@ -168,7 +168,7 @@ function smartparticipation_core_admin_settings() {
     '#weight' => 5,
   );
 
-  $form['profiles']['smartparticipation_core_profile_status'] = array(
+  $form['profiles']['smartparticipation_profile_status'] = array(
     '#type' => 'select',
     '#title' => t('Profile status'),
     '#options' => array(
@@ -180,7 +180,7 @@ function smartparticipation_core_admin_settings() {
     '#weight' => 10,
   );
 
-  $form['profiles']['smartparticipation_core_profile_reminder'] = array(
+  $form['profiles']['smartparticipation_profile_reminder'] = array(
     '#type' => 'checkbox',
     '#title' => t('Show profile reminder'),
     '#description' => t('Show profile reminder pop-up if user has not filled out any part of their profile.'),
@@ -189,45 +189,45 @@ function smartparticipation_core_admin_settings() {
     '#weight' => 15,
     '#states' => array(
       'visible' => array(
-        ':input[name="smartparticipation_core_profile_status"]' => array('value' => 1),
+        ':input[name="smartparticipation_profile_status"]' => array('value' => 1),
       ),
     ),
   );
 
-  $form['profiles']['smartparticipation_core_profile_reminder_text'] = array(
+  $form['profiles']['smartparticipation_profile_reminder_text'] = array(
     '#type' => 'textarea',
     '#title' => t('Profile reminder text'),
     '#description' => t('Text to show in the reminder pop-up.  Include the token: !profile_form_link'),
     '#required' => false,
     '#default_value' => variable_get(
-      'smartparticipation_core_profile_reminder_text',
+      'smartparticipation_profile_reminder_text',
       'You haven\'t filled out any of your profile. You can do so on your !profile_form_link.'
     ),
     '#weight' => 20,
     '#rows' => 3,
     '#states' => array(
       'visible' => array(
-        ':input[name="smartparticipation_core_profile_status"]' => array('value' => 1),
-        ':input[name="smartparticipation_core_profile_reminder"]' => array('checked' => TRUE),
+        ':input[name="smartparticipation_profile_status"]' => array('value' => 1),
+        ':input[name="smartparticipation_profile_reminder"]' => array('checked' => TRUE),
       ),
     ),
   );
 
-  $form['profiles']['smartparticipation_core_profile_form_link_text'] = array(
+  $form['profiles']['smartparticipation_profile_form_link_text'] = array(
     '#type' => 'textfield',
     '#title' => t('Profile form link text'),
     '#description' => t('The text to use for the profile form link token: !profile_form_link'),
     '#required' => false,
     '#default_value' => variable_get(
-      'smartparticipation_core_profile_form_link_text',
+      'smartparticipation_profile_form_link_text',
       'profile form'
     ),
     '#size' => 45,
     '#weight' => 25,
     '#states' => array(
       'visible' => array(
-        ':input[name="smartparticipation_core_profile_status"]' => array('value' => 1),
-        ':input[name="smartparticipation_core_profile_reminder"]' => array('checked' => TRUE),
+        ':input[name="smartparticipation_profile_status"]' => array('value' => 1),
+        ':input[name="smartparticipation_profile_reminder"]' => array('checked' => TRUE),
       ),
     ),
   );
@@ -246,8 +246,8 @@ function smartparticipation_core_admin_settings() {
         '#weight' => 30,
         '#states' => array(
           'visible' => array(
-            ':input[name="smartparticipation_core_profile_status"]' => array('value' => 1),
-            ':input[name="smartparticipation_core_profile_reminder"]' => array('checked' => TRUE),
+            ':input[name="smartparticipation_profile_status"]' => array('value' => 1),
+            ':input[name="smartparticipation_profile_reminder"]' => array('checked' => TRUE),
           ),
         ),
       );
@@ -278,7 +278,7 @@ function smartparticipation_core_admin_settings() {
   );
 
   // REGROOM EVENT LOGGING
-  $form['smartparticipation_core_event_logging'] = array(
+  $form['smartparticipation_event_logging'] = array(
     '#type' => 'fieldset',
     '#title' => t('Event Logging'),
     '#description' => t('Configure SmartParticipation event logging.'),
@@ -287,7 +287,7 @@ function smartparticipation_core_admin_settings() {
     '#weight' => 10,      
   );
   
-  $form['smartparticipation_core_event_logging']['smartparticipation_core_log_events'] = array(
+  $form['smartparticipation_event_logging']['smartparticipation_log_events'] = array(
     '#type' => 'checkbox',
     '#title' => t('Log SmartParticipation events'),
     '#description' => t('Turn SmartParticipation event logging on or off.'),
@@ -306,7 +306,7 @@ function smartparticipation_core_admin_settings() {
     '#weight' => 20,      
   );
 
-  $form['third_party_services']['smartparticipation_core_video_player_license_key'] = array(
+  $form['third_party_services']['smartparticipation_video_player_license_key'] = array(
     '#type' => 'textfield',
     '#title' => t('JW Player license key'),
     '#description' => t('If no license key is specified, the free JW Player will be used.'),
@@ -316,7 +316,7 @@ function smartparticipation_core_admin_settings() {
     '#weight' => 0,
   );
   
-  $form['third_party_services']['smartparticipation_core_addthis_pubid'] = array(
+  $form['third_party_services']['smartparticipation_addthis_pubid'] = array(
       '#type' => 'textfield',
       '#title' => t('AddThis profile id'),
       '#description' => t('Required in order to provide a share link on comments.'),
@@ -339,7 +339,7 @@ function smartparticipation_core_admin_settings() {
     '#weight' => 30,            
   );
 
-  $form['upcoming_proposals']['smartparticipation_core_coming_soon_heading'] = array(
+  $form['upcoming_proposals']['smartparticipation_coming_soon_heading'] = array(
       '#type' => 'textfield', 
       '#title' => t('Coming Soon heading'),
       '#description' => t('Coming Soon block heading. Case sensitive; enter case as it should be displayed.'),
@@ -349,9 +349,9 @@ function smartparticipation_core_admin_settings() {
   );
 
   $site = variable_get('smartparticipation_site_machine_name');
-  $form['upcoming_proposals']['smartparticipation_core_coming_soon_image'] = array(      
+  $form['upcoming_proposals']['smartparticipation_coming_soon_image'] = array(
     '#type' => 'managed_file',
-    '#field_name' => 'smartparticipation_core_coming_soon_image',
+    '#field_name' => 'smartparticipation_coming_soon_image',
     '#title' => t('Generic Coming Soon image'),
     '#default_value' => variable_get('smartparticipation_coming_soon_image'),
     '#description' => t('Generic image displayed in Coming Soon block when there are no upcoming proposals to display. Size in pixels: 940x250.'),
@@ -363,7 +363,7 @@ function smartparticipation_core_admin_settings() {
     '#weight' => 5,      
   );
 
-  $form['upcoming_proposals']['smartparticipation_core_coming_soon_text'] = array(
+  $form['upcoming_proposals']['smartparticipation_coming_soon_text'] = array(
     '#type' => 'textarea',
     '#title' => t('Generic Coming Soon text'),
     '#description' => t('Generic text displayed in Coming Soon block when there are no upcoming proposals to display.'),
@@ -372,7 +372,7 @@ function smartparticipation_core_admin_settings() {
     '#weight' => 10,
   );
   
-  $form['upcoming_proposals']['smartparticipation_core_new_proposal_notification_signup_text'] = array(
+  $form['upcoming_proposals']['smartparticipation_new_proposal_notification_signup_text'] = array(
     '#type' => 'textfield',
     '#title' => t('New proposal notification signup text'),
     '#description' => t('Text to be displayed as a link to sign up for notification of a new proposal.'),
@@ -402,7 +402,7 @@ function smartparticipation_core_admin_settings() {
     '#collapsed' => true,
     '#weight' => 0,
   );
-  $form['notifications']['mail_signature']['smartparticipation_core_mail_signature'] = array(
+  $form['notifications']['mail_signature']['smartparticipation_mail_signature'] = array(
     // TODO Change to text_format when we send HTML emails.
     '#type' => 'textarea', //'text_format',
     '#title' => t('Email signature'),
@@ -421,7 +421,7 @@ function smartparticipation_core_admin_settings() {
     '#collapsed' => true,
     '#weight' => 10,      
   );  
-  $form['notifications']['mail_registration']['smartparticipation_core_mail_registration_subject'] = array(
+  $form['notifications']['mail_registration']['smartparticipation_mail_registration_subject'] = array(
     '#type' => 'textfield', 
     '#title' => t('Registration email subject'),
     '#description' => t('Subject of email sent after user registration.'),
@@ -431,7 +431,7 @@ function smartparticipation_core_admin_settings() {
     '#size' => 100,
     '#weight' => 0,
   );  
-  $form['notifications']['mail_registration']['smartparticipation_core_mail_registration_body'] = array(
+  $form['notifications']['mail_registration']['smartparticipation_mail_registration_body'] = array(
     // TODO Change to text_format when we send HTML emails.
     '#type' => 'textarea', //'text_format',
     '#title' => t('Registration email body'),
@@ -450,7 +450,7 @@ function smartparticipation_core_admin_settings() {
     '#collapsed' => true,
     '#weight' => 20,
   );
-  $form['notifications']['mail_first_comment']['smartparticipation_core_mail_first_comment_subject'] = array(
+  $form['notifications']['mail_first_comment']['smartparticipation_mail_first_comment_subject'] = array(
     '#type' => 'textfield', 
     '#title' => t('First comment email subject'),
     '#description' => t('Subject of email sent after user\'s first comment on a proposal.'),
@@ -463,7 +463,7 @@ function smartparticipation_core_admin_settings() {
     '#size' => 100,
     '#weight' => 0,
   );
-  $form['notifications']['mail_first_comment']['smartparticipation_core_mail_first_comment_body'] = array(
+  $form['notifications']['mail_first_comment']['smartparticipation_mail_first_comment_body'] = array(
     // TODO Change to text_format when we send HTML emails.
     '#type' => 'textarea', //'text_format',
     '#title' => t('First comment email body'),
@@ -482,7 +482,7 @@ function smartparticipation_core_admin_settings() {
     '#collapsed' => true,
     '#weight' => 30,
   );
-  $form['notifications']['mail_comment_reply']['smartparticipation_core_mail_comment_reply_subject'] = array(
+  $form['notifications']['mail_comment_reply']['smartparticipation_mail_comment_reply_subject'] = array(
     '#type' => 'textfield', 
     '#title' => t('Comment reply email subject'),
     '#description' => t('Subject of email sent after reply to user\'s comment.'),
@@ -494,7 +494,7 @@ function smartparticipation_core_admin_settings() {
     '#size' => 100,      
     '#weight' => 0,
   );  
-  $form['notifications']['mail_comment_reply']['smartparticipation_core_mail_comment_reply_body'] = array(
+  $form['notifications']['mail_comment_reply']['smartparticipation_mail_comment_reply_body'] = array(
     // TODO Change to text_format when we send HTML emails.
     '#type' => 'textarea', //'text_format',
     '#title' => t('Comment reply email body'),
@@ -513,7 +513,7 @@ function smartparticipation_core_admin_settings() {
     '#collapsed' => true,
     '#weight' => 40,
   );
-  $form['notifications']['mail_comment_endorsement']['smartparticipation_core_mail_comment_endorsement_subject'] = array(
+  $form['notifications']['mail_comment_endorsement']['smartparticipation_mail_comment_endorsement_subject'] = array(
     '#type' => 'textfield', 
     '#title' => t('Comment endorsement email subject'),
     '#description' => t('Subject of email sent after endorsement of user\'s comment.'),
@@ -523,7 +523,7 @@ function smartparticipation_core_admin_settings() {
     '#size' => 100,
     '#weight' => 0,
   );
-  $form['notifications']['mail_comment_endorsement']['smartparticipation_core_mail_comment_endorsement_body'] = array(
+  $form['notifications']['mail_comment_endorsement']['smartparticipation_mail_comment_endorsement_body'] = array(
     // TODO Change to text_format when we send HTML emails.
     '#type' => 'textarea', //'text_format',
     '#title' => t('Comment endorsement email body'),
@@ -542,7 +542,7 @@ function smartparticipation_core_admin_settings() {
     '#collapsed' => true,
     '#weight' => 50,
   );
-  $form['notifications']['mail_comment_recommendation']['smartparticipation_core_mail_comment_recommendation_subject'] = array(
+  $form['notifications']['mail_comment_recommendation']['smartparticipation_mail_comment_recommendation_subject'] = array(
     '#type' => 'textfield', 
     '#title' => t('Comment recommendation email subject'),
     '#description' => t('Subject of email sent after recommendation of user\'s comment.'),
@@ -554,7 +554,7 @@ function smartparticipation_core_admin_settings() {
     '#size' => 100,
     '#weight' => 0,
   );
-  $form['notifications']['mail_comment_recommendation']['smartparticipation_core_mail_comment_recommendation_body'] = array(
+  $form['notifications']['mail_comment_recommendation']['smartparticipation_mail_comment_recommendation_body'] = array(
     // TODO Change to text_format when we send HTML emails.
     '#type' => 'textarea', //'text_format',
     '#title' => t('Comment recommendation email body'),
@@ -607,7 +607,7 @@ function smartparticipation_core_admin_settings() {
   );
 
   $vals = variable_get('smartparticipation_footer_column_1');
-  $form['footer']['smartparticipation_core_footer_column_1'] = array(
+  $form['footer']['smartparticipation_footer_column_1'] = array(
       '#type' => 'text_format',
       '#format' => 'full_html',
       '#title' => t('Footer Column 1'),
@@ -618,7 +618,7 @@ function smartparticipation_core_admin_settings() {
   );
 
   $vals = variable_get('smartparticipation_footer_column_2');
-  $form['footer']['smartparticipation_core_footer_column_2'] = array(
+  $form['footer']['smartparticipation_footer_column_2'] = array(
       '#type' => 'text_format',
       '#format' => 'full_html',
       '#title' => t('Footer Column 2'),
@@ -628,7 +628,7 @@ function smartparticipation_core_admin_settings() {
       '#weight' => 5,
   );
 
-  $form['footer']['smartparticipation_core_footer_facebook_url'] = array(
+  $form['footer']['smartparticipation_footer_facebook_url'] = array(
       '#type' => 'textfield',
       '#title' => t('Facebook URL'),
       '#description' => t('The URL to use for Facebook.'),
@@ -638,7 +638,7 @@ function smartparticipation_core_admin_settings() {
       '#weight' => 10,
   );
 
-  $form['footer']['smartparticipation_core_footer_twitter_url'] = array(
+  $form['footer']['smartparticipation_footer_twitter_url'] = array(
       '#type' => 'textfield',
       '#title' => t('Twitter URL'),
       '#description' => t('The URL to use for Twitter.'),
@@ -658,7 +658,7 @@ function smartparticipation_core_admin_settings() {
   );
 
   $vals = variable_get('smartparticipation_contact_organization');
-  $form['contact']['smartparticipation_core_contact_organization'] = array(
+  $form['contact']['smartparticipation_contact_organization'] = array(
       '#type' => 'text_format',
       '#format' => 'full_html',
       '#title' => t('Organization'),
@@ -668,7 +668,7 @@ function smartparticipation_core_admin_settings() {
       '#weight' => 0,
   );
 
-  $form['contact']['smartparticipation_core_contact_address'] = array(
+  $form['contact']['smartparticipation_contact_address'] = array(
       '#type' => 'textarea',
       '#title' => t('Address'),
       '#description' => t('Physical Address'),
@@ -677,7 +677,7 @@ function smartparticipation_core_admin_settings() {
       '#weight' => 5,
   );
 
-  $form['contact']['smartparticipation_core_contact_phone'] = array(
+  $form['contact']['smartparticipation_contact_phone'] = array(
       '#type' => 'textfield',
       '#title' => t('Phone number'),
       '#description' => t('Phone Number'),
@@ -688,7 +688,7 @@ function smartparticipation_core_admin_settings() {
   );
 
   $vals = variable_get('smartparticipation_contact_alternative');
-  $form['contact']['smartparticipation_core_contact_alternative'] = array(
+  $form['contact']['smartparticipation_contact_alternative'] = array(
       '#type' => 'text_format',
       '#format' => 'full_html',
       '#title' => t('Alternative Contact'),
@@ -709,30 +709,29 @@ function smartparticipation_core_admin_settings() {
  */
 function smartparticipation_core_admin_settings_submit($form, &$form_state) {
 
-  //dvm($form_state['values']['smartparticipation_core_footer_column_left']);
 
-  $form_state['values']['smartparticipation_core_site_proposal_type'] = 
-    strtolower($form_state['values']['smartparticipation_core_site_proposal_type']);
+  $form_state['values']['smartparticipation_site_proposal_type'] =
+    strtolower($form_state['values']['smartparticipation_site_proposal_type']);
     
-  $plural = $form_state['values']['smartparticipation_core_site_proposal_type'] . 's';
+  $plural = $form_state['values']['smartparticipation_site_proposal_type'] . 's';
   variable_set('smartparticipation_site_proposal_type_plural', $plural);
   
-  $form_state['values']['smartparticipation_core_default_document_label'] = 
-    strtolower($form_state['values']['smartparticipation_core_default_document_label']);
+  $form_state['values']['smartparticipation_default_document_label'] =
+    strtolower($form_state['values']['smartparticipation_default_document_label']);
   
   // Change image file status to permanent and record its usage in the database
-  $file = file_load($form_state['values']['smartparticipation_core_coming_soon_image']);
+  $file = file_load($form_state['values']['smartparticipation_coming_soon_image']);
   if ($file) {
     $file->status = FILE_STATUS_PERMANENT;
     file_save($file);
-    file_usage_add($file, 'smartparticipation_core', 'variable:smartparticipation_core_coming_soon_image', $file->fid, 1);
+    file_usage_add($file, 'smartparticipation_core', 'variable:smartparticipation_coming_soon_image', $file->fid, 1);
   }
 
-  $file = file_load($form_state['values']['smartparticipation_core_user_placeholder_image']);
+  $file = file_load($form_state['values']['smartparticipation_user_placeholder_image']);
   if ($file) {
     $file->status = FILE_STATUS_PERMANENT;
     file_save($file);
-    file_usage_add($file, 'smartparticipation_core', 'variable:smartparticipation_core_user_placeholder_image', $file->fid, 1);
+    file_usage_add($file, 'smartparticipation_core', 'variable:smartparticipation_user_placeholder_image', $file->fid, 1);
   }
 
 }
