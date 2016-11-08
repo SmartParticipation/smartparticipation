@@ -97,9 +97,9 @@ function smartparticipation_core_create_moderator_role() {
 function smartparticipation_core_delete_custom_roles() {
 
   user_role_delete('content editor');
-  user_role_delete('site editor');
+  //user_role_delete('site editor');
   user_role_delete('moderator');
-  user_role_delete('report editor');
+  //user_role_delete('report editor');
   
 }
 
@@ -169,7 +169,7 @@ function smartparticipation_core_is_basic_authenticated_user($account = null) {
   $roles = array_values($roles);
   
   /*
-   * We do not currently have custom smartparticipation_core roles which define other types of
+   * We do not currently have custom smartparticipation roles which define other types of
    * "basic authenticated users", but we might have in the future: e.g., an
    * expert contributer would still have to agree to terms and complete the 
    * survey. Then we'll need to make this test more

@@ -49,11 +49,20 @@ function smartparticipation_core_enable() {
   smartparticipation_core_configure_webform();  
   smartparticipation_core_configure_wysiwyg(); 
   smartparticipation_core_configure_honeypot();
-
+  smartparticipation_core_configure_smartparticipation();
   //drupal_flush_all_caches();
 }
 
-
+function smartparticipation_core_configure_smartparticipation() {
+  $t = get_t();
+  variable_set('user_mail_register_no_approval_required_notify', 0);
+  variable_set('smartparticipation_default_document_label', $t('agency documents'));
+  variable_set('smartparticipation_coming_soon_heading', $t('Coming Soon'));
+  variable_set('smartparticipation_log_events', true);
+  variable_set('smartparticipation_data_truncate_limit', 255);
+  variable_set('smartparticipation_comment_truncate_limit', 800);
+  variable_set('smartparticipation_featured_comment_truncate_limit', 500);
+}
 
 /**
  * Implements hook_install().
@@ -74,7 +83,7 @@ function smartparticipation_core_install() {
   smartparticipation_core_add_corresponding_node_references();
   //smartparticipation_core_set_default_smartparticipation_core_themes();
   smartparticipation_core_create_flags();
-  //smartparticipation_core_create_custom_roles();
+  smartparticipation_core_create_custom_roles();
   smartparticipation_core_assign_permissions_to_system_roles();
   smartparticipation_core_set_special_menu_items();
   smartparticipation_core_add_shortcuts();
