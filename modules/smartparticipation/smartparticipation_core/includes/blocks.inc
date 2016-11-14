@@ -202,6 +202,7 @@ function smartparticipation_core_block_info_alter(&$blocks, $theme, $code_blocks
   $blocks['system']['navigation']['status'] = FALSE;
   $blocks['user']['login']['status'] = FALSE;  
   $blocks['system']['powered-by']['status'] = FALSE;
+  $blocks['system']['help']['status'] = FALSE;
 
   // Disable custom smartparticipation_core blocks in admin theme
   // Would rather delete these from the db or not create them in the first

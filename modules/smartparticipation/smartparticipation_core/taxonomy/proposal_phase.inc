@@ -196,7 +196,7 @@ function smartparticipation_core_add_default_proposal_phases() {
     smartparticipation_core_set_term_field_values(
       array(
         'field_sp_phase_allows_comments' => 1,
-        'field_sp_phase_text_heading' => 'Agency Proposal',
+        'field_sp_phase_text_heading' => '',
       )
     )
   );
@@ -266,7 +266,7 @@ function smartparticipation_core_proposal_phase_vocabulary_form_term_alter(&$for
    */
   $form['description']['#format'] = 'plain_text';
   $form['relations']['#access'] = FALSE;
-  $form['#validate'][] = 'sp_proposal_phase_vocabulary_form_term_validate';
+  $form['#validate'][] = 'smartparticipation_core_proposal_phase_vocabulary_form_term_validate';
   drupal_add_js(drupal_get_path('module', 'smartparticipation_core') . '/js/admin/proposal_phase_form_term.js');
 
 }

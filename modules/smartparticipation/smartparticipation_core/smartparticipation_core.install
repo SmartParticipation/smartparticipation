@@ -62,6 +62,7 @@ function smartparticipation_core_configure_smartparticipation() {
   variable_set('smartparticipation_data_truncate_limit', 255);
   variable_set('smartparticipation_comment_truncate_limit', 800);
   variable_set('smartparticipation_featured_comment_truncate_limit', 500);
+  variable_set('smartparticipation_comment_length_limit', 10000);
 }
 
 /**
