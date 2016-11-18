@@ -749,7 +749,7 @@ function smartparticipation_core_user_login(&$edit, $account) {
   
   smartparticipation_core_log_user_login($account);
 
-  smartparticipation_core_show_profile_reminder();
+  //smartparticipation_core_show_profile_reminder();
 
 }
 
@@ -767,7 +767,7 @@ function smartparticipation_core_show_profile_reminder() {
 
   if (variable_get('smartparticipation_profile_reminder')
     && smartparticipation_core_is_basic_authenticated_user()
-    && !complete_profile_entity_has_empty_required_fields('user', $account)
+    && !smartparticiption_complete_profile_entity_has_empty_required_fields('user', $account)
     && smartparticipation_core_profile_is_empty()
     && smartparticipation_core_is_open_discussion()) {
 

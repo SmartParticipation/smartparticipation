@@ -160,7 +160,7 @@ function smartparticipation_core_admin_settings() {
     ),
   );
 
-  $form['profiles'] = array(
+  /*$form['profiles'] = array(
     '#type' => 'fieldset',
     '#title' => t('Profile Settings'),
     '#collapsible' => true,
@@ -252,7 +252,7 @@ function smartparticipation_core_admin_settings() {
         ),
       );
     }
-  }
+  }*/
 
   // RECOMMENDED COMMENTS
   $form['recommended_comments'] = array(
