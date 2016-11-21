@@ -168,7 +168,7 @@ function smartparticipation_core_preprocess_page(&$variables) {
   $request_path = request_path();
   $path_parts = explode('/', $request_path);
 
-  $is_my_public_profile = smartparticipation_core_is_my_public_profile();
+  //$is_my_public_profile = smartparticipation_core_is_my_public_profile();
 
   $theme_name = variable_get('theme_default');
   $theme_css_path = drupal_get_path('theme', $theme_name) . '/css/';
@@ -306,7 +306,7 @@ function smartparticipation_core_preprocess_page(&$variables) {
     //drupal_add_css(path_to_theme() . '/css/moderator.css', array('weight' => 999, 'group' => CSS_THEME));
 
 
-  } else if ($is_my_public_profile) {
+  } /*else if ($is_my_public_profile) {
 
     global $user;
 
@@ -317,13 +317,8 @@ function smartparticipation_core_preprocess_page(&$variables) {
         array('attributes' => array('class' => 'button edit-my-profile'))
       )
     );
-
-//  } else if ($path_parts[0] == 'user' || $path_parts[0] == 'users') {
-
-    //drupal_add_js(libraries_get_path('jquery_ui_multi_open_accordion') . '/jquery.multi-accordion.js');
-    //drupal_add_js($js_path . 'profile.js', 'file');
     
-  }
+  }*/
   
   smartparticipation_core_set_page_variables($variables);
 

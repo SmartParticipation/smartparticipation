@@ -217,7 +217,7 @@ if (!empty($comment_tips)) {
   echo '<button class="submit-comment-as-is">Submit comment as is</button>';
   echo '</div>';
   echo '<div class="comment-tips-bg">';
-  echo '<img src="/sites/all/themes/regroom_base/images/comment-tips/reader.png">';
+  echo '<img src="/' . drupal_get_path('theme', 'smartparticipation_base') . '/images/comment-tips/reader.png">';
   echo '</div>';
   echo '</div>';
 }
