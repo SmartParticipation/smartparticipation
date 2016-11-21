@@ -75,8 +75,11 @@ function smartparticipation_core_moderator_comment_links(&$variables, $subtopic_
       /*$endorsement_counter = smartparticipation_core_comment_endorsement_counter_link($variables['comment'], true);
       $variables['content']['links']['comment']['#links']['endorsement-counter'] =
           $endorsement_counter;*/
-       
-      
+      $user_service = new \SmartParticipation\UserService;
+      $user = $user_service->find();
+      if ($user_service::isAdmin($user)) {
+        smartparticipation_core_comment_endorse_link($variables);
+      }
       // TODO Make sure this same order is followed in the moderator interface.
       smartparticipation_core_comment_status_and_action_links($variables);
       smartparticipation_core_comment_add_note_link($variables);
