@@ -275,6 +275,20 @@ function smartparticipation_core_delete_custom_comment_fields() {
 }
 
 /**
+ * Is the given comment being redacted/edited?
+ *
+ * @param $comment
+ * @return bool
+ */
+function smartparticipation_core_is_comment_edit($comment) {
+  return (
+    !empty($comment->cid)
+    && !empty($comment->hnid)
+    && $comment->hnid == 'edit'
+  ) ? TRUE : FALSE;
+}
+
+/**
  * Implements hook_comment_presave()
  * 
  * @param $comment
@@ -282,17 +296,41 @@ function smartparticipation_core_delete_custom_comment_fields() {
  */
 function smartparticipation_core_comment_presave($comment) {
 
+  $user_is_moderator = smartparticipation_core_user_is_moderator();
+
   // New comment
   if (!$comment->cid) {    
     
     // Mark for later identification as a moderator comment (can't rely on 
     // user role, since that could change). 
-    if (smartparticipation_core_user_is_moderator()) {     
+    if ($user_is_moderator) {
       $comment->field_sp_comment_type[LANGUAGE_NONE][0]['value'] = 'moderator';
     // Set moderation status of basic user comment
     } else {
       $comment->field_sp_comment_mod_status[LANGUAGE_NONE][0]['value'] = 'unread';
     }
+
+  } else {
+
+    if ($user_is_moderator) {
+
+      // If redacting a user comment, store the original
+      // and update the status to 'in_progress'.
+      if (smartparticipation_core_is_comment_edit($comment)) {
+        if (!smartparticipation_core_is_moderator_comment($comment)) {
+
+          // Store the original comment if it hasn't already been stored.
+          if (smartparticipation_core_field_get_item_value('comment', $comment, 'field_sp_comment_original', 'value') == NULL) {
+            $comment_before_save = comment_load($comment->cid);
+            $comment->field_sp_comment_original[LANGUAGE_NONE][0]['value'] = $comment_before_save->comment_body[LANGUAGE_NONE][0]['value'];
+            $comment->field_sp_comment_original[LANGUAGE_NONE][0]['format'] = 'comments';
+          }
+
+          smartparticipation_core_promote_comment_to_in_progress($comment);
+        }
+      }
+    }
+
   }
 
   // Links should open in new window
