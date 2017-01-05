@@ -98,7 +98,7 @@ $base_theme_path = drupal_get_path('theme', 'smartparticipation_base');
     <div class='clear_float'></div>
     
     <?php if($comment['recommended'] == 'yes'): ?>
-      <div class='comment_rec_tag' ><img class='heart_img' src="<?php echo "/$base_theme_path/images/heart.png"; ?>" alt='heart'></div>
+      <div class='comment_rec_tag' ><img class='heart_img' src="/<?php echo $base_theme_path; ?>/images/heart.png" alt='heart'></div>
     <?php endif; ?>
   </div>
 
@@ -108,10 +108,10 @@ $base_theme_path = drupal_get_path('theme', 'smartparticipation_base');
     <!-- Hidden original comment if it exists -->
     <?php if($comment['original'] != ''): ?>
       <div class='original_comment_div' >
-        <img class='x_img' src='/sites/all/themes/regroom_base/images/x.png'><h3 class='redact_comment_header'>Original Comment</h3>
+        <img class='x_img' src='/<?php echo $base_theme_path; ?>/images/x.png'><h3 class='redact_comment_header'>Original Comment</h3>
         <?php // TODO We should be sending the comment object and calling render on the field, rather than brute-force printing the safe value. ?>
         <p><?php echo $comment['original']['safe_value']; ?></p>
-        <div class='loading_restore_original'><img class='loading_gif' src='/sites/all/themes/regroom_base/images/ajax_loader.gif'></img></div>
+        <div class='loading_restore_original'><img class='loading_gif' src='/<?php echo $base_theme_path; ?>/images/ajax_loader.gif'></div>
         <button class='submit_restore_original'>Restore original</button>
       </div>
     <?php endif; ?>
@@ -236,7 +236,7 @@ $base_theme_path = drupal_get_path('theme', 'smartparticipation_base');
     </div>
 
     <!-- Loading gif -->
-    <div class='loading_p'><img class='loading_gif' src='/sites/all/themes/regroom_base/images/ajax_loader.gif'></img></div>
+    <div class='loading_p'><img class='loading_gif' src='/<?php echo $base_theme_path; ?>/images/ajax_loader.gif'></div>
 
     <!-- Notes if any exist -->
     <?php if (count($comment['notes']) > 0): ?>
