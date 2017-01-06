@@ -6,7 +6,7 @@
  * 
  * Available variables:
  * 
- * See also: regroom_closed_proposals_block_content()
+ * See also: smartparticipation_core_closed_proposals_block_content()
  */
 ?>
 

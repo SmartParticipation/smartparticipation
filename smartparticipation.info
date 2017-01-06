@@ -37,7 +37,6 @@ dependencies[] = smtp
 dependencies[] = statistics
 dependencies[] = syslog
 
-;dependencies[] = regroom
 dependencies[] = smartparticipation_core
 
 

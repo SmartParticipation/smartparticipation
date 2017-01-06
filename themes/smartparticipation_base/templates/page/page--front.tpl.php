@@ -88,7 +88,7 @@
  * @see template_preprocess()
  * @see template_preprocess_page()
  * @see template_process()
- * @see regroom_base_process_page()
+ * @see smartparticipation_base_process_page()
  * @see html.tpl.php
  */
 

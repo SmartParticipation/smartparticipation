@@ -1,7 +1,7 @@
 <?php
 
 /**
- * RegRoom form functions.
+ * SmartParticipation form functions.
  */
  
 /**

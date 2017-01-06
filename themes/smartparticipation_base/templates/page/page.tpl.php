@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * regroom_base's theme implementation to display a single Drupal page.
+ * smartparticipation_base's theme implementation to display a single Drupal page.
  *
  * The doctype, html, head and body tags are not in this template. Instead they
  * can be found in the html.tpl.php template normally located in the
@@ -89,7 +89,7 @@
  * @see template_preprocess()
  * @see template_preprocess_page()
  * @see template_process()
- * @see regroom_base_process_page()
+ * @see smartparticipation_base_process_page()
  * @see html.tpl.php
  */
 

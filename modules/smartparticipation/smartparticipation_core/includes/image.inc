@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Define image settings for RegRoom.
+ * Define image settings for SmartParticipation.
  */
 
 function smartparticipation_core_create_custom_image_styles()

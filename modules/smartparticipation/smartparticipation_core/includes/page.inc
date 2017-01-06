@@ -1,7 +1,7 @@
 <?php
 
 /** 
- * Custom RegRoom page handling. 
+ * Custom SmartParticipation page handling.
  */
 
 /**

@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * regroom_base's theme implementation to display the Research and Publications
+ * smartparticipation_base's theme implementation to display the Research and Publications
  * about node.
  * 
  * NB: The node must have title "Research and Publications" to invoke this 

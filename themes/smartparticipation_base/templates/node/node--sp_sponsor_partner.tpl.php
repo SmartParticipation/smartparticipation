@@ -1,7 +1,7 @@
 <?php 
 /**
  * @file
- * regroom_base's theme implementation to display a regroom_sponsor_partner 
+ * smartparticipation_base's theme implementation to display a sp_sponsor_partner
  * node.
  *
  * Available variables:

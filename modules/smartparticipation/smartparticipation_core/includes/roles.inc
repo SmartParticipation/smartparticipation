@@ -3,11 +3,11 @@
 /**
  * @file
  * 
- * Define custom RegRoom roles.
+ * Define custom SmartParticipation roles.
  */
 
 /**
- * Create custom RegRoom roles and assign permissions to them.
+ * Create custom SmartParticipation roles and assign permissions to them.
  */
 function smartparticipation_core_create_custom_roles() {
   
@@ -92,7 +92,7 @@ function smartparticipation_core_create_moderator_role() {
 }
 
 /**
- * Remove custom RegRoom roles when module is uninstalled.
+ * Remove custom SmartParticipation roles when module is uninstalled.
  */
 function smartparticipation_core_delete_custom_roles() {
 

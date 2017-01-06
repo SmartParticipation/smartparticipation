@@ -2,8 +2,6 @@
 /**
  * @file 
  * Template for team members list.
- * 
- * @ingroup regroom
  */
 
 ?>

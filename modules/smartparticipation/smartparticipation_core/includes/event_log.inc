@@ -1,7 +1,7 @@
 <?php 
 
 /**
- * RegRoom custom event logging.
+ * SmartParticipation custom event logging.
  */
 
 /**

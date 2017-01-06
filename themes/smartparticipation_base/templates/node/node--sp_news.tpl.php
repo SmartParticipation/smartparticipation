@@ -1,7 +1,7 @@
 <?php 
 /**
  * @file
- * regroom_base's theme implementation to display a regroom_news node.
+ * smartparticipation_base's theme implementation to display a sp_news node.
  *
  * Available variables:
  * - $title: the (sanitized) title of the node.

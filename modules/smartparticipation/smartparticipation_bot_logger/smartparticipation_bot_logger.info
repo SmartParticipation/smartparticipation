@@ -1,5 +1,5 @@
 name = Bot logger
 description = Log basic information from page requests by robots.
-package = RegRoom
+package = SmartParticipation
 core = 7.x
 version = 7.x-1.0

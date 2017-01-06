@@ -8,7 +8,7 @@
  * $proposal
  *   - 
  * 
- * See also: regroom_closed_proposal_data()
+ * See also: smartparticipation_closed_proposal_data()
  */
 
 extract($proposal['proposal']);

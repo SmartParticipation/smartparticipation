@@ -1531,7 +1531,7 @@ function smartparticipation_core_query_comment_filter_alter(QueryAlterableInterf
 
 /** 
  * This function modifies the array returned by comment_node_page_additions()
- * as required by custom RegRoom functionality. Note that in case the topic's 
+ * as required by custom SmartParticipation functionality. Note that in case the topic's
  * phase does not allow commenting at all, we do not generate a comment panel 
  * in the subtopic display, and we do not reach this point.
  * 

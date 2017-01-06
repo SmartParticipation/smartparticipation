@@ -1,7 +1,7 @@
 <?php 
 
 /**
- * RegRoom mail functions.
+ * SmartParticipation mail functions.
  */
 
 /**
@@ -44,7 +44,7 @@ function smartparticipation_core_mail($key, &$message, $params) {
 }
 
 /**
- * Custom RegRoom mail wrapper function.
+ * Custom SmartParticipation mail wrapper function.
  * 
  * @param $from - the email from address, or 'default_from' to get the site
  * default from address

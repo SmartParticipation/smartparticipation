@@ -2,8 +2,6 @@
 /**
  * @file 
  * Template for list of learn nodes.
- * 
- * @ingroup regroom
  */
 
 ?>

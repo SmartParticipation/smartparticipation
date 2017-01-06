@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * regroom_base's theme implementation to display the Media
+ * smartparticipation_base's theme implementation to display the Media
  * about node.
  * 
  * NB: The node must have title "Media" to invoke this template.

@@ -7,7 +7,7 @@
  *
  * @see template_preprocess()
  * @see template_preprocess_maintenance_page()
- * @see regroom_base_process_maintenance_page()
+ * @see smartparticipation_base_process_maintenance_page()
  */
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"

@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * regroom_base's theme implementation to display an about node.
+ * smartparticipation_base's theme implementation to display an about node.
  *
  * Available variables:
  * - $title: the (sanitized) title of the node.

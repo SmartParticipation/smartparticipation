@@ -2,8 +2,6 @@
 /**
  * @file 
  * Template for learn panel.
- * 
- * @ingroup regroom
  */
 
 ?>

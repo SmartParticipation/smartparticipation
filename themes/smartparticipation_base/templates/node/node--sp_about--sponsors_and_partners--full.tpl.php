@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * regroom_base's theme implementation to display the Sponsors and Partners
+ * smartparticipation_base's theme implementation to display the Sponsors and Partners
  * about node.
  * 
  * NB: The node must have title "Sponsors and Partners" to invoke this template.

@@ -2,8 +2,6 @@
 /**
  * @file 
  * Template for comments list.
- * 
- * @ingroup regroom
  */
 
 ?>

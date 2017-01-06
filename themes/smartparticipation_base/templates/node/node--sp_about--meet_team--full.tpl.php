@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * regroom_base's theme implementation to display an about node.
+ * smartparticipation_base's theme implementation to display an about node.
  * 
  * NB: The node must have title "Meet the Team" to invoke this template.
  *

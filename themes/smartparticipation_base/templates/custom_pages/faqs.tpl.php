@@ -1,11 +1,11 @@
 <?php
 /**
- * Template for RegRoom FAQ page.
+ * Template for SmartParticipation FAQ page.
  * 
  * Available variables:
  *  - $faq_categories: a structured array of faqs organized by category.
  * 
- * @see regroom_faq_page()
+ * @see smartparticipation_core_faq_page()
  */
 
  

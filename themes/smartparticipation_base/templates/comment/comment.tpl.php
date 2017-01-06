@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * regroom_base's theme implementation for comments.
+ * smartparticipation_base's theme implementation for comments.
  *
  * Available variables:
  * - $author: Comment author. Can be link or plain text.

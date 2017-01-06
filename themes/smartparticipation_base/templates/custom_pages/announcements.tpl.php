@@ -1,13 +1,13 @@
 <?php
 /**
- * Template for RegRoom Announcements page.
+ * Template for SmartParticipation Announcements page.
  * 
  * Available variables:
  *  - $announcements: a structured array of active announcements.
  *    - #items: the announcements
  *    - image_path: path to theme image directory
  * 
- * @see regroom_announcements_page()
+ * @see smartparticipation_core_announcements_page()
  */
 
 $items = $announcements['#items'];

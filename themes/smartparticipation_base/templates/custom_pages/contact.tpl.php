@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * regroom_base theme's implementation to display the contact page node.
+ * smartparticipation_base theme's implementation to display the contact page node.
  *
  * Available variables:
  * - $title: the (sanitized) title of the node.

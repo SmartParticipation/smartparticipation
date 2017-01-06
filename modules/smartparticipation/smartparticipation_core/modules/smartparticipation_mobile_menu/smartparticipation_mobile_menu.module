@@ -4,8 +4,8 @@ function build_mobile_user_menu() {
 
   $menu = array(
     'menu_name' => 'sp-user-menu-mobile',
-    'title' => 'RegRoom User Menu Logged In (mobile)',
-    'description' => 'A user menu for RegRoom sites when the user is logged in (mobile optimized version).'
+    'title' => 'SmartParticipation User Menu Logged In (mobile)',
+    'description' => 'A user menu for SmartParticipation sites when the user is logged in (mobile optimized version).'
   );
 
   menu_save($menu);

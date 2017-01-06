@@ -8,7 +8,7 @@
  *   - title 
  *   - text
  *   
- * See regroom_carousel_prompt(). 
+ * See smartparticipation_carousel_prompt().
  */
 
 // TODO - if possible, put if logic and surrounding div here rather than in

@@ -3,11 +3,11 @@
 /**
  * @file
  * 
- * RegRoom functions for admin pages
+ * SmartParticipation functions for admin pages
  */
 
 /**
- * Page argument for the RegRoom module configuration page
+ * Page argument for the SmartParticipation module configuration page
  */
 function smartparticipation_core_admin_settings() {
   $form = array();
@@ -277,7 +277,7 @@ function smartparticipation_core_admin_settings() {
     '#weight' => 10,
   );
 
-  // REGROOM EVENT LOGGING
+  // EVENT LOGGING
   $form['smartparticipation_event_logging'] = array(
     '#type' => 'fieldset',
     '#title' => t('Event Logging'),

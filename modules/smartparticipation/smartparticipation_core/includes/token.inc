@@ -1,7 +1,7 @@
 <?php 
 
 /**
- * RegRoom custom token replacement.
+ * SmartParticipation custom token replacement.
  * 
  * TODO Generalize this into an overall strategy.
  */

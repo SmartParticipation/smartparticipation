@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Custom RegRoom moderation functionality on both front end and moderator
+ * Custom SmartParticipation moderation functionality on both front end and moderator
  * interface.
  */
  

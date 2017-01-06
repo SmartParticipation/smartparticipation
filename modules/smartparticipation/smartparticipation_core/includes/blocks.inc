@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Define and configure blocks for RegRoom.
+ * Define and configure blocks for SmartParticipation.
  */
 
 /**

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Schema for RegRoom node ordering tables.
+ * Schema for SmartParticipation node ordering tables.
  */
  
 

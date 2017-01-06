@@ -1,7 +1,7 @@
 <?php
 /**
  * @file 
- * RegRoom menu functions.
+ * SmartParticipation menu functions.
  */
  
 /**
@@ -394,7 +394,7 @@ function smartparticipation_core_menu() {
   );
   
 
-  // REGROOM CUSTOM PAGES
+  // CUSTOM PAGES
   $items['announcements'] = array(
     'title' => 'Announcements',
     'page callback' => 'smartparticipation_core_announcements_page',
@@ -1769,7 +1769,7 @@ function smartparticipation_core_add_shortcuts() {
 }
 
 /**
- * Add a shortcut to the default shortcut set to the RegRoom configuration page,
+ * Add a shortcut to the default shortcut set to the SmartParticipation configuration page,
  * for users who have access to this page but not to the main configuration
  * page. Unfortunately, Drupal doesn't handle this by default, because the page
  * is two levels down from admin/config. Users with access to
@@ -1807,7 +1807,7 @@ function smartparticipation_core_add_metatag_shortcut() {
 }
 
 /**
- * Delete shortcuts added by the RegRoom module.
+ * Delete shortcuts added by the SmartParticipation module.
  */
 function smartparticipation_core_delete_shortcuts() {
   

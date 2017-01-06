@@ -1,7 +1,7 @@
 <?php 
 
 /**
- * Functions relating to the RegRoom WYSIWYG editor
+ * Functions relating to the SmartParticipation WYSIWYG editor
  */
 
 /**
