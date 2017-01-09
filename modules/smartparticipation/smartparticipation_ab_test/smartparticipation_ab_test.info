@@ -1,0 +1,8 @@
+name = SmartParticipation A/B Test Helper
+description = Helper module for implementing A/B tests.
+package = SmartParticipation
+core = 7.x
+version = 7.x-1.0
+
+dependencies[] = smartparticipation_core
+depencencies[] = ctools

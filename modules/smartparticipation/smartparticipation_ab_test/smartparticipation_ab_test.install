@@ -1,0 +1,12 @@
+<?php
+
+function smartparticipation_ab_test_enable() {
+  if (!db_table_exists('sp')) {
+    create_smartparticipation_ab_test_schema();
+  }
+}
+
+function smartparticipation_ab_test_uninstall() {
+  //include_once drupal_get_path('module', 'smartparticipation_bot_logger') . '/smartparticipation_bot_logger.module';
+  remove_smartparticipation_ab_test_schema();
+}
