@@ -33,42 +33,6 @@ function smartparticipation_core_menu() {
     'weight' => 2,
   );
 
-  $items['admin/config/system/ab_test'] = array(
-    'title' => 'SmartParticipation A/B Test',
-    'description' => 'Define A/B tests.',
-    'page callback' => 'smartparticipation_core_ab_test_list',
-    'access arguments' => array('administer smartparticipation_core configuration'),
-    'weight' => 1,
-  );
-
-  $items['admin/config/system/ab_test/add'] = array(
-    'title' => 'Add A/B Test',
-    'description' => 'Configure a new A/B test.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('smartparticipation_core_ab_test_form'),
-    'file' => 'includes/ab_test.inc',
-    'access arguments' => array('administer smartparticipation_core configuration'),
-    'weight' => 2,
-  );
-
-  $items['admin/config/system/ab_test/%/edit'] = array(
-    'title' => 'Edit A/B Test',
-    'description' => 'Edit an A/B test.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('smartparticipation_core_ab_test_form', 4),
-    'access arguments' => array('administer smartparticipation_core configuration'),
-    'weight' => 3,
-  );
-
-  $items['admin/config/system/ab_test/%/delete'] = array(
-    'title' => 'Delete A/B Test',
-    'description' => 'Delete an A/B test.',
-    'page callback' => 'smartparticipation_core_ab_test_delete',
-    'page arguments' => array(4),
-    'access arguments' => array('administer smartparticipation_core configuration'),
-    'weight' => 4,
-  );
-
   // NODE TABS
   $items['node/%node/menus'] = array(
     'title' => 'Menus',
@@ -186,21 +150,7 @@ function smartparticipation_core_menu() {
     'file' => 'includes/export.inc',
   );
 
-  $items['node/%node/export-ab-test-descriptions'] = array(
-    'page callback' => '_smartparticipation_core_export_ab_test_csv',
-    'page arguments' => array(1),
-    'access callback' => 'smartparticipation_core_access_check_export',
-    'access arguments' => array(1),
-    'file' => 'includes/export.inc',
-  );
 
-  $items['node/%node/export-ab-test-assignments'] = array(
-    'page callback' => '_smartparticipation_core_export_ab_test_assignments_csv',
-    'page arguments' => array(1),
-    'access callback' => 'smartparticipation_core_access_check_export',
-    'access arguments' => array(1),
-    'file' => 'includes/export.inc',
-  );
 
   $items['node/%node/export-bot-log'] = array(
     'page callback' => '_smartparticipation_core_export_bot_log_csv',

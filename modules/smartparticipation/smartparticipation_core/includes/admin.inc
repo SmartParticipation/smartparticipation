@@ -117,18 +117,6 @@ function smartparticipation_core_admin_settings() {
     '#weight' => 1,
   );
 
-  $ab_test_service = new \SmartParticipation\ABTestService;
-  $ab_tests = $ab_test_service->getOptionsList();
-  array_unshift($ab_tests, '-- no active test --');
-  $form['comment_support_tips'][\SmartParticipation\ABTestCommentTipsService::ACTIVE_TEST_VAR_NAME] = array(
-    '#title' => t('Active A/B Test'),
-    '#type' => 'select',
-    '#description' => 'The A/B test currently active for comment support tips.',
-    '#options' => $ab_tests,
-    '#default_value' => variable_get(\SmartParticipation\ABTestCommentTipsService::ACTIVE_TEST_VAR_NAME, ''),
-    '#weight' => 10,
-  );
-
   $form['endorsements'] = array(
     '#type' => 'fieldset',
     '#title' => t('Endorsement Settings'),
@@ -700,6 +688,8 @@ function smartparticipation_core_admin_settings() {
 
 
   $form['#submit'] = array('smartparticipation_core_admin_settings_submit');
+
+  drupal_alter('smartparticipation_admin_settings_form', $form);
 
   return system_settings_form($form);
 }

@@ -1,10 +1,9 @@
 <?php
 
-
 use SmartParticipation\ABTestService;
 use SmartParticipation\model\ABTest;
 
-function smartparticipation_core_ab_test_list()
+function smartparticipation_ab_test_admin_list()
 {
   $titles = ABTest::getAttributeLabels();
 
@@ -68,7 +67,7 @@ function smartparticipation_core_ab_test_list()
   return $output;
 }
 
-function smartparticipation_core_ab_test_form($form, &$form_state, $abid = null)
+function smartparticipation_ab_test_admin_form($form, &$form_state, $abid = null)
 {
   $form = array();
 
@@ -85,7 +84,7 @@ function smartparticipation_core_ab_test_form($form, &$form_state, $abid = null)
     /*'#default_value' => !empty($ab_test->abid) ? $ab_test->abid : '',*/
     '#maxlength' => 32,
     '#machine_name' => array(
-      'exists' => 'smartparticipation_core_ab_test_id_exists',
+      'exists' => 'smartparticipation_ab_test_id_exists',
     ),
     '#weight' => 1,
   );
@@ -135,12 +134,12 @@ function smartparticipation_core_ab_test_form($form, &$form_state, $abid = null)
   $form['actions']['#type'] = 'actions';
   $form['actions']['submit'] = array('#type' => 'submit', '#value' => t('Save'));
 
-  $form['#submit'][] = 'smartparticipation_core_ab_test_submit';
+  $form['#submit'][] = 'smartparticipation_ab_test_admin_submit';
 
   return $form;
 }
 
-function smartparticipation_core_ab_test_submit($form, &$form_state)
+function smartparticipation_ab_test_admin_submit($form, &$form_state)
 {
   $ab_test_service = new \SmartParticipation\ABTestService;
   /** @var \SmartParticipation\model\ABTest $ab_test */
@@ -159,7 +158,7 @@ function smartparticipation_core_ab_test_id_exists($value)
   return $ab_test_service->testExists($value);
 }
 
-function smartparticipation_core_ab_test_delete($abid)
+function smartparticipation_ab_test_admin_delete($abid)
 {
   $ab_test_service = new ABTestService;
   if ($ab_test_service->delete($abid)) {

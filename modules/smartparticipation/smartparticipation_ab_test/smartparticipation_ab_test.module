@@ -1,5 +1,150 @@
 <?php
 
+smartparticipation_ab_test_include();
+
+function smartparticipation_ab_test_include()
+{
+  $module = basename(__FILE__, '.module');
+  //ctools_include('Model', 'smartparticipation_core', 'app/lib/models');
+  require_once drupal_get_path('module', 'smartparticipation_core') . '/app/models/Model.php';
+  ctools_include('ABTest', $module);
+  ctools_include('ABTestUserVariant', $module);
+  ctools_include('ABTestService', $module);
+  ctools_include('ABTestUserVariantService', $module);
+  ctools_include('ABTestCommentTipsService', $module);
+}
+
+/**
+ * Implements hook_menu().
+ */
+function smartparticipation_ab_test_menu()
+{
+  $items = array();
+
+  $items['admin/config/system/ab_test'] = array(
+    'title' => 'SmartParticipation A/B Test',
+    'description' => 'Define A/B tests.',
+    'page callback' => 'smartparticipation_ab_test_admin_list',
+    'access arguments' => array('administer smartparticipation_core configuration'),
+    'weight' => 1,
+    'file' => 'smartparticipation_ab_test.admin.inc',
+  );
+
+  $items['admin/config/system/ab_test/add'] = array(
+    'title' => 'Add A/B Test',
+    'description' => 'Configure a new A/B test.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('smartparticipation_ab_test_admin_form'),
+    'access arguments' => array('administer smartparticipation_core configuration'),
+    'weight' => 2,
+    'file' => 'smartparticipation_ab_test.admin.inc',
+  );
+
+  $items['admin/config/system/ab_test/%/edit'] = array(
+    'title' => 'Edit A/B Test',
+    'description' => 'Edit an A/B test.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('smartparticipation_ab_test_admin_form', 4),
+    'access arguments' => array('administer smartparticipation_core configuration'),
+    'weight' => 3,
+    'file' => 'smartparticipation_ab_test.admin.inc',
+  );
+
+  $items['admin/config/system/ab_test/%/delete'] = array(
+    'title' => 'Delete A/B Test',
+    'description' => 'Delete an A/B test.',
+    'page callback' => 'smartparticipation_ab_test_admin_delete',
+    'page arguments' => array(4),
+    'access arguments' => array('administer smartparticipation_core configuration'),
+    'weight' => 4,
+    'file' => 'smartparticipation_ab_test.admin.inc',
+  );
+
+  $items['node/%node/export-ab-test-descriptions'] = array(
+    'page callback' => '_smartparticipation_export_ab_test_csv',
+    'page arguments' => array(1),
+    'access callback' => 'smartparticipation_core_access_check_export',
+    'access arguments' => array(1),
+    'file' => 'smartparticipation_ab_test.export.inc',
+  );
+
+  $items['node/%node/export-ab-test-assignments'] = array(
+    'page callback' => '_smartparticipation_export_ab_test_assignments_csv',
+    'page arguments' => array(1),
+    'access callback' => 'smartparticipation_core_access_check_export',
+    'access arguments' => array(1),
+    'file' => 'smartparticipation_ab_test.export.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_smartparticipation_export_menu_items_alter().
+ */
+function smartparticipation_ab_test_smartparticipation_export_menu_items_alter(&$export_menu_items, $nid)
+{
+  $export_menu_items['A/B test descriptions'] = 'node/' . $nid . '/export-ab-test-descriptions';
+  $export_menu_items['A/B test user assignments'] = 'node/' . $nid . '/export-ab-test-assignments';
+}
+
+/**
+ * Implements hook_smartparticipation_admin_settings_form_alter().
+ */
+function smartparticipation_ab_test_smartparticipation_admin_settings_form_alter(&$form)
+{
+  $ab_test_service = new \SmartParticipation\ABTestService;
+  $ab_tests = $ab_test_service->getOptionsList();
+  array_unshift($ab_tests, '-- no active test --');
+  $form['comment_support_tips'][\SmartParticipation\ABTestCommentTipsService::ACTIVE_TEST_VAR_NAME] = array(
+    '#title' => t('Active A/B Test'),
+    '#type' => 'select',
+    '#description' => 'The A/B test currently active for comment support tips.',
+    '#options' => $ab_tests,
+    '#default_value' => variable_get(\SmartParticipation\ABTestCommentTipsService::ACTIVE_TEST_VAR_NAME, ''),
+    '#weight' => 10,
+  );
+}
+
+/**
+ * Implements hook_smartparticipation_topic_comment_tips_alter().
+ */
+function smartparticipation_ab_test_smartparticipation_topic_comment_tips_alter(&$comment_tips, $topic_context_data)
+{
+  dpm('smartparticipation ab test topic comment tips alter');
+  dpm($comment_tips);
+  $user = $topic_context_data['user'];
+  $comment_tips_service = $topic_context_data['comment_tips_service'];
+  $proposal_nid = $topic_context_data['proposal_nid'];
+  $topic_phase_tid = $topic_context_data['topic_phase_tid'];
+  $ab_test_service = new \SmartParticipation\ABTestCommentTipsService;
+  if ($user && $comment_tips && $ab_test_service->userIsEligible($user)) {
+    // Check for active comment tips A/B test
+    if ($active_ab_test = $ab_test_service->getActiveABTest()) {
+      // Check for an existing user variant for this test
+      // Assign the user a variant if they don't have one
+      if ($user) {
+        $ab_test_user_variant_service = new \SmartParticipation\ABTestUserVariantService;
+        $user_variant = $ab_test_user_variant_service->find($active_ab_test, $user);
+        // Retrieve info about this test
+        $ab_test_info = $ab_test_service->getTestInfo($user_variant, $comment_tips_service, $proposal_nid, $topic_phase_tid);
+        // The user is assigned to a variant where comment tips are enabled
+        if ($ab_test_service->showCommentTips($ab_test_info)) {
+          // Is a second set of comment tips being used for this variant?
+          // If so, replace the comment tips set above with the return value
+          if ($variant_comment_tips = $ab_test_service->getVariantCommentTips($ab_test_info)) {
+            $comment_tips = $variant_comment_tips;
+          }
+        }
+        // Comment tips are disabled for this variant
+        else {
+          $comment_tips = NULL;
+        }
+      }
+    }
+  }
+}
+
 function smartparticipation_ab_test_schema()
 {
   $t = get_t();

@@ -15,7 +15,27 @@ function smartparticipation_core_export_form($form, $node) {
   
   $user = user_load(2);
 
-  $message .= '<li>'.l('A/B test descriptions', 'node/'.$nid.'/export-ab-test-descriptions').'</li>';
+  $export_menu_items = array(
+    'Access log' => 'node/'.$nid.'/export-access-log',
+    'Comment data' => 'node/'.$nid.'/export-comments',
+    'Comment tips log' => 'node/'.$nid.'/export-comment-tips-log',
+    'Endorsement data' => 'node/'.$nid.'/export-endorsements',
+    'Event log' => 'node/'.$nid.'/export-event-log',
+  );
+
+  if (db_table_exists('botlog')) {
+    $export_menu_items['Bot log'] = 'node/' . $nid . '/export-bot-log';
+  }
+
+  drupal_alter('smartparticipation_export_menu_items', $export_menu_items, $nid);
+
+  ksort($export_menu_items);
+
+  foreach ($export_menu_items as $item_title => $item_path) {
+    $message .= '<li>'.l($item_title, $item_path).'</li>';
+  }
+
+  /*$message .= '<li>'.l('A/B test descriptions', 'node/'.$nid.'/export-ab-test-descriptions').'</li>';
   $message .= '<li>'.l('A/B test user assignments', 'node/'.$nid.'/export-ab-test-assignments').'</li>';
   $message .= '<li>'.l('Access log', 'node/'.$nid.'/export-access-log').'</li>';
   if (db_table_exists('botlog'))
@@ -23,7 +43,7 @@ function smartparticipation_core_export_form($form, $node) {
   $message .= '<li>'.l('Comment data', 'node/'.$nid.'/export-comments').'</li>';
   $message .= '<li>'.l('Comment tips log', 'node/'.$nid.'/export-comment-tips-log').'</li>';
   $message .= '<li>'.l('Endorsement data', 'node/'.$nid.'/export-endorsements').'</li>';
-  $message .= '<li>'.l('Event log', 'node/'.$nid.'/export-event-log').'</li>';
+  $message .= '<li>'.l('Event log', 'node/'.$nid.'/export-event-log').'</li>';*/
 
   $message .= '</ol>';
   
@@ -254,103 +274,6 @@ function _smartparticipation_core_export_event_log_csv($proposal)
 function getNiceDateFormat($timestamp) {
   if (empty($timestamp)) return '';
   return date("m/d/y g:i:s a", $timestamp);
-}
-
-function _smartparticipation_core_export_ab_test_csv($proposal)
-{
-  $proposal_name = smartparticipation_core_slug($proposal->title);
-  $current_time = date('Y-m-d-h-i', time()); // year-month-date-hour-minute
-  $csv_filename = 'ab-test-descriptions-' . $proposal_name . '-' . $current_time . '.csv';
-
-  drupal_add_http_header('Content-Type', 'text/csv; utf-8');
-  drupal_add_http_header('Content-Disposition', 'attachment; filename=' . $csv_filename);
-
-  $output = fopen("php://output", 'w');
-
-  $headings = array(
-    ABTest::getLabel('abid'),
-    ABTest::getLabel('title'),
-    ABTest::getLabel('description'),
-    ABTest::getLabel('variant_a_title'),
-    ABTest::getLabel('variant_b_title'),
-    ABTest::getLabel('created'),
-    ABTest::getLabel('modified'),
-  );
-
-  fputcsv($output, $headings);
-
-//  $min_start_time = _smartparticipation_core_get_proposal_min_start_time ($proposal);
-//  $max_end_time = _smartparticipation_core_get_proposal_max_end_time($proposal);
-
-  $ab_test_service = new \SmartParticipation\ABTestService;
-  $ab_tests = $ab_test_service->findAll();
-  foreach ($ab_tests as $ab_test) {
-
-//    if ($ab_test->created < $min_start_time || $ab_test->created > $max_end_time) {
-//      continue;
-//    }
-    $row = array (
-      $ab_test->abid,
-      $ab_test->title,
-      $ab_test->description,
-      $ab_test->variant_a_title,
-      $ab_test->variant_b_title,
-      getNiceDateFormat($ab_test->created),
-      getNiceDateFormat($ab_test->modified),
-    );
-    fputcsv($output, $row);
-  }
-
-  fclose($output);
-
-  exit;
-}
-
-function _smartparticipation_core_export_ab_test_assignments_csv($proposal)
-{
-  $proposal_name = smartparticipation_core_slug($proposal->title);
-  $current_time = date('Y-m-d-h-i', time()); // year-month-date-hour-minute
-  $csv_filename = 'ab-test-assignments-' . $proposal_name . '-' . $current_time . '.csv';
-
-  drupal_add_http_header('Content-Type', 'text/csv; utf-8');
-  drupal_add_http_header('Content-Disposition', 'attachment; filename=' . $csv_filename);
-
-  $output = fopen("php://output", 'w');
-
-  $headings = array(
-    ABTestUserVariant::getLabel('abid'),
-    ABTestUserVariant::getLabel('uid'),
-    t('Username'),
-    ABTestUserVariant::getLabel('variant'),
-    ABTestUserVariant::getLabel('assigned'),
-  );
-
-  fputcsv($output, $headings);
-
-  $ab_test_user_variant_service = new \SmartParticipation\ABTestUserVariantService;
-  $ab_test_assignments = $ab_test_user_variant_service->findAll();
-  $user_service = new \SmartParticipation\UserService;
-  foreach ($ab_test_assignments as $ab_test_assignment) {
-    $username = '';
-    if ($ab_test_assignment->uid) {
-      $user = $user_service->find($ab_test_assignment->uid);
-      if (!empty($user->name)) {
-        $username = $user->name;
-      }
-    }
-    $row = array (
-      $ab_test_assignment->abid,
-      $ab_test_assignment->uid,
-      $username,
-      $ab_test_assignment->variant,
-      getNiceDateFormat($ab_test_assignment->assigned),
-    );
-    fputcsv($output, $row);
-  }
-
-  fclose($output);
-
-  exit;
 }
 
 function _smartparticipation_core_export_comment_tips_log_csv($proposal)

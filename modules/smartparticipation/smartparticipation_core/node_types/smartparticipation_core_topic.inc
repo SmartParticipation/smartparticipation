@@ -786,7 +786,14 @@ function smartparticipation_core_topic_node_view($topic, $view_mode, $langcode) 
     /*if ($comment_tips instanceof \SmartParticipation\model\CommentTips) {
       $comment_tips_service->applyUserTypeFilter($comment_tips, $account);
     }*/
-    $ab_test_service = new \SmartParticipation\ABTestCommentTipsService;
+    $topic_context_data = array(
+      'comment_tips_service' => $comment_tips_service,
+      'user' => $user,
+      'proposal_nid' => $proposal_nid,
+      'topic_phase_tid' => $topic_phase_tid
+    );
+    drupal_alter('smartparticipation_topic_comment_tips', $comment_tips, $topic_context_data);
+    /*$ab_test_service = new \SmartParticipation\ABTestCommentTipsService;
     if ($user && $comment_tips && $ab_test_service->userIsEligible($user)) {
       // Check for active comment tips A/B test
       if ($active_ab_test = $ab_test_service->getActiveABTest()) {
@@ -811,7 +818,7 @@ function smartparticipation_core_topic_node_view($topic, $view_mode, $langcode) 
           }
         }
       }
-    }
+    }*/
 
     $use_comment_tips_prompt = FALSE;
     $use_comment_tips_button = FALSE;
