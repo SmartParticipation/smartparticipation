@@ -2,8 +2,6 @@
 use SmartParticipation\model\AccessLogRecord;
 use SmartParticipation\model\User;
 use SmartParticipation\model\EventLogRecord;
-use SmartParticipation\model\ABTest;
-use SmartParticipation\model\ABTestUserVariant;
 
 function smartparticipation_core_export_form($form, $node) {
   $nid = $node['build_info']['args'][0]->nid;

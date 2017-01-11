@@ -793,32 +793,6 @@ function smartparticipation_core_topic_node_view($topic, $view_mode, $langcode) 
       'topic_phase_tid' => $topic_phase_tid
     );
     drupal_alter('smartparticipation_topic_comment_tips', $comment_tips, $topic_context_data);
-    /*$ab_test_service = new \SmartParticipation\ABTestCommentTipsService;
-    if ($user && $comment_tips && $ab_test_service->userIsEligible($user)) {
-      // Check for active comment tips A/B test
-      if ($active_ab_test = $ab_test_service->getActiveABTest()) {
-        // Check for an existing user variant for this test
-        // Assign the user a variant if they don't have one
-        if ($user) {
-          $ab_test_user_variant_service = new \SmartParticipation\ABTestUserVariantService;
-          $user_variant = $ab_test_user_variant_service->find($active_ab_test, $user);
-          // Retrieve info about this test
-          $ab_test_info = $ab_test_service->getTestInfo($user_variant, $comment_tips_service, $proposal_nid, $topic_phase_tid);
-          // The user is assigned to a variant where comment tips are enabled
-          if ($ab_test_service->showCommentTips($ab_test_info)) {
-            // Is a second set of comment tips being used for this variant?
-            // If so, replace the comment tips set above with the return value
-            if ($variant_comment_tips = $ab_test_service->getVariantCommentTips($ab_test_info)) {
-              $comment_tips = $variant_comment_tips;
-            }
-          }
-          // Comment tips are disabled for this variant
-          else {
-            $comment_tips = NULL;
-          }
-        }
-      }
-    }*/
 
     $use_comment_tips_prompt = FALSE;
     $use_comment_tips_button = FALSE;

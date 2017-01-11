@@ -152,7 +152,7 @@ function smartparticipation_ab_test_admin_submit($form, &$form_state)
   drupal_goto('admin/config/system/ab_test');
 }
 
-function smartparticipation_core_ab_test_id_exists($value)
+function smartparticipation_ab_test_id_exists($value)
 {
   $ab_test_service = new \SmartParticipation\ABTestService;
   return $ab_test_service->testExists($value);

@@ -552,8 +552,6 @@ function smartparticipation_core_user_must_accept_terms() {
  * Alter the complete profile form for completion of registration.
  */
 function smartparticipation_core_form_complete_profile_form_alter(&$form, $form_state, $form_id) {
-//dpm($form);
-//  dpm($form_state);
   // The accepts terms field is present so the user is completing registration.
   if (isset($form['field_sp_user_accepts_terms'])) {
 

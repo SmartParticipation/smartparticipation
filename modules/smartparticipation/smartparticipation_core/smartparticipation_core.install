@@ -29,7 +29,6 @@ function smartparticipation_core_schema() {
   $schema += smartparticipation_core_order_schema();
   $schema += smartparticipation_core_flag_schema();
   $schema += smartparticipation_core_event_log_schema();
-  $schema += smartparticipation_core_ab_test_schema();
   return $schema;
 }
 

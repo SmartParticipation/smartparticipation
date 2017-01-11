@@ -111,8 +111,6 @@ function smartparticipation_ab_test_smartparticipation_admin_settings_form_alter
  */
 function smartparticipation_ab_test_smartparticipation_topic_comment_tips_alter(&$comment_tips, $topic_context_data)
 {
-  dpm('smartparticipation ab test topic comment tips alter');
-  dpm($comment_tips);
   $user = $topic_context_data['user'];
   $comment_tips_service = $topic_context_data['comment_tips_service'];
   $proposal_nid = $topic_context_data['proposal_nid'];
@@ -147,6 +145,8 @@ function smartparticipation_ab_test_smartparticipation_topic_comment_tips_alter(
 
 function smartparticipation_ab_test_schema()
 {
+  if (db_table_exists('sp_ab_test')) return NULL;
+
   $t = get_t();
 
   return array(
