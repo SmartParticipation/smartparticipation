@@ -1,0 +1,9 @@
+<?php
+
+require_once "includes/Profile.inc";
+require_once "includes/ProfileField.inc";
+require_once "includes/ProfileFieldDependency.inc";
+require_once "includes/ProfileFieldGroup.inc";
+require_once "includes/ProfileService.inc";
+require_once "includes/ProfileFactory.inc";
+require_once "includes/ProfileHelper.inc";
