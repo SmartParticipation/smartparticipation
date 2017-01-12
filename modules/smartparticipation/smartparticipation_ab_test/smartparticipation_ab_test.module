@@ -1,18 +1,11 @@
 <?php
 
-smartparticipation_ab_test_include();
-
-function smartparticipation_ab_test_include()
-{
-  $module = basename(__FILE__, '.module');
-  //ctools_include('Model', 'smartparticipation_core', 'app/lib/models');
-  require_once drupal_get_path('module', 'smartparticipation_core') . '/app/models/Model.php';
-  ctools_include('ABTest', $module);
-  ctools_include('ABTestUserVariant', $module);
-  ctools_include('ABTestService', $module);
-  ctools_include('ABTestUserVariantService', $module);
-  ctools_include('ABTestCommentTipsService', $module);
-}
+module_load_include('php', 'smartparticipation_core', 'app/models/Model');
+require_once "includes/ABTest.inc";
+require_once "includes/ABTestUserVariant.inc";
+require_once "includes/ABTestService.inc";
+require_once "includes/ABTestUserVariantService.inc";
+require_once "includes/ABTestCommentTipsService.inc";
 
 /**
  * Implements hook_menu().
