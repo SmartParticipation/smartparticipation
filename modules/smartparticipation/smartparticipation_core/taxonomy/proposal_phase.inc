@@ -201,29 +201,38 @@ function smartparticipation_core_add_default_proposal_phases() {
     )
   );
 
-  smartparticipation_core_create_term('sp_proposal_phase', 'Draft Discussion Summary', 0, '', 0,
+  smartparticipation_core_create_term('sp_proposal_phase', 'First Draft', 1, '', 0,
     smartparticipation_core_set_term_field_values(
       array(
         'field_sp_phase_allows_comments' => 1,
-        'field_sp_phase_text_heading' => 'Draft Summary of Discussion',
+        'field_sp_phase_text_heading' => '',
       )
     )
   );
 
-  smartparticipation_core_create_term('sp_proposal_phase', 'Final Discussion Summary', 0, '', 0,
+  smartparticipation_core_create_term('sp_proposal_phase', 'Final Draft', 2, '', 0,
     smartparticipation_core_set_term_field_values(
       array(
         'field_sp_phase_allows_comments' => 0,
-        'field_sp_phase_text_heading' => 'Final Summary of Discussion',
+        'field_sp_phase_text_heading' => '',
       )
     )
   );
 
-  smartparticipation_core_create_term('sp_proposal_phase', 'Final Rule', 0, '', 0,
+  smartparticipation_core_create_term('sp_proposal_phase', 'Draft Recommendation', 3, '', 0,
+    smartparticipation_core_set_term_field_values(
+      array(
+        'field_sp_phase_allows_comments' => 1,
+        'field_sp_phase_text_heading' => '',
+      )
+    )
+  );
+
+  smartparticipation_core_create_term('sp_proposal_phase', 'Final Recommendation', 4, '', 0,
     smartparticipation_core_set_term_field_values(
       array(
         'field_sp_phase_allows_comments' => 0,
-        'field_sp_phase_text_heading' => 'Final Rule',
+        'field_sp_phase_text_heading' => '',
       )
     )
   );
