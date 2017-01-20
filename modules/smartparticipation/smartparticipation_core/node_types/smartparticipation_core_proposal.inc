@@ -1392,7 +1392,7 @@ function smartparticipation_core_proposal_phase_installed_instances() {
       'bundle' => 'field_sp_proposal_phase',
       'default_value' => NULL,
       'deleted' => '0',
-      'description' => '',
+      'description' => 'Phases can be added or changed in the <a href="'.base_path().'admin/structure/taxonomy/sp_proposal_phase">Proposal Phases Taxonomy</a>.',
       'display' => array(
         'default' => array(
           'label' => 'above',
