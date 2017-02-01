@@ -144,3 +144,133 @@ function smartparticipation_core_append_mail_signature($message) {
   return $message;
 }
 
+/**
+ * Set default SmartParticipation email templates.
+ *
+ * Variables set:
+ *
+ *  smartparticipation_mail_signature
+ *  smartparticipation_mail_registration_subject
+ *  smartparticipation_mail_registration_body
+ *  smartparticipation_mail_first_comment_subject
+ *  smartparticipation_mail_first_comment_body
+ *  smartparticipation_mail_comment_reply_subject
+ *  smartparticipation_mail_comment_reply_body
+ *  smartparticipation_mail_comment_endorsement_subject
+ *  smartparticipation_mail_comment_endorsement_body
+ *  smartparticipation_mail_comment_recommendation_subject
+ *  smartparticipation_mail_comment_recommendation_body
+ *
+ */
+function smartparticipation_core_set_default_email_templates()
+{
+  // SIGNATURE
+
+  variable_set(
+    "smartparticipation_mail_signature",
+    "Regards,
+The [site:name] Team"
+  );
+
+  // REGISTRATION
+
+  variable_set(
+    "smartparticipation_mail_registration_subject",
+    "Welcome to [site:name]!"
+  );
+
+  variable_set(
+    "smartparticipation_mail_registration_body",
+    "Dear [user:name],
+
+Welcome! You're now registered as part of the to join the discussion on [site:name]. 
+
+Your username is [user:name]. You can change your password and make other modifications to your account at any time at [site:url]user/[user:uid]/edit. If you forget your password, you can reset it at [site:url]user/password.
+
+You can find the Site Use Guidelines and other important information at [site:url]terms.
+
+We look forward to your joining the discussion!"
+  );
+
+  // FIRST COMMENT
+
+  variable_set(
+    "smartparticipation_mail_first_comment_subject",
+    "Welcome to the [node:title] discussion on [site:name]!"
+  );
+
+  variable_set(
+    "smartparticipation_mail_first_comment_body",
+    "Dear [comment:author:name],
+
+Welcome to the [node:title] discussion on [site:name]!  We're glad you have decided to join the discussion, and we hope you check back frequently to watch how it evolves."
+  );
+
+  // COMMENT REPLY
+
+  variable_set(
+    "smartparticipation_mail_comment_reply_subject",
+    "Someone has replied to a comment you made on [site:name]"
+  );
+
+  variable_set(
+    "smartparticipation_mail_comment_reply_body",
+    "Dear [comment:parent:author:name],
+
+Someone has replied to one of your comments on the [node:title] discussion at [site:name].  Your comment reads:
+
+[comment:parent:body]
+
+On [comment:created:long], [comment:author:name] replied:
+
+[comment:body]
+
+You can view the discussion thread at [comment:parent:permalink].
+
+You can see all the replies your comments have received on your profile at [comment:parent:author:url].
+
+Keep the discussion going at [site:url]!"
+  );
+
+  // COMMENT ENDORSEMENT
+
+  variable_set(
+    "smartparticipation_mail_comment_endorsement_subject",
+    "Someone endorsed a comment you made on [site:name]"
+  );
+
+  variable_set(
+    "smartparticipation_mail_comment_endorsement_body",
+    "Dear [comment:author:name],
+
+Someone has endorsed one of your comments on in the [node:title] discussion at [site:name] for doing a good job of making a good point! Your endorsed comment reads:
+
+[comment:body]
+
+You can view the discussion thread at [comment:permalink].
+
+You can see all your comment and endorsements on your profile at [comment:author:url]."
+  );
+
+  // COMMENT RECOMMENDATION
+
+  variable_set(
+    "smartparticipation_mail_comment_recommendation_subject",
+    "Someone endorsed a comment you made on [site:name]"
+  );
+
+  variable_set(
+    "smartparticipation_mail_comment_recommendation_body",
+    "Dear [comment:author:name],
+
+Someone has endorsed one of your comments on in the [node:title] discussion at [site:name] for doing a good job of making a good point! Your endorsed comment reads:
+
+[comment:body]
+
+You can view the discussion thread at [comment:permalink].
+
+You can see all your comment and endorsements on your profile at [comment:author:url]."
+  );
+
+}
+
