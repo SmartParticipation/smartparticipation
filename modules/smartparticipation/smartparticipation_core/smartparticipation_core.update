@@ -1,1 +1,9 @@
 <?php
+
+/**
+ * Set default email templates.
+ */
+function smartparticipation_core_update_7100()
+{
+  smartparticipation_core_set_default_email_templates();
+}

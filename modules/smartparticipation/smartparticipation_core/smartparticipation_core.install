@@ -88,7 +88,7 @@ function smartparticipation_core_install() {
   smartparticipation_core_set_special_menu_items();
   smartparticipation_core_add_shortcuts();
   smartparticipation_core_create_custom_image_styles();
-
+  smartparticipation_core_set_default_email_templates();
 }
 
 function smartparticipation_core_smartparticipation_install() {
@@ -647,6 +647,6 @@ function smartparticipation_core_delete_variables() {
 
 ////////////////////////// UPDATE //////////////////////////////////////////////
 
-//require_once('smartparticipation_core.update');
+require_once('smartparticipation_core.update');
 
 
