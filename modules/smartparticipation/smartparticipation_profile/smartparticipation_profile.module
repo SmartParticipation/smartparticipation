@@ -1,9 +1,321 @@
 <?php
 
+use SmartParticipation\ProfileService;
+
 require_once "includes/Profile.inc";
 require_once "includes/ProfileField.inc";
 require_once "includes/ProfileFieldDependency.inc";
 require_once "includes/ProfileFieldGroup.inc";
 require_once "includes/ProfileService.inc";
-require_once "includes/ProfileFactory.inc";
 require_once "includes/ProfileHelper.inc";
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function smartparticipation_profile_preprocess_page(&$variables) {
+
+  if (smartparticipation_core_is_my_public_profile()) {
+
+    global $user;
+
+    $variables['title_prefix'] = array(
+      '#markup' => l(
+        t('Edit my profile'),
+        'user/'.$user->uid.'/profile/edit',
+        array('attributes' => array('class' => 'button edit-my-profile'))
+      )
+    );
+
+  }
+
+}
+
+/**
+ * Implements hook_theme().
+ */
+function smartparticipation_profile_theme($existing, $type, $theme, $path) {
+  return array(
+
+    'smartparticipation_user_profile' => array(
+      'template' => 'user_profile',
+      'render element' => 'profile_data',
+    ),
+
+    'smartparticipation_user_profile_edit' => array(
+      'template' => 'user_profile_edit',
+      'render element' => 'profile_data',
+    )
+
+  );
+}
+
+
+/**
+ * Implements hook_menu().
+ */
+function smartparticipation_profile_menu() {
+  $items['user/%user/profile'] = array(
+    'title' => '',
+    'title callback' => '_smartparticipation_profile_user_profile_title',
+    'title arguments' => array(1),
+    'page callback' => 'smartparticipation_profile_user_profile_page',
+    'page arguments' => array(1),
+    'access callback' => 'smartparticipation_core_access_check_user',
+    'access arguments' => array(1),
+  );
+
+  $items['user/%user/profile/edit'] = array(
+    'title' => 'Edit profile',
+    'page callback' => 'smartparticipation_profile_user_profile_edit_page',
+    'page arguments' => array(1),
+    'access callback' => 'smartparticipation_core_access_check_user',
+    'access arguments' => array(1),
+  );
+
+  return $items;
+}
+
+function smartparticipation_profile_user_profile_edit_page($account)
+{
+  $form = drupal_get_form('smartparticipation_profile_profile_form');
+
+  return array(
+    '#theme' => 'smartparticipation_user_profile_edit',
+    'form' => $form,
+  );
+}
+
+function smartparticipation_profile_user_profile_page($account)
+{
+  if (!ProfileService::userProfilesAreActive()) {
+    // TODO instead of relying on this redirect, can we replace the profile links with the stats link?
+    drupal_goto(drupal_get_path_alias('user/' . $account->uid . '/stats'));
+  }
+  $profile_service = new SmartParticipation\ProfileService;
+  $profile = $profile_service->find($account->uid);
+
+  $profile_empty = $profile_service->isProfileEmpty($profile);
+  $user_viewing_own_profile = smartparticipation_core_user_viewing_own_profile($account);
+
+  // Redirect user to profile form if viewing their own empty profile.
+  /*if ($user_viewing_own_profile && $profile_empty) {
+    drupal_goto('user/' . $account->uid . '/profile/edit');
+  }*/
+
+  $no_content_message = t('@name has not provided any profile information.', array('@name' => $account->name));
+
+  if ($user_viewing_own_profile) {
+    $no_content_message = t(
+      'You haven\'t provided any profile information - !edit_your_profile to share your information.', array(
+        '!edit_your_profile' => l(
+          t('edit your profile'),
+          'user/'.$account->uid.'/profile/edit'
+        )
+      )
+    );
+  }
+
+  $profile_helper = new \SmartParticipation\ProfileHelper($profile);
+
+  return array(
+    '#theme' => 'smartparticipation_user_profile',
+    '#helper' => $profile_helper,
+    '#profile' => $profile->getProfile2Profile(),
+    'profile_empty' => $profile_empty,
+    'no_content_message' => $no_content_message,
+  );
+}
+
+/**
+ * Implements hook_smartparticipation_admin_settings_form_alter().
+ */
+function smartparticipation_profile_smartparticipation_admin_settings_form_alter(&$form) {
+
+  $form['profiles'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Profile Settings'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#weight' => 5,
+  );
+
+  $form['profiles']['smartparticipation_profile_status'] = array(
+    '#type' => 'select',
+    '#title' => t('Profile status'),
+    '#options' => array(
+      0 => 'Disabled',
+      1 => 'Enabled',
+    ),
+    '#default_value' => variable_get('smartparticipation_profile_status'),
+    '#description' => t('Specify if user profiles are enabled.'),
+    '#weight' => 10,
+  );
+
+  if (function_exists('profile2_get_types')) {
+    $profile_types = profile2_get_types();
+    if (!empty($profile_types)) {
+      $profile_types = array_keys($profile_types);
+      $profile_types = array_combine($profile_types, $profile_types);
+      $form['profiles']['smartparticipation_active_profile'] = array(
+        '#title' => t('Profile type'),
+        '#type' => 'select',
+        '#description' => 'The profile type that is currently in use.  This is the machine name of the Profile2 type.',
+        '#options' => $profile_types,
+        '#default_value' => variable_get('smartparticipation_active_profile'),
+        '#weight' => 12,
+        '#states' => array(
+          'visible' => array(
+            ':input[name="smartparticipation_profile_status"]' => array('value' => 1),
+          ),
+        ),
+      );
+    }
+  }
+
+  $form['profiles']['smartparticipation_profile_reminder'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Show profile reminder'),
+    '#description' => t('Show profile reminder pop-up if user has not filled out any part of their profile.'),
+    '#required' => FALSE,
+    '#default_value' => variable_get('smartparticipation_profile_reminder'),
+    '#weight' => 15,
+    '#states' => array(
+      'visible' => array(
+        ':input[name="smartparticipation_profile_status"]' => array('value' => 1),
+      ),
+    ),
+  );
+
+  $form['profiles']['smartparticipation_profile_reminder_text'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Profile reminder text'),
+    '#description' => t('Text to show in the reminder pop-up.  Include the token: !profile_form_link'),
+    '#required' => FALSE,
+    '#default_value' => variable_get(
+      'smartparticipation_profile_reminder_text',
+      'You haven\'t filled out any of your profile. You can do so on your !profile_form_link.'
+    ),
+    '#weight' => 20,
+    '#rows' => 3,
+    '#states' => array(
+      'visible' => array(
+        ':input[name="smartparticipation_profile_status"]' => array('value' => 1),
+        ':input[name="smartparticipation_profile_reminder"]' => array('checked' => TRUE),
+      ),
+    ),
+  );
+
+  $form['profiles']['smartparticipation_profile_form_link_text'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Profile form link text'),
+    '#description' => t('The text to use for the profile form link token: !profile_form_link'),
+    '#required' => FALSE,
+    '#default_value' => variable_get(
+      'smartparticipation_profile_form_link_text',
+      'profile form'
+    ),
+    '#size' => 45,
+    '#weight' => 25,
+    '#states' => array(
+      'visible' => array(
+        ':input[name="smartparticipation_profile_status"]' => array('value' => 1),
+        ':input[name="smartparticipation_profile_reminder"]' => array('checked' => TRUE),
+      ),
+    ),
+  );
+
+
+}
+
+function smartparticipation_profile_profile_form($form, &$form_state)
+{
+  global $user;
+  if (! isset($form_state['profiles'])) {
+    $profile_type = variable_get('smartparticipation_active_profile','main');
+    $profile = profile2_load_by_user($user, $profile_type);
+    if (! $profile) {
+      $profile = profile_create(array(
+        'type' => $profile_type,
+        'uid' => $user->uid
+      ));
+    }
+    $form_state['profiles'][$profile->type] = $profile;
+  }
+
+  profile2_attach_form($form, $form_state);
+
+  // Picture/avatar.
+  $form['picture'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Share a photo of yourself or some other image that will appear next to your username in your Profile and your comments.'),
+    '#weight' => 1,
+    '#access' => (variable_get('user_pictures', 0)),
+  );
+  $form['picture']['picture'] = array(
+    '#type' => 'value',
+    '#value' => isset($user->picture) ? $user->picture : NULL,
+  );
+  $form['picture']['picture_current'] = array(
+    '#markup' => theme('user_picture', array('account' => $user)),
+  );
+  $form['picture']['picture_delete'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Delete picture'),
+    '#access' => !empty($user->picture->fid),
+    '#description' => t('Check this box to delete your current picture.'),
+  );
+  $form['picture']['picture_upload'] = array(
+    '#type' => 'file',
+    '#title' => t('Upload picture'),
+    '#size' => 48,
+    '#description' => t('Pictures larger than @dimensions pixels will be scaled down.', array('@dimensions' => variable_get('user_picture_dimensions', '85x85'))) . ' ' . filter_xss_admin(variable_get('user_picture_guidelines', '')),
+  );
+  $form['#validate'][] = 'user_validate_picture';
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Save'),
+    '#weight' => 2,
+  );
+
+  $form['#submit'][] = '_smartparticipation_profile_profile_form_submit';
+
+  return $form;
+}
+
+function _smartparticipation_profile_profile_form_submit($form, &$form_state)
+{
+  global $user;
+  $edit = array();
+  $edit['picture_upload'] = $form_state['values']['picture_upload'];
+  $edit['picture_delete'] = $form_state['values']['picture_delete'];
+  user_save($user, $edit);
+  drupal_set_message(t('Your profile changes have been saved.'));
+  drupal_goto('user/'.$user->uid.'/profile');
+}
+
+function _smartparticipation_profile_user_profile_title($account)
+{
+  $title = '';
+  if ($account) {
+    if (smartparticipation_core_user_viewing_own_profile($account)) {
+      $title = t('My Profile');
+    } else {
+      $title = t('@name\'s Profile', array('@name' => $account->name));
+    }
+  }
+  return $title;
+}
+
+/**
+ * Implements hook_smartparticipation_user_profile_links_alter().
+ */
+function smartparticipation_profile_smartparticipation_user_profile_links_alter(&$links, $uid_view, $user) {
+  // Get stats weight
+  if (ProfileService::userProfilesAreActive()) {
+    $first_link_weight = $links[0]['weight'];
+    $profile_link = array('link'=>l(t('Profile'), 'user/' . $uid_view . '/profile'), 'weight'=>$first_link_weight);
+    array_shift($links);
+    array_unshift($links, $profile_link);
+  }
+}

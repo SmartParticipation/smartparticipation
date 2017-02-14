@@ -5,7 +5,6 @@ namespace SmartParticipation;
 
 use SmartParticipation\model\Profile;
 use SmartParticipation\model\ProfileField;
-use SmartParticipation\model\ProfileFieldDependency;
 use SmartParticipation\model\ProfileFieldGroup;
 
 class ProfileHelper
@@ -76,13 +75,19 @@ class ProfileHelper
    */
   private function applyFieldDependencies($display_values)
   {
-    /** @var ProfileFieldDependency $field_dependency */
+    $profile2_profile = $this->profile->getProfile2Profile();
     foreach ($this->profile->dependent_fields as $field_dependency) {
       $parent_field = $field_dependency->parent_field;
-      $parent_field_value = $this->profile->$parent_field;
+      $parent_field_value = $profile2_profile->$parent_field;
       $child_field = $field_dependency->child_field;
-      if ($parent_field_value == $field_dependency->trigger_value) {
-        $display_values[$parent_field]->value = $this->profile->$child_field;
+      if (!empty($parent_field_value)) {
+        $parent_field_value = $parent_field_value[LANGUAGE_NONE][0]['value'];
+        if ($parent_field_value == $field_dependency->trigger_value) {
+          $child_field_value = $profile2_profile->$child_field;
+          $child_field_value = $child_field_value[LANGUAGE_NONE][0]['value'];
+
+          $display_values[$parent_field]->value = $child_field_value;
+        }
       }
       if (!empty($display_values[$child_field])) {
         unset($display_values[$child_field]);
@@ -120,7 +125,12 @@ class ProfileHelper
         $tmp_display_values = array();
         foreach ($display_values as $field_name => $profile_field) {
           if ($index == $current_index) {
-            $tmp_display_values[$grouped_field->field_name] = new ProfileField($grouped_field->field_name, $grouped_field->label, $group_value, self::TEXTFIELD);
+            $tmp_display_values[$grouped_field->field_name] = new ProfileField(
+              $grouped_field->field_name,
+              $grouped_field->label,
+              $group_value,
+              self::TEXTFIELD
+            );
           }
           $tmp_display_values[$field_name] = $profile_field;
           $current_index++;
@@ -159,16 +169,18 @@ class ProfileHelper
    */
   private function fieldValue($field_name, $type)
   {
-    if (empty($this->profile->$field_name)) {
+    if (empty($this->profile->getProfile2Profile()->$field_name)) {
       return null;
     }
+    $field_value = $this->profile->getProfile2Profile()->$field_name;
+    $field_value = $field_value[LANGUAGE_NONE][0]['value'];
     switch ($type) {
       case 'text_default':
-        $value = $this->profile->$field_name;
+        $value = $field_value;
         break;
       case 'list_default':
         $list_values = list_allowed_values(field_info_field($field_name));
-        $value = $list_values[$this->profile->$field_name];
+        $value = $list_values[$field_value];
         break;
     }
     return $value;

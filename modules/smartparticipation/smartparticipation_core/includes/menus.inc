@@ -178,24 +178,6 @@ function smartparticipation_core_menu() {
   );
   */
 
-  $items['user/%user/profile'] = array(
-    'title' => '',
-    'title callback' => '_smartparticipation_core_user_profile_title',
-    'title arguments' => array(1),
-    'page callback' => '_smartparticipation_core_user_profile_page',
-    'page arguments' => array(1),
-    'access callback' => 'smartparticipation_core_access_check_user',
-    'access arguments' => array(1),
-  );
-
-  $items['user/%user/profile/edit'] = array(
-    'title' => 'Edit profile',
-    'page callback' => '_smartparticipation_core_user_profile_edit_page',
-    'page arguments' => array(1),
-    'access callback' => 'smartparticipation_core_access_check_user',
-    'access arguments' => array(1),
-  );
-
 //  $items['user/%user/profile'] = array(
 //    'title' => '',
 //    'title callback' => '_smartparticipation_core_user_profile_title',

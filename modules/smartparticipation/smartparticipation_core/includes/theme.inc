@@ -412,31 +412,6 @@ function smartparticipation_core_theme($existing, $type, $theme, $path) {
       'template' => 'user-picture',
     ),
 
-    'user_smartparticipation_core_profile' => array(
-      'path' => $base_theme_user_template_path,
-      /*'render element' => 'user_data',*/
-      'template' => 'user-regroom-profile',
-      'variables' => array(
-        'profile' => null,
-        'profile_theme' => null,
-        'page_vars' => null,
-      ),
-    ),
-
-    'user_smartparticipation_core_profile_main' => array(
-      'path' => $base_theme_user_template_path,
-      'template' => 'user-regroom-profile-main',
-      'variables' => array(
-        'profile' => NULL
-      ),
-    ),
-
-    'user_smartparticipation_core_profile_edit' => array(
-      'path' => $base_theme_user_template_path,
-      'render element' => 'user_data',
-      'template' => 'user-regroom-profile-edit',
-    ),
-
     'user_stats' =>  array(
       'path' => $base_theme_user_template_path,
       'render element' => 'user_data',

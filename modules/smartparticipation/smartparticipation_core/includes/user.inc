@@ -5,7 +5,6 @@
  * 
  * Smartparticipation_core custom fields and functions for user entity.
  */
-use SmartParticipation\ProfileService;
 
 /**
  * Module function to add custom fields to user entity.
@@ -469,19 +468,12 @@ function smartparticipation_core_user_profile_links() {
       }
     }
 
-    $profile_link = array('link'=>l(t('Profile'), 'user/' . $uid_view . '/profile'), 'weight'=>$weights['stats']);
     $stats_link = array('link'=>l(t('Stats'), 'user/' . $uid_view . '/stats'), 'weight'=>$weights['stats']);
 
     // The user is browsing his own profile
     if ($uid == $uid_view) {
 
       $links = array(
-        // l(t('Stats'), 'user/' . $uid_view . '/stats'),
-
-        // l(t('Profile'), 'user/' . $uid_view . '/edit/main'),
-
-        //l(t('Profile'), 'user/' . $uid_view . '/profile'),
-
           array('link'=>l(t('Account'), 'user/' . $uid_view . '/edit'), 'weight'=> $weights['edit']),
           array('link'=>l(t('Proposals I participated in'), $proposals_path) . $proposal_count, 'weight'=>$weights['proposals']),
           array('link'=>l(t('My comments'), $comments_path) . $comment_count, 'weight'=>$weights['comments']),
@@ -496,10 +488,6 @@ function smartparticipation_core_user_profile_links() {
     } else {
 
       $links = array(
-        // l(t('Stats'), 'user/' . $uid_view . '/stats'),
-
-        //l(t('Profile'), 'user/' . $uid_view . '/profile'),
-
           array('link'=>l(t('Proposals @user participated in',
               array(
                   '@user' => $username,
@@ -544,12 +532,8 @@ function smartparticipation_core_user_profile_links() {
       unset ($links['rec']);
     }
 
-    if (ProfileService::userProfilesAreActive()) {
-      array_unshift($links, $profile_link);
-    }
-    else {
-      array_unshift($links, $stats_link);
-    }
+    array_unshift($links, $stats_link);
+
   }
 
   //  Now sort the $links multidimensional array ascending by weight
@@ -558,6 +542,8 @@ function smartparticipation_core_user_profile_links() {
     $weight[$key] = $row['weight'];
   }
   array_multisort($weight, SORT_ASC, $links);
+
+  drupal_alter('smartparticipation_user_profile_links', $links, $uid_view, $user);
 
   $block['content'] = array(
     'list' => array(
@@ -1182,29 +1168,7 @@ function _smartparticipation_core_user_stats_title($account) {
   return $title;
 }
 
-function _smartparticipation_core_user_profile_edit_page($account)
-{
-  $form = drupal_get_form('smartparticipation_core_profile_form');
-
-  return array(
-    '#theme' => 'user_regoom_profile_edit',
-    'form' => $form,
-  );
-}
-
-function _smartparticipation_core_user_profile_title($account)
-{
-  if ($account) {
-    if (smartparticipation_core_user_viewing_own_profile($account)) {
-      $title = t('My Profile');
-    } else {
-      $title = t('@name\'s Profile', array('@name' => $account->name));
-    }
-  }
-  return $title;
-}
-
-function smartparticipation_core_profile_is_empty($profile = null, $account = null)
+/*function smartparticipation_core_profile_is_empty($profile = null, $account = null)
 {
   if (!function_exists('profile2_load_by_user')) {
     return true;
@@ -1230,54 +1194,9 @@ function smartparticipation_core_profile_is_empty($profile = null, $account = nu
     }
   }
   return $profile_empty;
-}
+}*/
 
-function _smartparticipation_core_user_profile_page($account)
-{
-  if (!ProfileService::userProfilesAreActive()) {
-    // TODO instead of relying on this redirect, can we replace the profile links with the stats link?
-    drupal_goto(drupal_get_path_alias('user/' . $account->uid . '/stats'));
-  }
-  //$profile = SmartParticipation\ProfileFactory::build($account->uid);
-  $profile_service = new SmartParticipation\ProfileService;
-  $profile = $profile_service->find($account->uid);
 
-  $profile_empty = $profile_service->isProfileEmpty($profile);
-
-  $user_viewing_own_profile = smartparticipation_core_user_viewing_own_profile($account);
-
-  // Redirect user to profile form if viewing their own empty profile.
-  if ($user_viewing_own_profile && $profile_empty) {
-    drupal_goto('user/' . $account->uid . '/profile/edit');
-  }
-
-  $no_content_message = t('@name has not provided any profile information.', array('@name' => $account->name));
-
-  if ($user_viewing_own_profile) {
-    $no_content_message = t(
-      'You haven\'t provided any profile information - !edit_your_profile to share your information.', array(
-        '!edit_your_profile' => l(
-          t('edit your profile'),
-          'user/'.$account->uid.'/profile/edit'
-        )
-      )
-    );
-  }
-
-  $active_profile = $profile_service->getActiveProfile();
-  $profile_theme = 'user_smartparticipation_core_profile_' . $active_profile;
-
-  return array(
-    '#markup' => theme(
-      'user_smartparticipation_core_profile',
-      array(
-        'profile' => $profile,
-        'profile_theme' => $profile_theme,
-        'page_vars' => array('profile_empty' => $profile_empty, 'no_content_message' => $no_content_message)
-      )
-    )
-  );
-}
 
 /**
  * Page callback for USER STATS page
@@ -1658,79 +1577,4 @@ function smartparticipation_core_user_accepts_comment_emails($account) {
   return smartparticipation_core_field_get_item_value('user', $account,
       'field_sp_user_comment_emails', 'value');
   
-}
-
-function smartparticipation_core_profile_form($form, &$form_state)
-{
-  global $user;
-  if (! isset($form_state['profiles'])) {
-    $profile_type = variable_get('smartparticipation_active_profile','main');
-    $profile = profile2_load_by_user($user, $profile_type);
-    if (! $profile) {
-      $profile = profile_create(array(
-        'type' => $profile_type,
-        'uid' => $user->uid
-      ));
-    }
-    $form_state['profiles'][$profile->type] = $profile;
-  }
-
-  // Use field attach form and handle the fields yourself:
-  //field_attach_form('profile2', $profile, $form, $form_state);
-  // Or use profile2 API which is simpler
-  profile2_attach_form($form, $form_state);
-
-  $form['#prefix'] =
-    '<h3 class="profile-form-intro">'
-    . 'Share some info about yourself with your CCSD colleagues!<br>(<em>All info is voluntary.</em>)'
-    . '</h3>';
-
-  // Picture/avatar.
-  $form['picture'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Share a photo of yourself or some other image that will appear next to your username in your Profile and your comments.'),
-    '#weight' => 1,
-    '#access' => (variable_get('user_pictures', 0)),
-  );
-  $form['picture']['picture'] = array(
-    '#type' => 'value',
-    '#value' => isset($user->picture) ? $user->picture : NULL,
-  );
-  $form['picture']['picture_current'] = array(
-    '#markup' => theme('user_picture', array('account' => $user)),
-  );
-  $form['picture']['picture_delete'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Delete picture'),
-    '#access' => !empty($user->picture->fid),
-    '#description' => t('Check this box to delete your current picture.'),
-  );
-  $form['picture']['picture_upload'] = array(
-    '#type' => 'file',
-    '#title' => t('Upload picture'),
-    '#size' => 48,
-    '#description' => t('Pictures larger than @dimensions pixels will be scaled down.', array('@dimensions' => variable_get('user_picture_dimensions', '85x85'))) . ' ' . filter_xss_admin(variable_get('user_picture_guidelines', '')),
-  );
-  $form['#validate'][] = 'user_validate_picture';
-
-  $form['submit'] = array(
-    '#type' => 'submit',
-    '#value' => t('Save'),
-    '#weight' => 2,
-  );
-
-  $form['#submit'][] = '_smartparticipation_core_profile_form_submit';
-
-  return $form;
-}
-
-function _smartparticipation_core_profile_form_submit($form, &$form_state)
-{
-  global $user;
-  $edit = array();
-  $edit['picture_upload'] = $form_state['values']['picture_upload'];
-  $edit['picture_delete'] = $form_state['values']['picture_delete'];
-  user_save($user, $edit);
-  drupal_set_message(t('Your profile changes have been saved.'));
-  drupal_goto('user/'.$user->uid.'/profile');
 }

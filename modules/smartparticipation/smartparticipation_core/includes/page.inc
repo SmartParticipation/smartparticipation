@@ -168,8 +168,6 @@ function smartparticipation_core_preprocess_page(&$variables) {
   $request_path = request_path();
   $path_parts = explode('/', $request_path);
 
-  //$is_my_public_profile = smartparticipation_core_is_my_public_profile();
-
   $theme_name = variable_get('theme_default');
   $theme_css_path = drupal_get_path('theme', $theme_name) . '/css/';
   //$base_theme_css_path = path_to_theme() . '/css/';
@@ -306,19 +304,7 @@ function smartparticipation_core_preprocess_page(&$variables) {
     //drupal_add_css(path_to_theme() . '/css/moderator.css', array('weight' => 999, 'group' => CSS_THEME));
 
 
-  } /*else if ($is_my_public_profile) {
-
-    global $user;
-
-    $variables['title_prefix'] = array(
-      '#markup' => l(
-        t('Edit my profile'),
-        'user/'.$user->uid.'/profile/edit',
-        array('attributes' => array('class' => 'button edit-my-profile'))
-      )
-    );
-    
-  }*/
+  }
   
   smartparticipation_core_set_page_variables($variables);
 
