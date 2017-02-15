@@ -10,6 +10,76 @@ require_once "includes/ProfileService.inc";
 require_once "includes/ProfileHelper.inc";
 
 /**
+ * Implements hook_enable().
+ */
+function smartparticipation_profile_enable() {
+  smartparticipation_profile_create_profile_menu_links();
+}
+
+function smartparticipation_profile_create_profile_menu_links()
+{
+  $user_menus = array(
+    'sp-user-menu-logged-in',
+    'sp-user-menu-mobile'
+  );
+
+  foreach ($user_menus as $menu_name) {
+
+    $menu_link_identifier = $menu_name . 'menutoken/58a4b3c11486f';
+
+    $menu_link = array(
+      'menu_name' => $menu_name,
+      'link_path' => 'menutoken/58a4b3c11486f',
+      'router_path' => 'menutoken/%',
+      'link_title' => 'Profile',
+      'options' => array(
+        'menu_token_link_path' => 'user/[current-user:uid]/profile',
+        'menu_token_data' => array(),
+        'menu_token_options' => array(
+          'clear' => 0,
+        ),
+        'attributes' => array(
+          'title' => '',
+        ),
+        'alter' => TRUE,
+        'identifier' => $menu_link_identifier,
+      ),
+      'module' => 'menu',
+      'hidden' => 1,
+      'external' => 0,
+      'has_children' => 0,
+      'expanded' => 0,
+      'weight' => 23,
+    );
+
+    if ($menu_name == 'sp-user-menu-logged-in') {
+
+      $menu_link['parent_path'] = 'user';
+
+      $parent_mlid = db_select('menu_links' , 'ml')
+        ->condition('ml.plid' , 0)
+        ->condition('ml.menu_name', $menu_name)
+        ->condition('ml.link_title', '[current-user:name]')
+        ->fields('ml', array('mlid'))
+        ->execute()
+        ->fetchCol();
+
+      if (!empty($parent_mlid)) {
+        $plid = array_pop($parent_mlid);
+        $menu_link['plid'] = $plid;
+      }
+
+    }
+
+    menu_link_save($menu_link);
+
+  }
+
+  menu_rebuild();
+
+}
+
+/**
  * Implements hook_preprocess_HOOK().
  */
 function smartparticipation_profile_preprocess_page(&$variables) {
