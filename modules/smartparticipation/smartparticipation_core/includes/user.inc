@@ -1168,36 +1168,6 @@ function _smartparticipation_core_user_stats_title($account) {
   return $title;
 }
 
-/*function smartparticipation_core_profile_is_empty($profile = null, $account = null)
-{
-  if (!function_exists('profile2_load_by_user')) {
-    return true;
-  }
-  // Get the profile for this user if not provided
-  if (empty($profile)) {
-    if (empty($account)) {
-      $account = user_load($GLOBALS['user']->uid);
-    }
-    $profile = profile2_load_by_user($account);
-  }
-  // Determine if active profile is empty.
-  $profile_type = variable_get('smartparticipation_active_profile','main');
-  $profile_empty = true;
-  if (!empty($profile) && !empty($profile[$profile_type])) {
-    $active_profile = $profile[$profile_type];
-    $profile_fields = field_info_instances('profile2', $profile_type);
-    foreach ($profile_fields as $field_name => $field) {
-      if (!empty($active_profile->$field_name)) {
-        $profile_empty = false;
-        break;
-      }
-    }
-  }
-  return $profile_empty;
-}*/
-
-
-
 /**
  * Page callback for USER STATS page
  */

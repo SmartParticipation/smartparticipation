@@ -10,6 +10,19 @@ require_once "includes/ProfileService.inc";
 require_once "includes/ProfileHelper.inc";
 
 /**
+ * Implements hook_init().
+ */
+function smartparticipation_profile_init() {
+  drupal_add_js(
+    drupal_get_path('module', 'smartparticipation_profile') . '/smartparticipation_profile.js',
+    array(
+      'type' => 'file',
+      'group' => JS_THEME,
+    )
+  );
+}
+
+/**
  * Implements hook_enable().
  */
 function smartparticipation_profile_enable() {
@@ -105,6 +118,37 @@ function smartparticipation_profile_set_menu_link_hidden($mlid, $hidden)
 }
 
 /**
+ * Implements hook_page_alter().
+ */
+function smartparticipation_profile_page_alter(&$page) {
+
+  $profile_reminder = !empty($_SESSION['smartparticipation_profile_reminder']);
+
+  if ($profile_reminder) {
+    // Only show the profile reminder once after login
+    unset($_SESSION['smartparticipation_profile_reminder']);
+    $page = smartparticipation_profile_add_profile_reminder_dialog($page);
+  }
+
+}
+
+function smartparticipation_profile_add_profile_reminder_dialog($page)
+{
+  $markup =
+    theme('dialog', array(
+      'dlgId' => 'dlgProfileReminder',
+      'title' => t('Share some info about yourself!'),
+      'content' => theme('smartparticipation_user_profile_reminder'),
+    ));
+
+  $page['page_bottom']['smartparticipation_user_profile_reminder'] = array(
+    '#markup' => $markup,
+  );
+
+  return $page;
+}
+
+/**
  * Implements hook_preprocess_HOOK().
  */
 function smartparticipation_profile_preprocess_page(&$variables) {
@@ -139,7 +183,12 @@ function smartparticipation_profile_theme($existing, $type, $theme, $path) {
     'smartparticipation_user_profile_edit' => array(
       'template' => 'user_profile_edit',
       'render element' => 'profile_data',
-    )
+    ),
+
+    'smartparticipation_user_profile_reminder' => array(
+      'template' => 'user_profile_reminder',
+      'render element' => 'profile_data',
+    ),
 
   );
 }
@@ -517,4 +566,44 @@ function smartparticipation_profile_smartparticipation_user_profile_links_alter(
     array_shift($links);
     array_unshift($links, $profile_link);
   }
+}
+
+/**
+ * Implements hook_user_login().
+ */
+function smartparticipation_profile_user_login(&$edit, $account) {
+
+  smartparticipation_profile_show_profile_reminder();
+
+}
+
+/**
+ *  Show profile reminder dialog when:
+ *  (i)    Feature is turned on in smartparticipation_core config
+ *  (ii)   User is a basic user
+ *  (iii)  User is not being asked to fill in required account fields by Complete profile module
+ *  (iv)   User has an empty profile
+ *  (v)    There is an open proposal with an open phase that allows comments
+ */
+function smartparticipation_profile_show_profile_reminder() {
+
+  $account = user_load($GLOBALS['user']->uid);
+
+  if (
+    variable_get('smartparticipation_profile_reminder')
+    && smartparticipation_core_is_basic_authenticated_user()
+    && !smartparticipation_complete_profile_entity_has_empty_required_fields('user', $account)
+    && smartparticipation_core_is_open_discussion()
+  ) {
+
+    $profile_service = new ProfileService;
+    $profile = $profile_service->find($account->uid);
+    $profile_is_empty = $profile_service->isProfileEmpty($profile);
+
+    if ($profile_is_empty) {
+      $_SESSION['smartparticipation_profile_reminder'] = TRUE;
+    }
+
+  }
+
 }

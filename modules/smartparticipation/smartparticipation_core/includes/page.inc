@@ -10,14 +10,8 @@
 function smartparticipation_core_page_alter(&$page) {
   $page = smartparticipation_core_add_login_and_register_forms($page);
   $archive_dialog = &drupal_static('archive_dialog');
-  $profile_reminder = !empty($_SESSION['smartparticipation_core_profile_reminder']);
   if ($archive_dialog) {
     $page = smartparticipation_core_add_archive_notice_dialog($page);
-  }
-  if ($profile_reminder) {
-    // Only show the profile reminder once after login
-    unset($_SESSION['smartparticipation_core_profile_reminder']);
-    $page = smartparticipation_core_add_profile_reminder_dialog($page);
   }
   $endorsement_service = new \SmartParticipation\EndorsementService;
   if ($endorsement_service->canViewCommentEndorsementCounter() && $endorsement_service->canViewCommentEndorsementUsers()) {
@@ -35,22 +29,6 @@ function smartparticipation_core_add_comment_endorsements_users_dialog($page)
     ));
 
   $page['page_bottom']['smartparticipation_core_comment_endorsements_users'] = array(
-    '#markup' => $markup,
-  );
-
-  return $page;
-}
-
-function smartparticipation_core_add_profile_reminder_dialog($page)
-{
-  $markup =
-    theme('dialog', array(
-      'dlgId' => 'dlgProfileReminder',
-      'title' => t('Share some info about yourself!'),
-      'content' => theme('profile_reminder'),
-    ));
-
-  $page['page_bottom']['smartparticipation_core_profile_reminder'] = array(
     '#markup' => $markup,
   );
 
@@ -201,7 +179,7 @@ function smartparticipation_core_preprocess_page(&$variables) {
 
   // All pages JavaScript
   //drupal_add_js(libraries_get_path('smartparticipation_core') . '/smartparticipation_core.libraries.js');
-  drupal_add_js($module_path . '/build/js/smartparticipation.scripts.js');
+    drupal_add_js($module_path . '/build/js/smartparticipation.scripts.js');
   // preprocess is false to prevent jw player from using Drupal compression
   // jw player is unable to include dependent scripts when Drupal compression is turned on
   drupal_add_js($js_path . 'jwplayer/jwplayer.js',array('preprocess'=>false));

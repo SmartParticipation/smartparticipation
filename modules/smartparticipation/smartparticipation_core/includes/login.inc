@@ -747,34 +747,6 @@ function smartparticipation_core_user_login(&$edit, $account) {
   
   smartparticipation_core_log_user_login($account);
 
-  //smartparticipation_core_show_profile_reminder();
-
-}
-
-/**
- *  Show profile reminder dialog when:
- *  (i)    Feature is turned on in smartparticipation_core config
- *  (ii)   User is a basic user
- *  (iii)  User is not being asked to fill in required account fields by Complete profile module
- *  (iv)   User has an empty profile
- *  (v)    There is an open proposal with an open phase that allows comments
- */
-function smartparticipation_core_show_profile_reminder() {
-
-  $account = user_load($GLOBALS['user']->uid);
-
-  if (variable_get('smartparticipation_profile_reminder')
-    && smartparticipation_core_is_basic_authenticated_user()
-    && !smartparticiption_complete_profile_entity_has_empty_required_fields('user', $account)
-    && smartparticipation_core_profile_is_empty()
-    && smartparticipation_core_is_open_discussion()) {
-
-    $_SESSION['smartparticipation_core_profile_reminder'] = true;
-    //$profile_reminder = &drupal_static('profile_reminder');
-    //$profile_reminder = smartparticipation_core_profile_is_empty();
-
-  }
-
 }
 
 /**

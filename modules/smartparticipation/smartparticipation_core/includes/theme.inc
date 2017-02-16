@@ -346,11 +346,6 @@ function smartparticipation_core_theme($existing, $type, $theme, $path) {
       'render element' => 'count',        
       'template' => 'profile_nav_comment_count',    
     ),
-
-    'profile_reminder' => array(
-      'path' => $base_theme_partials_path,
-      'template' => 'profile_reminder',
-    ),
     
     'open_proposals' => array(
       'path' => $base_theme_block_template_path,
