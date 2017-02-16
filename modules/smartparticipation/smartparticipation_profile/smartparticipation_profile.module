@@ -56,16 +56,9 @@ function smartparticipation_profile_create_profile_menu_links()
 
       $menu_link['parent_path'] = 'user';
 
-      $parent_mlid = db_select('menu_links' , 'ml')
-        ->condition('ml.plid' , 0)
-        ->condition('ml.menu_name', $menu_name)
-        ->condition('ml.link_title', '[current-user:name]')
-        ->fields('ml', array('mlid'))
-        ->execute()
-        ->fetchCol();
+      $plid = smartparticipation_profile_get_user_menu_parent_link_mlid();
 
-      if (!empty($parent_mlid)) {
-        $plid = array_pop($parent_mlid);
+      if ($plid) {
         $menu_link['plid'] = $plid;
       }
 
@@ -77,6 +70,38 @@ function smartparticipation_profile_create_profile_menu_links()
 
   menu_rebuild();
 
+}
+
+function smartparticipation_profile_get_user_menu_parent_link_mlid()
+{
+  return smartparticipation_profile_get_menu_link_mlid_by_title(
+    'sp-user-menu-logged-in',
+    '[current-user:name]'
+  );
+}
+
+function smartparticipation_profile_get_menu_link_mlid_by_title($menu_name, $link_title)
+{
+  $mlid = db_select('menu_links' , 'ml')
+    ->condition('ml.menu_name', $menu_name)
+    ->condition('ml.link_title', $link_title)
+    ->fields('ml', array('mlid'))
+    ->execute()
+    ->fetchCol();
+
+  if (!empty($mlid)) {
+    return array_pop($mlid);
+  }
+
+  return FALSE;
+}
+
+function smartparticipation_profile_set_menu_link_hidden($mlid, $hidden)
+{
+  return db_update('menu_links')
+    ->fields(array('hidden' => $hidden))
+    ->condition('mlid', $mlid)
+    ->execute();
 }
 
 /**
@@ -294,7 +319,111 @@ function smartparticipation_profile_smartparticipation_admin_settings_form_alter
     ),
   );
 
+  $form['#submit'][] = 'smartparticipation_profile_admin_settings_submit';
 
+}
+
+function smartparticipation_profile_admin_settings_submit($form, &$form_state)
+{
+  $profiles_enabled = $form_state['values']['smartparticipation_profile_status'];
+  if ($profiles_enabled) {
+    smartparticipation_profile_apply_profiles_enabled_user_menu();
+  } else {
+    smartparticipation_profile_apply_profiles_disabled_user_menu();
+  }
+}
+
+function smartparticipation_profile_apply_profiles_enabled_user_menu()
+{
+  // Set path of parent user name link to user profile page
+  smartparticipation_profile_set_user_menu_parent_link_path(
+    'user/[current-user:uid]/profile'
+  );
+  // Enable Profile links
+  smartparticipation_profile_set_user_menu_profile_links_status(1);
+  // Disable Stats links
+  smartparticipation_profile_set_user_menu_stats_links_status(0);
+}
+
+function smartparticipation_profile_apply_profiles_disabled_user_menu()
+{
+  // Set path of parent user name link to user stats page
+  smartparticipation_profile_set_user_menu_parent_link_path(
+    'user/[current-user:uid]/stats'
+  );
+  // Disable Profile links
+  smartparticipation_profile_set_user_menu_profile_links_status(0);
+  // Enable Stats links
+  smartparticipation_profile_set_user_menu_stats_links_status(1);
+}
+
+function smartparticipation_profile_set_user_menu_parent_link_path($path)
+{
+  // Get user menu parent link mlid
+  $parent_mlid = smartparticipation_profile_get_user_menu_parent_link_mlid();
+  if (!empty($parent_mlid)) {
+    $menu_link = menu_link_load($parent_mlid);
+    // Prepare the menu link for re-saving
+    $menu_link['link_path'] = 'user';
+    $menu_link['router_path'] = 'user';
+    unset($menu_link['localized_options']);
+    unset($menu_link['href']);
+    // Set the provided path
+    $menu_link['options']['menu_token_link_path'] = $path;
+    menu_link_save($menu_link);
+    menu_rebuild();
+  }
+}
+
+function smartparticipation_profile_set_user_menu_profile_links_status($status)
+{
+  $profile_link_mlids = array();
+
+  if ($profile_link_mlid = smartparticipation_profile_get_menu_link_mlid_by_title(
+    'sp-user-menu-logged-in',
+    'Profile'
+  )) {
+    array_push($profile_link_mlids, $profile_link_mlid);
+  }
+
+  if ($profile_link_mlid = smartparticipation_profile_get_menu_link_mlid_by_title(
+    'sp-user-menu-mobile',
+    'Profile'
+  )) {
+    array_push($profile_link_mlids, $profile_link_mlid);
+  }
+
+  $hidden = $status ? 0 : 1;
+
+  foreach($profile_link_mlids as $profile_link_mlid) {
+    smartparticipation_profile_set_menu_link_hidden($profile_link_mlid, $hidden);
+  }
+
+}
+
+function smartparticipation_profile_set_user_menu_stats_links_status($status)
+{
+  $stats_link_mlids = array();
+
+  if ($stats_link_mlid = smartparticipation_profile_get_menu_link_mlid_by_title(
+    'sp-user-menu-logged-in',
+    'Stats'
+  )) {
+    array_push($stats_link_mlids, $stats_link_mlid);
+  }
+
+  if ($stats_link_mlid = smartparticipation_profile_get_menu_link_mlid_by_title(
+    'sp-user-menu-mobile',
+    'Stats'
+  )) {
+    array_push($stats_link_mlids, $stats_link_mlid);
+  }
+
+  $hidden = $status ? 0 : 1;
+
+  foreach($stats_link_mlids as $stats_link_mlid) {
+    smartparticipation_profile_set_menu_link_hidden($stats_link_mlid, $hidden);
+  }
 }
 
 function smartparticipation_profile_profile_form($form, &$form_state)
