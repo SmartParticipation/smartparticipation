@@ -1,0 +1,21 @@
+<?php
+
+function smartparticipation_ab_test_comment_tips_install()
+{
+  $abid = 'comment_tips_effectiveness';
+  $title = 'Effectiveness of comment tips';
+  $description = 'User will either receive or not receive comment tips.';
+  $variant_a_title = 'Don\'t show comment tips';
+  $variant_b_title = 'Show comment tips';
+
+  $ab_test_comment_tips = new \SmartParticipation\model\ABTest(
+    $abid,
+    $title,
+    $description,
+    $variant_a_title,
+    $variant_b_title
+  );
+
+  $ab_test_service = new \SmartParticipation\ABTestCommentTipsService;
+  $ab_test_service->save($ab_test_comment_tips);
+}

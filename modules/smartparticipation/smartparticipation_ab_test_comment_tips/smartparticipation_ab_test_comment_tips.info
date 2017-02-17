@@ -1,0 +1,7 @@
+name = SmartParticipation Comment Tips A/B Test
+description = An A/B test to determine the effectiveness of comment tips.
+package = SmartParticipation
+core = 7.x
+version = 7.x-1.0
+
+dependencies[] = smartparticipation_ab_test
