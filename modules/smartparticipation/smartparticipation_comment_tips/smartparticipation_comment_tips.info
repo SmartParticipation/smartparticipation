@@ -1,0 +1,7 @@
+name = SmartParticipation Comment Tips
+description = Provide comment tips to a SmartParticipation site topic page.
+package = SmartParticipation
+core = 7.x
+version = 7.x-1.0
+
+dependencies[] = smartparticipation_core

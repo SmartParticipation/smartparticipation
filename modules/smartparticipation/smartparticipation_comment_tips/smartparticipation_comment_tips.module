@@ -1,0 +1,50 @@
+<?php
+
+require_once "includes/CommentTips.inc";
+require_once "includes/CommentTipsState.inc";
+require_once "includes/CommentTipsService.inc";
+
+/**
+ * Implements hook_smartparticipation_topic_node_view_full_alter().
+ */
+function smartparticipation_comment_tips_smartparticipation_topic_node_view_full_alter(&$topic, $topic_context_data) {
+
+  $proposal_nid = $topic_context_data['proposal_nid'];
+  $topic_phase_tid = $topic_context_data['topic_phase_tid'];
+  $uid = $topic_context_data['account']->uid;
+  $phase_allows_comments = $topic_context_data['phase_allows_comments'];
+
+  // Check for related comment tips node
+  $comment_tips_service = new \SmartParticipation\CommentTipsService;
+  $comment_tips = $comment_tips_service->find($proposal_nid, $topic_phase_tid);
+  $user_service = new \SmartParticipation\UserService;
+  $user = $user_service->find($uid);
+
+  $topic_context_data['comment_tips_service'] = $comment_tips_service;
+  $topic_context_data['user'] = $user;
+
+  drupal_alter('smartparticipation_topic_comment_tips', $comment_tips, $topic_context_data);
+
+  $use_comment_tips_prompt = FALSE;
+  $use_comment_tips_button = FALSE;
+  if ($user && $comment_tips) {
+    $comment_tips_state = $comment_tips_service->getState($user, $comment_tips);
+    $use_comment_tips_prompt = $comment_tips_state->useCommentTipsPrompt;
+    $use_comment_tips_button = $comment_tips_state->useCommentTipsButton;
+  }
+
+  $comment_tips_get_state_base_url = $GLOBALS['base_url'] . base_path() . 'ajax/comment_tips/';
+
+  if ($phase_allows_comments) {
+    $subtopics = $topic->content['subtopics'];
+    foreach (array_keys($subtopics) as $subtopic_index) {
+      $topic->content['subtopics'][$subtopic_index]['comment_node_page_additions']['use_comment_tips_button'] = $use_comment_tips_button;
+    }
+  }
+
+  $topic->content['comment_tips'] = $comment_tips;
+  $topic->content['use_comment_tips_prompt'] = $use_comment_tips_prompt;
+  $topic->content['use_comment_tips_button'] = $use_comment_tips_button;
+  $topic->content['comment_tips_get_state_base_url'] = $comment_tips_get_state_base_url;
+
+}

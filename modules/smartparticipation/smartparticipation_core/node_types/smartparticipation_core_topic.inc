@@ -751,6 +751,7 @@ function smartparticipation_core_topic_node_view($topic, $view_mode, $langcode) 
 
     $phases = _smartparticipation_core_get_proposal_phase_data($proposal);
     $phase_id = null;
+    $phase_text_heading = '';
     foreach ($phases as $phase_data) {
       if ($topic_phase_tid == $phase_data['tid']) {
         if (isset($phase_data['phase_subtopic_heading'])) {
@@ -776,37 +777,9 @@ function smartparticipation_core_topic_node_view($topic, $view_mode, $langcode) 
       $interest_survey = smartparticipation_core_load_proposal_interest_survey($account, $proposal);
     }
 
-
-    // COMMENT TIPS
-    // Check for related comment tips node
-    $comment_tips_service = new \SmartParticipation\CommentTipsService;
-    $comment_tips = $comment_tips_service->find($proposal_nid, $topic_phase_tid);
-    $user_service = new \SmartParticipation\UserService;
-    $user = $user_service->find($uid);
-    /*if ($comment_tips instanceof \SmartParticipation\model\CommentTips) {
-      $comment_tips_service->applyUserTypeFilter($comment_tips, $account);
-    }*/
-    $topic_context_data = array(
-      'comment_tips_service' => $comment_tips_service,
-      'user' => $user,
-      'proposal_nid' => $proposal_nid,
-      'topic_phase_tid' => $topic_phase_tid
-    );
-    drupal_alter('smartparticipation_topic_comment_tips', $comment_tips, $topic_context_data);
-
-    $use_comment_tips_prompt = FALSE;
-    $use_comment_tips_button = FALSE;
-    if ($user && $comment_tips) {
-      $comment_tips_state = $comment_tips_service->getState($user, $comment_tips);
-      $use_comment_tips_prompt = $comment_tips_state->useCommentTipsPrompt;
-      $use_comment_tips_button = $comment_tips_state->useCommentTipsButton;
-    }
-
     // SUBTOPIC DATA
     // TO DO Define a subtopic node view and use smartparticipation_core_subtopic_node_view() 
     // to massage the data.
-    
-    // $topic_comment_count = 0;
     
     $subtopics = array();
           
@@ -857,7 +830,6 @@ function smartparticipation_core_topic_node_view($topic, $view_mode, $langcode) 
           $comment_node_page_additions =
             smartparticipation_core_comment_node_page_additions($comment_node_page_additions, $subtopic_node);
           $subtopic_data['comment_node_page_additions'] = $comment_node_page_additions;
-          $subtopic_data['comment_node_page_additions']['use_comment_tips_button'] = $use_comment_tips_button;
         }
 
         if ($get_subtopic_phase_closed_messages) {
@@ -872,8 +844,6 @@ function smartparticipation_core_topic_node_view($topic, $view_mode, $langcode) 
       }     
     }
 
-    $comment_tips_get_state_base_url = $GLOBALS['base_url'] . base_path() . 'ajax/comment_tips/';
-
     // Add all the data to the $topic->content array
     $topic->content = '';
     $topic->content = array(
@@ -885,11 +855,17 @@ function smartparticipation_core_topic_node_view($topic, $view_mode, $langcode) 
       'subtopics' => $subtopics,
       // 'topic_comment_count' => $topic_comment_count,
       'topics_list' => $topics_list,
-      'comment_tips' => $comment_tips,
-      'use_comment_tips_prompt' => $use_comment_tips_prompt,
-      'use_comment_tips_buttons' => $use_comment_tips_button,
-      'comment_tips_get_state_base_url' => $comment_tips_get_state_base_url,
     );
+
+    $topic_context_data = array(
+      'account' => $account,
+      'proposal_nid' => $proposal_nid,
+      'topic_phase_tid' => $topic_phase_tid,
+      'phase_allows_comments' => $phase_allows_comments
+    );
+
+    drupal_alter('smartparticipation_topic_node_view_full', $topic, $topic_context_data);
+
   }
 
 }
@@ -1400,15 +1376,4 @@ function smartparticipation_core_carousel_prompt($commentable, $node_type, $phas
   );
 
 
-}
-
-function smartparticipation_core_comment_tips_get_state($subtopic_nid)
-{
-  $user_service = new \SmartParticipation\UserService;
-  $user = $user_service->find();
-  if (!empty($user)) {
-    $comment_tips_service = new \SmartParticipation\CommentTipsService;
-    return $comment_tips_service->getStateRequest($user, $subtopic_nid);
-  }
-  return false;
 }

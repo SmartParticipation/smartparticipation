@@ -33,11 +33,9 @@ function smartparticipation_core_require_files() {
     'Model',
     'User',
     'Endorsement',
-    'CommentTips',
     'EventLogRecord',
     'AccessLogRecord',
     'ShowMoreCommentsResult',
-    'CommentTipsState'
   );
 
   array_map(
@@ -51,7 +49,6 @@ function smartparticipation_core_require_files() {
     'Mapper',
     'UserService',
     'EndorsementService',
-    'CommentTipsService',
     'UserHelper',
     'EventLogService',
     'AccessLogService',
