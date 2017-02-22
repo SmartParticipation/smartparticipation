@@ -7,7 +7,8 @@ require_once "includes/CommentTipsService.inc";
 /**
  * Implements hook_smartparticipation_topic_node_view_full_alter().
  */
-function smartparticipation_comment_tips_smartparticipation_topic_node_view_full_alter(&$topic, $topic_context_data) {
+function smartparticipation_comment_tips_smartparticipation_topic_node_view_full_alter(&$topic, $topic_context_data)
+{
 
   $proposal_nid = $topic_context_data['proposal_nid'];
   $topic_phase_tid = $topic_context_data['topic_phase_tid'];
@@ -47,4 +48,23 @@ function smartparticipation_comment_tips_smartparticipation_topic_node_view_full
   $topic->content['use_comment_tips_button'] = $use_comment_tips_button;
   $topic->content['comment_tips_get_state_base_url'] = $comment_tips_get_state_base_url;
 
+}
+
+function smartparticipation_comment_tips_form_sp_comment_tips_node_form_alter(&$form, &$form_state, $form_id)
+{
+  // Remove the title field from the comment tips form - this will be
+  // generated automatically on save.
+  $form['title']['#access'] = FALSE;
+}
+
+function smartparticipation_comment_tips_node_presave($node)
+{
+  // Generate the comment tips tile automatically on save.
+  // TODO how to handle edits to the Proposal node name?
+  if ($node->type == 'sp_comment_tips') {
+    $comment_tips = entity_metadata_wrapper('node', $node);
+    $proposal = $comment_tips->field_sp_comment_tips_proposal->label();
+    $phase = $comment_tips->field_sp_comment_tips_phase->label();
+    $node->title = "Comment tips for $proposal proposal $phase phase";
+  }
 }
