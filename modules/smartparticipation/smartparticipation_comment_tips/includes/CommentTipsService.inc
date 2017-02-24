@@ -23,16 +23,36 @@ class CommentTipsService
   {
     $query = $this->_find($proposal_nid, $phase_tid);
     if ($result = $query->fetchAssoc()) {
+      $comment_tips_text = $this->findTipsText($result['nid']);
       return new CommentTips(
         $result['nid'],
         $result['title'],
         $proposal_nid,
         $phase_tid,
         $result['field_sp_comment_tips_sentence_value'],
-        $result['body_value']
+        $comment_tips_text
       );
     }
     return null;
+  }
+
+  /**
+   * Return an array of tips for the provided comment tips nid.
+   *
+   * @param int $comment_tips_nid
+   * @return array|null
+   */
+  protected function findTipsText($comment_tips_nid)
+  {
+    $comment_tips_text = db_query(
+      "SELECT tips.field_sp_comment_tip_text_value
+        FROM field_data_field_sp_comment_tips_tips tcol
+        LEFT JOIN field_data_field_sp_comment_tip_text tips ON tcol.field_sp_comment_tips_tips_value = tips.entity_id
+        WHERE tcol.entity_id = :comment_tips_nid
+        ORDER BY tcol.delta",
+      array(':comment_tips_nid' => $comment_tips_nid)
+    )->fetchCol();
+    return !empty($comment_tips_text) ? $comment_tips_text : NULL;
   }
 
   /**
@@ -48,13 +68,14 @@ class CommentTipsService
     if ($result = $query->fetchAllAssoc('nid', PDO::FETCH_BOTH)) {
       $comment_tips = array();
       foreach($result as $row) {
+        $comment_tips_text = $this->findTipsText($row['nid']);
         array_push($comment_tips, new CommentTips(
           $row['nid'],
           $row['title'],
           $proposal_nid,
           $phase_tid,
           $row['field_sp_comment_tips_sentence_value'],
-          $row['body_value']
+          $comment_tips_text
         ));
       }
       return $comment_tips;
@@ -70,12 +91,11 @@ class CommentTipsService
   private function _find($proposal_nid, $phase_tid)
   {
     return db_query(
-      "SELECT n.nid, n.title, sen.field_sp_comment_tips_sentence_value, bod.body_value
+      "SELECT n.nid, n.title, sen.field_sp_comment_tips_sentence_value
         FROM {node} n
         JOIN {field_data_field_sp_comment_tips_phase} pha ON n.nid = pha.entity_id
         JOIN {field_data_field_sp_comment_tips_proposal} pro ON pha.entity_id = pro.entity_id
-        JOIN {field_data_body} bod ON pro.entity_id = bod.entity_id
-        LEFT JOIN {field_data_field_sp_comment_tips_sentence} sen ON bod.entity_id = sen.entity_id
+        LEFT JOIN {field_data_field_sp_comment_tips_sentence} sen ON n.nid = sen.entity_id
         WHERE pha.field_sp_comment_tips_phase_tid = :phase_tid
         AND pro.field_sp_comment_tips_proposal_nid = :proposal_nid
         ORDER BY n.created ASC",

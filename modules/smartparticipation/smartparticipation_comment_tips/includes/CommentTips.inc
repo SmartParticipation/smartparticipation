@@ -23,23 +23,22 @@ class CommentTips
   /** @var string */
   public $lead_sentence;
 
-  /** @var string */
-  public $body;
+  /** @var array */
+  public $tips_text;
 
   /**
    * @param int $nid
    * @param string $title
    * @param int $proposal_nid
    * @param int $phase_tid
-   * @param int $body
    */
-  public function __construct($nid, $title, $proposal_nid, $phase_tid, $lead_sentence, $body)
+  public function __construct($nid, $title, $proposal_nid, $phase_tid, $lead_sentence, $tips_text)
   {
     $this->nid = $nid;
     $this->title = $title;
     $this->proposal_nid = $proposal_nid;
     $this->phase_tid = $phase_tid;
     $this->lead_sentence = $lead_sentence;
-    $this->body = $body;
+    $this->tips_text = $tips_text;
   }
 }

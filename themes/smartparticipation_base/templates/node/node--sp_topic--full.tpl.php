@@ -178,16 +178,7 @@ if (!empty($interest_survey)) {
 /** @var \SmartParticipation\model\CommentTips $comment_tips */
 if (!empty($comment_tips)) {
 
-  $domdoc = new DOMDocument();
-  $domdoc->loadHTML('<?xml encoding="UTF-8">' . $comment_tips->body);
-  $tips = $domdoc->getElementsByTagName('li');
-  $items = array();
-  foreach ($tips as $tip) {
-    $li = $tip->ownerDocument->saveXML($tip);
-    if (preg_match('#<li>(.*?)</li>#',$li,$matches)) {
-      array_push($items,$matches[1]);
-    }
-  }
+  $items = $comment_tips->tips_text;
 
   $number_of_tips = count($items);
   $column_span = floor(12 / $number_of_tips);
