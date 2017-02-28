@@ -39,14 +39,21 @@ function smartparticipation_comment_tips_smartparticipation_topic_node_view_full
   if ($phase_allows_comments) {
     $subtopics = $topic->content['subtopics'];
     foreach (array_keys($subtopics) as $subtopic_index) {
-      $topic->content['subtopics'][$subtopic_index]['comment_node_page_additions']['use_comment_tips_button'] = $use_comment_tips_button;
+      if ($use_comment_tips_button) {
+        $topic->content['subtopics'][$subtopic_index]['comment_node_page_additions']['button_links'][] =
+          '<a class="comment-tips-button" href="#" title="View comment tips">
+          <span>Comment tips</span>
+          </a>';
+      }
     }
   }
 
-  $topic->content['comment_tips'] = $comment_tips;
-  $topic->content['use_comment_tips_prompt'] = $use_comment_tips_prompt;
-  $topic->content['use_comment_tips_button'] = $use_comment_tips_button;
-  $topic->content['comment_tips_get_state_base_url'] = $comment_tips_get_state_base_url;
+  $topic->content['alerts']['comment_tips'] = array(
+    '#theme' => 'comment_tips',
+    '#comment_tips' => $comment_tips,
+    'use_comment_tips_prompt' => $use_comment_tips_prompt,
+    'comment_tips_get_state_base_url' => $comment_tips_get_state_base_url
+  );
 
 }
 
@@ -67,4 +74,16 @@ function smartparticipation_comment_tips_node_presave($node)
     $phase = $comment_tips->field_sp_comment_tips_phase->label();
     $node->title = "Comment tips for $proposal proposal $phase phase";
   }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function smartparticipation_comment_tips_theme($existing, $type, $theme, $path) {
+  return array(
+    'comment_tips' => array(
+      'template' => 'comment_tips',
+      'render element' => 'comment_tips_data',
+    )
+  );
 }

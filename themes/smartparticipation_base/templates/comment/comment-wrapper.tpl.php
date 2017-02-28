@@ -50,9 +50,13 @@ $comment_count = $content['#node']->comment_count;
       </a>
     <?php endif; ?>
 
-      <a class="comment-tips-button" href="#" title="View comment tips"<?php echo empty($content['use_comment_tips_button']) ? ' style="display:none;"' : ''?>>
-        <span>Comment tips</span>
-      </a>
+    <?php
+      if (!empty($content['button_links'])) {
+        foreach ($content['button_links'] as $button_link) {
+          print $button_link;
+        }
+      }
+    ?>
 
     <?php print render($title_suffix); ?>
 
