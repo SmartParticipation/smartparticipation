@@ -45,9 +45,9 @@ class CommentTipsService
   protected function findTipsText($comment_tips_nid)
   {
     $comment_tips_text = db_query(
-      "SELECT tips.field_sp_comment_tip_text_value
+      "SELECT tips.field_sp_comment_tips_tip_text_value
         FROM field_data_field_sp_comment_tips_tips tcol
-        LEFT JOIN field_data_field_sp_comment_tip_text tips ON tcol.field_sp_comment_tips_tips_value = tips.entity_id
+        LEFT JOIN field_data_field_sp_comment_tips_tip_text tips ON tcol.field_sp_comment_tips_tips_value = tips.entity_id
         WHERE tcol.entity_id = :comment_tips_nid
         ORDER BY tcol.delta",
       array(':comment_tips_nid' => $comment_tips_nid)
