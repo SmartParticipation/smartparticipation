@@ -39,25 +39,29 @@ function smartparticipation_comment_tips_create_comment_tips_node_type() {
   $node_type = node_type_set_defaults($comment_tips);
 
   // Add body field and set label.
-  node_add_body_field($node_type);
+  //node_add_body_field($node_type);
 
   // Modify properties of the body field.
-  $instance = field_read_instance('node', 'body', 'sp_comment_tips');
-  $instance['widget']['weight'] = 35;
-  field_update_instance($instance);
+  //$instance = field_read_instance('node', 'body', 'sp_comment_tips');
+  //$instance['widget']['weight'] = 35;
+  //field_update_instance($instance);
 
   node_type_save($node_type);
 
   // Create the fields we are adding to the comment tips node type.
-  foreach (smartparticipation_core_comment_tips_installed_fields() as $field) {
-    $field['entity_types'] = array('node');
+  foreach (smartparticipation_comment_tips_comment_tips_installed_fields() as $field) {
+    //$field['entity_types'] = array('node');
     field_create_field($field);
   }
 
   // Create all the instances for our fields.
-  foreach (smartparticipation_core_comment_tips_installed_instances() as $instance) {
-    $instance['bundle'] = $comment_tips['type'];
-    $instance['entity_type'] = 'node';
+  foreach (smartparticipation_comment_tips_comment_tips_installed_instances() as $instance) {
+    if (empty($instance['bundle'])) {
+      $instance['bundle'] = $comment_tips['type'];
+    }
+    if (empty($instance['entity_type'])) {
+      $instance['entity_type'] = 'node';
+    }
     field_create_instance($instance);
   }
 
@@ -182,6 +186,45 @@ function smartparticipation_comment_tips_comment_tips_installed_fields()
       'module' => 'text',
       'settings' => array(),
       'translatable' => '0',
+      'type' => 'text_long',
+    ),
+
+    'field_sp_comment_tips_tips' => array(
+      'active' => 1,
+      'cardinality' => 5,
+      'deleted' => 0,
+      'entity_types' => array(),
+      'field_name' => 'field_sp_comment_tips_tips',
+      'indexes' => array(
+        'revision_id' => array(
+          0 => 'revision_id',
+        ),
+      ),
+      'locked' => 0,
+      'module' => 'field_collection',
+      'settings' => array(
+        'hide_blank_items' => 1,
+        'path' => '',
+      ),
+      'translatable' => 0,
+      'type' => 'field_collection',
+    ),
+
+    'field_sp_comment_tips_tip_text' => array(
+      'active' => 1,
+      'cardinality' => 1,
+      'deleted' => 0,
+      'entity_types' => array(),
+      'field_name' => 'field_sp_comment_tips_tip_text',
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => 0,
+      'module' => 'text',
+      'settings' => array(),
+      'translatable' => 0,
       'type' => 'text_long',
     ),
 
@@ -311,7 +354,82 @@ function smartparticipation_comment_tips_comment_tips_installed_instances()
         'rows' => '2',
       ),
       'type' => 'text_textarea',
-      'weight' => '4',
+      'weight' => '15',
+    ),
+  );
+
+  $instances['field_sp_comment_tips_tips'] = array(
+    'bundle' => 'sp_comment_tips',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'field_collection',
+        'settings' => array(
+          'add' => 'Add',
+          'delete' => 'Delete',
+          'description' => TRUE,
+          'edit' => 'Edit',
+          'view_mode' => 'full',
+        ),
+        'type' => 'field_collection_view',
+        'weight' => 4,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_sp_comment_tips_tips',
+    'label' => 'Tips Text',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'field_collection',
+      'settings' => array(),
+      'type' => 'field_collection_embed',
+      'weight' => 20,
+    ),
+  );
+
+  $instances['field_sp_comment_tips_tip_text'] = array(
+    'bundle' => 'field_sp_comment_tips_tips',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'field_collection_item',
+    'field_name' => 'field_sp_comment_tips_tip_text',
+    'label' => 'Tip Text',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 1,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'rows' => 3,
+      ),
+      'type' => 'text_textarea',
+      'weight' => 1,
     ),
   );
 
@@ -324,4 +442,13 @@ function smartparticipation_comment_tips_comment_tips_installed_instances()
  */
 function smartparticipation_comment_tips_delete_comment_tips_node_type() {
   smartparticipation_core_delete_node_type('sp_comment_tips');
+
+  /*foreach (array_keys(smartparticipation_comment_tips_comment_tips_installed_fields()) as $field) {
+    field_delete_field($field);
+  }
+
+  foreach (smartparticipation_comment_tips_comment_tips_installed_fields() as $key => $instance) {
+    field_delete_instance($instance);
+  }*/
+
 }
