@@ -126,14 +126,6 @@ function smartparticipation_core_menu() {
     'file' => 'includes/export.inc',
   );
 
-  $items['node/%node/export-comment-tips-log'] = array(
-    'page callback' => '_smartparticipation_core_export_comment_tips_log_csv',
-    'page arguments' => array(1),
-    'access callback' => 'smartparticipation_core_access_check_export',
-    'access arguments' => array(1),
-    'file' => 'includes/export.inc',
-  );
-
   $items['node/%node/export-event-log'] = array(
     'page callback' => '_smartparticipation_core_export_event_log_csv',
     'page arguments' => array(1),
@@ -393,14 +385,6 @@ function smartparticipation_core_menu() {
     'title' => 'Log event',
     'page callback' => 'smartparticipation_core_log_client_event',
     //'access arguments' => array('access content'),
-    'access callback' => TRUE,
-  );
-
-  // AJAX COMMENT TIPS STATE
-  $items['ajax/comment_tips/%'] = array(
-    'title' => 'Get comment tips state',
-    'page callback' => 'smartparticipation_core_comment_tips_get_state',
-    'page arguments' => array(2),
     'access callback' => TRUE,
   );
 

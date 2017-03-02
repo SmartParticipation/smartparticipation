@@ -5,6 +5,31 @@ require_once "includes/CommentTipsState.inc";
 require_once "includes/CommentTipsService.inc";
 
 /**
+ * Implements hook_menu().
+ */
+function smartparticipation_comment_tips_menu() {
+
+  $items['node/%node/export-comment-tips-log'] = array(
+    'page callback' => '_smartparticipation_comment_tips_export_comment_tips_log_csv',
+    'page arguments' => array(1),
+    'access callback' => 'smartparticipation_core_access_check_export',
+    'access arguments' => array(1),
+    'file' => 'includes/smartparticipation_comment_tips.export.inc',
+  );
+
+  // AJAX COMMENT TIPS STATE
+  $items['ajax/comment_tips/%'] = array(
+    'title' => 'Get comment tips state',
+    'page callback' => 'smartparticipation_core_comment_tips_get_state',
+    'page arguments' => array(2),
+    'access callback' => TRUE,
+  );
+
+  return $items;
+
+}
+
+/**
  * Implements hook_smartparticipation_topic_node_view_full_alter().
  */
 function smartparticipation_comment_tips_smartparticipation_topic_node_view_full_alter(&$topic, $topic_context_data)
@@ -86,4 +111,11 @@ function smartparticipation_comment_tips_theme($existing, $type, $theme, $path) 
       'render element' => 'comment_tips_data',
     )
   );
+}
+
+/**
+ * Implements hook_smartparticipation_export_menu_items_alter().
+ */
+function smartparticipation_comment_tips_smartparticipation_export_menu_items_alter(&$export_menu_items, $nid) {
+  $export_menu_items['Comment tips log'] = 'node/'.$nid.'/export-comment-tips-log';
 }

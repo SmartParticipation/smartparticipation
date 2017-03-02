@@ -790,7 +790,7 @@ function smartparticipation_core_form_node_admin_content_alter(&$form, &$form_st
     $phase_name = '';
     $phase_tid = '';
     switch ($options['type']) {
-      case'Comment tips':
+      case 'Comment tips':
         $node = node_load($nid);
         if(!empty($node->field_sp_comment_tips_phase[LANGUAGE_NONE][0]['tid'])) {
           $phase_tid = $node->field_sp_comment_tips_phase[LANGUAGE_NONE][0]['tid'];
