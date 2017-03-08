@@ -1,7 +1,8 @@
 /*
  * Custom behaviors for the SmartParticipation comment box editor.
  */
-CKEDITOR.plugins.add( 'smartparticipation', {
+
+CKEDITOR.plugins.add( 'smartparticipation_comments', {
   init: function( editor ) {
 
     // Simplify the add link dialog (show only the URL field)

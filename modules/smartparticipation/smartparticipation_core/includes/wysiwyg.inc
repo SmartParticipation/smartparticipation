@@ -201,13 +201,20 @@ function smartparticipation_core_wysiwyg_editor_settings_alter(&$settings, $cont
 
     if ($format == 'comments') {
 
+      // Add the custom CKEditor comments plugin
+      drupal_add_js(
+        base_path()
+        . drupal_get_path('module', 'smartparticipation_core')
+        . '/js/ckeditor/smartparticipation_comments/plugin.js'
+      );
+
       // Plugins tabletools, liststyle, contextmenu are disabled to allow use
       // of the browser native context menu.  This is done so that the spell
       // check word replacements will be available for selection, whereas these
       // would not be listed in the CKEditor context menu.
       $settings['removePlugins'] = 'tabletools,liststyle,contextmenu,elementspath';
       // The confighelper plugin is used to set a placeholder value.
-      $settings['extraPlugins'] = 'confighelper,smartparticipation';
+      $settings['extraPlugins'] = 'confighelper,smartparticipation_comments';
 
       $settings['height'] = 100;
 
