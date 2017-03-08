@@ -1301,7 +1301,8 @@
       // Set the comment textarea to readonly.
       $(commentsForm + ' textarea').prop('readonly', true);
       $(commentsForm + ' .form-textarea-wrapper').on('click', function () {
-        Self.Comment.openLoginRequiredCommentAlert();
+        //Self.Comment.openLoginRequiredCommentAlert();
+        SP.Alert.open('comment-alert', getMessage('make a comment'), type);
       });
 
       // Unbind the ajax comments submit.
@@ -1309,7 +1310,8 @@
 
       // Open the comment form log in alert when the buttons are clicked.
       $(commentsForm + ' input[type="submit"]').unbind().on('click', function () {
-        Self.Comment.openLoginRequiredCommentAlert();
+        //Self.Comment.openLoginRequiredCommentAlert();
+        SP.Alert.open('comment-alert', getMessage('make a comment'), type);
         return false;
       });
 

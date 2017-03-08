@@ -5,7 +5,7 @@
 function smartparticipation_core_configure_webform() {
   // enable webform functionality for sp_interest_survey content type
   $types = variable_get('webform_node_types', array('webform'));
-  $types[] = 'sp_interest_survey';
+  $types[] = 'sp-interest-survey';
   variable_set('webform_node_types', $types);
 }
 
