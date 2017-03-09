@@ -22,9 +22,9 @@ class EndorsementService
    */
   public function findByCommentId($cid, $include_user = true, $order = 'u.name')
   {
-    $query = 'SELECT fc.fcid, fc.uid, fc.timestamp FROM {comment} c
-          INNER JOIN {flag_content} fc ON c.cid = fc.content_id
-          INNER JOIN {flags} f ON fc.fid = f.fid
+    $query = 'SELECT fc.flagging_id AS fcid, fc.uid, fc.timestamp FROM {comment} c
+          INNER JOIN {flagging} fc ON c.cid = fc.entity_id
+          INNER JOIN {flag} f ON fc.fid = f.fid
           LEFT JOIN {users} u ON u.uid = fc.uid
           WHERE c.cid = :cid
           AND f.name = :endorsements

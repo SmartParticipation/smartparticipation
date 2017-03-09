@@ -994,8 +994,8 @@ function smartparticipation_core_topic_data($nid) {
       $topic_comments_number += $subtopic->comment_count;
       
       if ($subtopic->comment_count) {
-        $subtopic_comments_recommended = smartparticipation_core_subtopic_comments_recommended($nid_subtopic);
-        $topic_comments_recommended += $subtopic_comments_recommended;
+        //$subtopic_comments_recommended = smartparticipation_core_subtopic_comments_recommended($nid_subtopic);
+        //$topic_comments_recommended += $subtopic_comments_recommended;
       }
     }
   }

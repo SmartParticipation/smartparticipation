@@ -124,7 +124,7 @@ function smartparticipation_core_flag($action, $flag, $content_id, $account) {
       }
     
       /* We need this to track unendorse actions. The flag module simply deletes
-       * the flag from the flag_content table.
+       * the flag from the flagging table.
        */
       $fcid = db_insert('sp_flag_content_history')
         ->fields(array(
@@ -202,7 +202,7 @@ function smartparticipation_core_comment_flagged_email_send($comment, $flag) {
  */
 function smartparticipation_core_delete_flags() {
   $string = 'comment_%';
-  $query = 'SELECT f.fid, f.name FROM {flags} f WHERE f.name LIKE :string';
+  $query = 'SELECT f.fid, f.name FROM {flag} f WHERE f.name LIKE :string';
   $result = db_query($query,array(':string' => $string));
   //$count = $result->rowCount();
   
@@ -217,13 +217,13 @@ function smartparticipation_core_delete_flags() {
       ->condition('fid', $record->fid)
       ->execute();
 
-    // delete from 'flag_content' table
-    $flag_types_deleted = db_delete('flag_content')
+    // delete from 'flagging' table
+    $flag_types_deleted = db_delete('flagging')
       ->condition('fid', $record->fid)
       ->execute();
 
     // delete from 'flags' table
-    $flag_types_deleted = db_delete('flags')
+    $flag_types_deleted = db_delete('flag')
       ->condition('fid', $record->fid)
       ->execute();
   }

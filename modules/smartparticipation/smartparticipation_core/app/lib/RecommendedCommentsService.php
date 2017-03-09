@@ -25,8 +25,8 @@ class RecommendedCommentsService extends FeaturedCommentsService
       INNER JOIN {field_data_field_sp_topic_subtopic} ts ON pt.field_sp_proposal_topic_nid = ts.entity_id
       INNER JOIN {node} nst ON ts.field_sp_topic_subtopic_nid = nst.nid
       INNER JOIN {comment} c ON ts.field_sp_topic_subtopic_nid = c.nid
-      INNER JOIN {flag_content} fc ON c.cid = fc.content_id
-      INNER JOIN {flags} f ON fc.fid = f.fid
+      INNER JOIN {flagging} fc ON c.cid = fc.entity_id
+      INNER JOIN {flag} f ON fc.fid = f.fid
       WHERE pt.entity_id = :proposal_nid
       AND f.name = 'comment_recommendation'
       AND c.status = 1
@@ -56,8 +56,8 @@ class RecommendedCommentsService extends FeaturedCommentsService
       INNER JOIN {field_data_field_sp_topic_subtopic} ts ON pt.field_sp_proposal_topic_nid = ts.entity_id
       INNER JOIN {node} nst ON ts.field_sp_topic_subtopic_nid = nst.nid
       INNER JOIN {comment} c ON ts.field_sp_topic_subtopic_nid = c.nid
-      INNER JOIN {flag_content} fc ON c.cid = fc.content_id
-      INNER JOIN {flags} f ON fc.fid = f.fid
+      INNER JOIN {flagging} fc ON c.cid = fc.entity_id
+      INNER JOIN {flag} f ON fc.fid = f.fid
       WHERE c.status = 1
       AND f.name = 'comment_recommendation'
       AND np.status = 1

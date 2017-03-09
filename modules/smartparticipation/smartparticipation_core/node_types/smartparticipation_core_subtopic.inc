@@ -511,14 +511,14 @@ function smartparticipation_core_subtopic_node_view($node, $view_mode, $langcode
  * This function will return the number of recommended comments for one subtopic
  */
 function smartparticipation_core_subtopic_comments_recommended($nid) {
-  
+  return 0;
   $query = db_select('comment', 'c')
     ->fields('c', array('cid'));
   $query->where("c.nid = :nid", array(':nid' => $nid));
 
-  $query->leftJoin('flag_content', 'fc', 'fc.content_id = c.cid');
+  $query->leftJoin('flagging', 'fc', 'fc.entity_id = c.cid');
   
-  $query->leftJoin('flags', 'f', 'f.fid = fc.fid');
+  $query->leftJoin('flag', 'f', 'f.fid = fc.fid');
   $query->where("f.name = 'comment_recommendation'");
 
   $result = $query->execute();

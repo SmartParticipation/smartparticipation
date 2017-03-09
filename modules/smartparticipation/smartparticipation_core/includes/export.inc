@@ -672,10 +672,10 @@ function _smartparticipation_core_user_export_comment_count_by_proposal($uid) {
  */
 function _smartparticipation_core_user_export_endorsement_count_by_proposal($uid) {
 
-  $query = 'SELECT np.title, count(fc.fcid) 
-            FROM {flag_content} fc
-            INNER JOIN {flags} f ON fc.fid = f.fid
-            INNER JOIN {comment} c ON c.cid = fc.content_id
+  $query = 'SELECT np.title, count(fc.flagging_id) 
+            FROM {flagging} fc
+            INNER JOIN {flag} f ON fc.fid = f.fid
+            INNER JOIN {comment} c ON c.cid = fc.entity_id
             INNER JOIN {field_data_field_sp_subtopic_topic} st ON c.nid = st.entity_id
             INNER JOIN {field_data_field_sp_topic_proposal} tp ON st.field_sp_subtopic_topic_nid = tp.entity_id
             INNER JOIN {node} np ON tp.field_sp_topic_proposal_nid = np.nid

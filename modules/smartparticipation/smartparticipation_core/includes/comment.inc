@@ -660,11 +660,11 @@ function _smartparticipation_core_comment_endorsed_by_user($cid, $account = null
   $uid = $account->uid;
 
   $query = 'SELECT count(uid) AS has_endorsed
-            FROM {flag_content} fc
-            LEFT JOIN {flags} AS f ON f.fid = fc.fid
+            FROM {flagging} fc
+            LEFT JOIN {flag} AS f ON f.fid = fc.fid
             WHERE f.name = :endorsements
             AND fc.uid = :uid
-            AND fc.content_id = :cid';
+            AND fc.entity_id = :cid';
 
   $result = db_query($query, array(
     ':endorsements' => 'comment_endorsement', 
@@ -1498,8 +1498,8 @@ function _smartparticipation_core_comment_replies($cid) {
  */
 function _smartparticipation_core_comment_recommended($cid) {
   $query = 'SELECT * FROM {comment} c 
-            INNER JOIN {flag_content} fc ON c.cid = fc.content_id 
-            INNER JOIN {flags} f ON fc.fid = f.fid 
+            INNER JOIN {flagging} fc ON c.cid = fc.entity_id 
+            INNER JOIN {flag} f ON fc.fid = f.fid 
             WHERE c.cid = :cid 
             AND f.name = :recommendation';
   $result = db_query($query, array(':cid' => $cid, ':recommendation' => 'comment_recommendation'));

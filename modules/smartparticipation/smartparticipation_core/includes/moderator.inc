@@ -494,31 +494,31 @@ function smartparticipation_core_comment_recommend_or_unrecommend($cid) {
   global $user;
   $uid = $user->uid;
 
-  // This should be an integer in the flag_content table
+  // This should be an integer in the flagging table
   // But it's coming as an alphanumeric string
   // $sid = $user->sid;
-  $fid = db_select('flags','f')
+  $fid = db_select('flag','f')
     ->fields('f',array('fid'))
     ->condition('name','comment_recommendation')
     ->execute()
     ->fetchField();
 
   // Check if a recommendation already exists
-  $flag_check = db_select('flag_content','fc')
-    ->fields('fc',array('fcid'))
+  $flag_check = db_select('flagging','fc')
+    ->fields('fc',array('flagging_id'))
     ->condition('fid',$fid)
-    ->condition('content_id',$cid)
-    ->condition('content_type','comment')
+    ->condition('entity_id',$cid)
+    ->condition('entity_type','comment')
     ->execute()
     ->fetchField();
 
   // If a recommendation doesn't exist, create it
   if (!$flag_check) {
-    $flag_insert = db_insert('flag_content')
+    $flag_insert = db_insert('flagging')
       ->fields(array(
         'fid' => $fid,
-        'content_type' => 'comment',
-        'content_id' => $cid,
+        'entity_type' => 'comment',
+        'entity_id' => $cid,
         'uid' => $uid,
         'timestamp' => REQUEST_TIME
         ))
@@ -534,8 +534,8 @@ function smartparticipation_core_comment_recommend_or_unrecommend($cid) {
   
   // If a recommendation does exist, remove it 
   } else {
-    $flag_delete = db_delete('flag_content')
-      ->condition('fcid',$flag_check)
+    $flag_delete = db_delete('flagging')
+      ->condition('flagging_id',$flag_check)
       ->execute();
   }
 

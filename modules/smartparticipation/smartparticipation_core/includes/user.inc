@@ -296,8 +296,8 @@ function _smartparticipation_core_number_user_comment_replies($uid) {
 function _smartparticipation_core_number_user_comments_endorsed($uid) {
   
   $query = 'SELECT c.cid FROM {comment} c 
-    LEFT JOIN {flag_content} AS fc ON fc.content_id = c.cid 
-    LEFT JOIN {flags} AS f ON  f.fid = fc.fid
+    LEFT JOIN {flagging} AS fc ON fc.entity_id = c.cid 
+    LEFT JOIN {flag} AS f ON  f.fid = fc.fid
     WHERE c.uid = :uid 
     AND c.status = 1
     AND f.name = :name';
@@ -317,9 +317,9 @@ function _smartparticipation_core_number_user_comments_endorsed($uid) {
  */
 function _smartparticipation_core_number_comments_user_endorsed($uid) {
 
-  $query = 'SELECT fc.fcid FROM {flag_content} fc 
-    INNER JOIN {comment} c ON c.cid = fc.content_id
-    LEFT JOIN {flags} AS f ON f.fid = fc.fid 
+  $query = 'SELECT fc.flagging_id AS fcid FROM {flagging} fc 
+    INNER JOIN {comment} c ON c.cid = fc.entity_id
+    LEFT JOIN {flag} AS f ON f.fid = fc.fid 
     WHERE fc.uid = :uid
     AND c.status = 1
     AND f.name = :name';
@@ -345,9 +345,9 @@ function _smartparticipation_core_number_user_comments_recommended($uid) {
   $query->where('c.uid = :uid', array(':uid' => $uid));
   $query->where('c.status = 1');
 
-  $query->leftJoin('flag_content', 'fc', 'fc.content_id = c.cid');
+  $query->leftJoin('flagging', 'fc', 'fc.entity_id = c.cid');
   
-  $query->leftJoin('flags', 'f', 'f.fid = fc.fid');
+  $query->leftJoin('flag', 'f', 'f.fid = fc.fid');
   $query->where("f.name = 'comment_recommendation'");
 
   $result = $query->execute();
@@ -816,8 +816,8 @@ function smartparticipation_core_user_endorsed_page($account) {
   // WHERE ps.field_sp_proposal_status_value != 'coming'
   $query = 'SELECT c.cid, pn.nid AS proposal_nid, pn.title as proposal_title, ps.field_sp_proposal_status_value AS proposal_status
             FROM {comment} c
-            INNER JOIN {flag_content} fc ON fc.content_id = c.cid  
-            INNER JOIN {flags} f ON f.fid = fc.fid 
+            INNER JOIN {flagging} fc ON fc.entity_id = c.cid  
+            INNER JOIN {flag} f ON f.fid = fc.fid 
             INNER JOIN {node} stn ON c.nid = stn.nid
             INNER JOIN {field_data_field_sp_subtopic_topic} st ON c.nid = st.entity_id
             INNER JOIN {node} tn ON tn.nid = st.field_sp_subtopic_topic_nid
@@ -897,8 +897,8 @@ function smartparticipation_core_user_recommended_page($account) {
   // WHERE ps.field_sp_proposal_status_value != 'coming'
   $query = 'SELECT c.cid, pn.nid AS proposal_nid, pn.title as proposal_title, ps.field_sp_proposal_status_value AS proposal_status
             FROM {comment} c
-            INNER JOIN {flag_content} fc ON fc.content_id = c.cid
-            INNER JOIN {flags} f ON f.fid = fc.fid
+            INNER JOIN {flagging} fc ON fc.entity_id = c.cid
+            INNER JOIN {flag} f ON f.fid = fc.fid
             INNER JOIN {node} stn ON c.nid = stn.nid
             INNER JOIN {field_data_field_sp_subtopic_topic} st ON c.nid = st.entity_id
             INNER JOIN {node} tn ON tn.nid = st.field_sp_subtopic_topic_nid
@@ -978,8 +978,8 @@ function smartparticipation_core_user_endorsements_page($account) {
   // WHERE ps.field_sp_proposal_status_value != 'coming'
   $query = 'SELECT c.cid, pn.nid AS proposal_nid, pn.title as proposal_title, ps.field_sp_proposal_status_value AS proposal_status
             FROM {comment} c
-            INNER JOIN {flag_content} fc ON fc.content_id = c.cid
-            INNER JOIN {flags} f ON f.fid = fc.fid
+            INNER JOIN {flagging} fc ON fc.entity_id = c.cid
+            INNER JOIN {flag} f ON f.fid = fc.fid
             INNER JOIN {node} stn ON c.nid = stn.nid
             INNER JOIN {field_data_field_sp_subtopic_topic} st ON c.nid = st.entity_id
             INNER JOIN {node} tn ON tn.nid = st.field_sp_subtopic_topic_nid
@@ -1315,8 +1315,8 @@ function _smartparticipation_core_user_endorsements_on_proposal($uid, $proposal_
   $query = 'SELECT * FROM {field_data_field_sp_proposal_topic} t
             INNER JOIN {field_data_field_sp_topic_subtopic} s ON t.field_sp_proposal_topic_nid = s.entity_id
             INNER JOIN {comment} c ON s.field_sp_topic_subtopic_nid = c.nid
-            INNER JOIN {flag_content} fc ON c.cid = fc.content_id
-            INNER JOIN {flags} f ON fc.fid = f.fid
+            INNER JOIN {flagging} fc ON c.cid = fc.entity_id
+            INNER JOIN {flag} f ON fc.fid = f.fid
             WHERE t.entity_id = :proposal_nid
             AND c.uid = :uid
             AND f.name = :endorsements';
