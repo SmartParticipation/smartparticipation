@@ -31,7 +31,7 @@ projects[field_collection][version] = "1.0-beta7"
 
 projects[media][version] = "1.4"
 
-projects[flag][version] = "2.2"
+projects[flag][version] = "3.9"
 
 projects[globalredirect][version] = "1.5"
 
@@ -55,7 +55,7 @@ projects[menu_node][version] = "1.2"
 
 projects[menu_token][version] = "1.0-beta5"
 
-projects[metatag][version] = "1.0-beta9"
+projects[metatag][version] = "1.21"
 
 projects[mmenu][version] = "2.1"
 
@@ -81,7 +81,7 @@ projects[taxonomy_display][version] = "1.1"
 
 projects[token][version] = "1.5"
 
-projects[webform][version] = "3.24"
+projects[webform][version] = "3.27"
 
 projects[webform_conditional][version] = "1.0-beta2"
 
