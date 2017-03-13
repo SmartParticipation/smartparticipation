@@ -7,7 +7,7 @@
  * Create the custom flags
  */
 function smartparticipation_core_create_flags() {
-  $flag_recommendation = flag_flag::factory_by_content_type('node');
+  $flag_recommendation = flag_flag::factory_by_entity_type('node');
 
   // Exported flag: "Recommend"
   $flag_recommendation->name = 'comment_recommendation';
@@ -47,7 +47,7 @@ function smartparticipation_core_create_flags() {
 
 
   // Exported flag: "Comment endorsement".
-  $flag_endorsement = flag_flag::factory_by_content_type('node');
+  $flag_endorsement = flag_flag::factory_by_entity_type('node');
   
   $flag_endorsement->name = 'comment_endorsement';
   $flag_endorsement->title = 'Comment endorsement';
