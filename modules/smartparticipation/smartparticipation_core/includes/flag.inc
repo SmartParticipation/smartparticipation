@@ -99,8 +99,21 @@ function smartparticipation_core_flag_javascript_info_alter(&$flag) {
 }
 
 /**
- * Implements hook_flag().
- * 
+ * Implements hook_flag_flag().
+ */
+function smartparticipation_core_flag_flag($flag, $entity_id, $account, $flagging) {
+  smartparticipation_core_flag('flag', $flag, $entity_id, $account);
+}
+
+/**
+ * Implements hook_flag_unflag().
+ */
+function smartparticipation_core_flag_unflag($flag, $entity_id, $account, $flagging) {
+  smartparticipation_core_flag('unflag', $flag, $entity_id, $account);
+}
+
+/**
+ *
  * @param $action - flag or unflag
  * @param $flag - the flag that is being set
  * @param $content_id - the cid of the comment being flagged
@@ -184,7 +197,7 @@ function smartparticipation_core_comment_flagged_email_send($comment, $flag) {
   }
   
   $message_body = variable_get($variable_prefix . '_body');
-
+cpm($message_body);
   if ($message_body) {
     
     $to = $comment_author->mail;
