@@ -256,20 +256,22 @@ You can see all your comment and endorsements on your profile at [comment:author
 
   variable_set(
     "smartparticipation_mail_comment_recommendation_subject",
-    "Someone endorsed a comment you made on [site:name]"
+    "The Moderator recommended a comment you made on [site:name]"
   );
 
   variable_set(
     "smartparticipation_mail_comment_recommendation_body",
     "Dear [comment:author:name],
 
-Someone has endorsed one of your comments on in the [node:title] discussion at [site:name] for doing a good job of making a good point! Your endorsed comment reads:
+The [site:name] moderator has recommended one of your comments as a good example of effective commenting.  Thanks for helping new participants learn how to make comments that count!  
+
+Your recommended comment reads:
 
 [comment:body]
 
 You can view the discussion thread at [comment:permalink].
 
-You can see all your comment and endorsements on your profile at [comment:author:url]."
+You can see all your comments and moderator recommendations on your profile at [comment:author:url]."
   );
 
 }
