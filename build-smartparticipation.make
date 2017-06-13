@@ -8,3 +8,4 @@ projects[drupal][version] = "7.54"
 projects[smartparticipation][download][type] = "git"
 projects[smartparticipation][download][url] = "https://github.com/SmartParticipation/smartparticipation.git"
 projects[smartparticipation][type] = "profile"
+projects[smartparticipation][options][working-copy] = TRUE
