@@ -17,7 +17,7 @@ function smartparticipation_core_require_files() {
   $files = array();
   $files += file_scan_directory($module_dir . '/entities', '/\.inc/');
   $files += file_scan_directory($module_dir . '/forms', '/\.inc/');
-  $files += file_scan_directory($module_dir . '/includes', '/\.inc/');
+  $files += file_scan_directory($module_dir . '/includes', '/\.inc/', array('recurse' => false));
   $files += file_scan_directory($module_dir . '/node_types', '/\.inc/');
   $files += file_scan_directory($module_dir . '/taxonomy', '/\.inc/');
   //$files += file_scan_directory($module_dir . '/app/models', '/\.php/');
@@ -40,7 +40,7 @@ function smartparticipation_core_require_files() {
 
   array_map(
     function ($class_name) use ($module_dir) {
-      require_once $module_dir . '/app/models/' . $class_name . '.php';
+      require_once $module_dir . '/includes/models/' . $class_name . '.php';
     },
     $models
   );
@@ -60,12 +60,11 @@ function smartparticipation_core_require_files() {
     'ShowMoreFeaturedCommentsRequest',
     'ShowMoreRecentCommentsRequest',
     'ShowMoreRecommendedCommentsRequest',
-    'DrupalNodeService',
   );
 
   array_map(
     function ($class_name) use ($module_dir) {
-      require_once $module_dir . '/app/lib/' . $class_name . '.php';
+      require_once $module_dir . '/includes/lib/' . $class_name . '.php';
     },
     $lib
   );
