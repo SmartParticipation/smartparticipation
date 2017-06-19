@@ -130,7 +130,30 @@ function smartparticipation_core_create_default_page_nodes() {
     // FALSE, not just omit.
     $node->path['pathauto'] = FALSE;
     $node->path['alias'] = $alias;
-    node_save($node);    
+
+    if ($alias === $path_to_403 || $alias === $path_to_404) {
+      switch ($alias) {
+        case $path_to_403:
+          $file_name = '403-error.jpg';
+          break;
+        case $path_to_404:
+          $file_name = '404-error.jpg';
+          break;
+      }
+      $file_path = drupal_get_path('profile', 'smartparticipation') . '/themes/smartparticipation_base/images/error-pages/' . $file_name;
+      // Preparing file object
+      $file = (object)array(
+        "uid" => 1,
+        "uri" => $file_path,
+        "filemime" => file_get_mimetype($file_path),
+        "status" => 1
+      );
+      $file = file_copy($file, 'public://', FILE_EXISTS_REPLACE);
+      // Set our field to use the newly copied file
+      $node->field_image[LANGUAGE_NONE][] = (array)$file;
+    }
+
+    node_save($node);
     $nids[] = $node->nid;
   }
   

@@ -7,3 +7,12 @@ function smartparticipation_core_update_7100()
 {
   smartparticipation_core_set_default_email_templates();
 }
+
+/**
+ * Add default images for 403 and 404 error pages.
+ */
+function smartparticipation_core_update_7101()
+{
+  smartparticipation_core_delete_default_page_nodes();
+  smartparticipation_core_create_default_page_nodes();
+}
