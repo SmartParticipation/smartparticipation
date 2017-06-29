@@ -2,7 +2,7 @@ core = 7.x
 api = 2
 
 ; Core
-projects[drupal][version] = "7.54"
+projects[drupal][version] = "7.56"
 
 ; Profiles
 projects[smartparticipation][download][type] = "git"

@@ -29,7 +29,7 @@ projects[entityreference_prepopulate][version] = "1.5"
 
 projects[field_collection][version] = "1.0-beta7"
 
-projects[media][version] = "1.4"
+projects[media][version] = "2.8"
 
 projects[flag][version] = "3.9"
 
@@ -61,7 +61,7 @@ projects[mmenu][version] = "2.1"
 
 projects[nice_menus][version] = "2.5"
 
-projects[references][version] = "2.1"
+projects[references][version] = "2.2"
 
 projects[pathauto][version] = "1.2"
 
@@ -69,7 +69,7 @@ projects[profanity][version] = "1.x-dev"
 
 projects[role_delegation][version] = "1.1"
 
-projects[smtp][version] = "1.0"
+projects[smtp][version] = "1.7"
 
 projects[special_menu_items][version] = "2.0"
 
