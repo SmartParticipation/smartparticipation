@@ -36,7 +36,7 @@ function smartparticipation_core_require_files() {
 
   array_map(
     function ($class_name) use ($module_dir) {
-      require_once $module_dir . '/includes/models/' . $class_name . '.php';
+      require_once $module_dir . '/includes/models/' . $class_name . '.inc';
     },
     $models
   );
@@ -59,7 +59,7 @@ function smartparticipation_core_require_files() {
 
   array_map(
     function ($class_name) use ($module_dir) {
-      require_once $module_dir . '/includes/lib/' . $class_name . '.php';
+      require_once $module_dir . '/includes/lib/' . $class_name . '.inc';
     },
     $lib
   );
