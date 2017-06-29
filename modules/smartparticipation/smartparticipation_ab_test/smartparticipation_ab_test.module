@@ -1,6 +1,6 @@
 <?php
 
-module_load_include('php', 'smartparticipation_core', 'app/models/Model');
+module_load_include('inc', 'smartparticipation_core', 'app/models/Model');
 require_once "includes/ABTest.inc";
 require_once "includes/ABTestUserVariant.inc";
 require_once "includes/ABTestService.inc";
