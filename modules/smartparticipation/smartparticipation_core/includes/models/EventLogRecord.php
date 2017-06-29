@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Brian
- * Date: 5/15/15
- * Time: 1:38 PM
- */
+
 
 namespace SmartParticipation\model;
 
@@ -56,13 +51,14 @@ class EventLogRecord extends Model
    * @param int $entity_id
    * @param string $path
    * @param int $uid
+   * @param string $username
    * @param string $hostname
    * @param int $timestamp
    * @param int $instance_start
    */
-  public function __construct(/*$eid, $name, $detail, $detail_long, $entity_type, $entity_id, $path, $uid, $hostname, $timestamp, $instance_start*/)
+  public function __construct($eid, $name, $detail, $detail_long, $entity_type, $entity_id, $path, $uid, $username, $hostname, $timestamp, $instance_start)
   {
-    /*$this->eid = $eid;
+    $this->eid = $eid;
     $this->name = $name;
     $this->detail = $detail;
     $this->detail_long = $detail_long;
@@ -70,9 +66,10 @@ class EventLogRecord extends Model
     $this->entity_id = $entity_id;
     $this->path = $path;
     $this->uid = $uid;
+    $this->username = $username;
     $this->hostname = $hostname;
     $this->timestamp = $timestamp;
-    $this->instance_start = $instance_start;*/
+    $this->instance_start = $instance_start;
   }
 
   /**

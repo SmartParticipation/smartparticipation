@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Brian
- * Date: 5/15/15
- * Time: 11:11 AM
- */
 
 namespace SmartParticipation;
 
@@ -15,13 +9,6 @@ use SmartParticipation\model\EventLogRecord;
 class EventLogService
 {
   const EVENT_LOG_TABLE = 'sp_event_log';
-
-  protected $mapper;
-
-  public function __construct()
-  {
-    $this->mapper = new Mapper('SmartParticipation\model\EventLogRecord');
-  }
 
   /**
    * @param array $event_names
@@ -58,25 +45,22 @@ class EventLogService
 
     $event_log_records = array();
     foreach ($result as $eid => $event_log_record) {
-      $event_log_records[$eid] = $this->mapper->create($event_log_record);
+      $event_log_records[$eid] = new EventLogRecord(
+        $event_log_record['eid'],
+        $event_log_record['name'],
+        $event_log_record['detail'],
+        $event_log_record['detail_long'],
+        $event_log_record['entity_type'],
+        $event_log_record['entity_id'],
+        $event_log_record['path'],
+        $event_log_record['uid'],
+        $event_log_record['username'],
+        $event_log_record['hostname'],
+        $event_log_record['timestamp'],
+        $event_log_record['instance_start']
+      );
     }
 
     return $event_log_records;
   }
-
-  /*public function mapResult($result) {
-    return new EventLogRecord(
-      $result['eid'],
-      $result['name'],
-      $result['detail'],
-      $result['detail_long'],
-      $result['entity_type'],
-      $result['entity_id'],
-      $result['path'],
-      $result['uid'],
-      $result['hostname'],
-      $result['timestamp'],
-      $result['instance_start']
-    );
-  }*/
 }

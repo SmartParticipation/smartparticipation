@@ -39,6 +39,19 @@ class AccessLogRecord extends Model
   /** @var int */
   public $timestamp;
 
+  public function __construct($aid, $sid, $title, $path, $url, $hostname, $uid, $user_agent, $timer, $timestamp) {
+    $this->aid = $aid;
+    $this->sid = $sid;
+    $this->title = $title;
+    $this->path = $path;
+    $this->url = $url;
+    $this->hostname = $hostname;
+    $this->uid = $uid;
+    $this->user_agent = $user_agent;
+    $this->timer = $timer;
+    $this->timestamp = $timestamp;
+  }
+
   protected static function getAttributeLabels()
   {
     return array(

@@ -3,7 +3,7 @@
 namespace SmartParticipation;
 
 
-class DrupalPageService
+class PageService
 {
   /**
    * @param array $page_variables Drupal preprocess_page variables

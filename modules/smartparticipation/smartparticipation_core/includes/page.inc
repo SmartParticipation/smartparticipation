@@ -132,7 +132,7 @@ function smartparticipation_core_is_profile()
  */
 function smartparticipation_core_preprocess_page(&$variables) {
 
-  $drupal_page_service = new \SmartParticipation\DrupalPageService;
+  $drupal_page_service = new \SmartParticipation\PageService;
   if ($drupal_page_service->pageContainsInterestSurvey($variables)) {
     // Disable messages for the page template and instead show them in the
     // interest survey node template.  See smartparticipation_core_preprocess_node().

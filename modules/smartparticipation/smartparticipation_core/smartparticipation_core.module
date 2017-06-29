@@ -46,7 +46,6 @@ function smartparticipation_core_require_files() {
   );
 
   $lib = array(
-    'Mapper',
     'UserService',
     'EndorsementService',
     'UserHelper',

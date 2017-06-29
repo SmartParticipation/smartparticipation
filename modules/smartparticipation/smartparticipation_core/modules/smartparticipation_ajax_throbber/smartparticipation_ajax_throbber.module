@@ -1,7 +1,4 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Brian
- * Date: 1/19/16
- * Time: 4:29 PM
+ * This module adds an improved ajax spinner/throbber for ajax requests.
  */
