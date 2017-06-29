@@ -20,10 +20,6 @@ function smartparticipation_core_require_files() {
   $files += file_scan_directory($module_dir . '/includes', '/\.inc/', array('recurse' => false));
   $files += file_scan_directory($module_dir . '/node_types', '/\.inc/');
   $files += file_scan_directory($module_dir . '/taxonomy', '/\.inc/');
-  //$files += file_scan_directory($module_dir . '/app/models', '/\.php/');
-  //$files += file_scan_directory($module_dir . '/app/lib', '/\.php/');
-
-  //$files += file_scan_directory($module_dir . '/models', '/\.php/');
 
   foreach (array_keys($files) as $filename) {
     require_once $filename;
@@ -51,7 +47,7 @@ function smartparticipation_core_require_files() {
     'UserHelper',
     'EventLogService',
     'AccessLogService',
-    'DrupalPageService',
+    'PageService',
     'FeaturedCommentsService',
     'RecentCommentsService',
     'RecommendedCommentsService',
