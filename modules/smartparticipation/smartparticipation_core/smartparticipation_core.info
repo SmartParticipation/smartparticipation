@@ -74,7 +74,6 @@ dependencies[] = wysiwyg_linebreaks
 ; Scripts to be loaded on every page
 ;scripts[] = js/smartparticipation.js
 ;scripts[] = js/form.js
-;scripts[] = js/jwplayer/jwplayer.js
 
 
 ; Use files[] to load only files containing class or interface definitions.

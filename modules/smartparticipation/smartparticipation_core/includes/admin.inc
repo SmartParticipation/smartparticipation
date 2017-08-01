@@ -293,16 +293,6 @@ function smartparticipation_core_admin_settings() {
     '#collapsed' => true,
     '#weight' => 20,      
   );
-
-  $form['third_party_services']['smartparticipation_video_player_license_key'] = array(
-    '#type' => 'textfield',
-    '#title' => t('JW Player license key'),
-    '#description' => t('If no license key is specified, the free JW Player will be used.'),
-    '#required' => false,
-    '#default_value' => variable_get('smartparticipation_video_player_license_key'),
-    '#size' => 60,
-    '#weight' => 0,
-  );
   
   $form['third_party_services']['smartparticipation_addthis_pubid'] = array(
       '#type' => 'textfield',

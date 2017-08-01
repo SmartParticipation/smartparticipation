@@ -131,6 +131,34 @@
   padding-bottom: 0;
 }
 
+@mixin learn-video($width, $height) {
+  #sp-learn {
+    #learn-accordion {
+      figure {
+        video {
+          width: $width;
+          height: $height;
+        }
+      }
+    }
+  }
+}
+
+.lg-device {
+  @include learn-video(657px, 370px);
+}
+
+.md-device {
+  @include learn-video(528px, 297px);
+}
+
+#learn-accordion-mobile {
+  video {
+    width: 100%;
+    height: auto;
+  }
+}
+
 .lg-device {
   #sp-learn {
     #learn-accordion {

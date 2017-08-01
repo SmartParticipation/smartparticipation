@@ -180,10 +180,6 @@ function smartparticipation_core_preprocess_page(&$variables) {
   // All pages JavaScript
   //drupal_add_js(libraries_get_path('smartparticipation_core') . '/smartparticipation_core.libraries.js');
     drupal_add_js($module_path . '/build/js/smartparticipation.scripts.js');
-  // preprocess is false to prevent jw player from using Drupal compression
-  // jw player is unable to include dependent scripts when Drupal compression is turned on
-  drupal_add_js($js_path . 'jwplayer/jwplayer.js',array('preprocess'=>false));
-  smartparticipation_core_init_jwplayer();
 
   // TODO gulp.js is now used to compress and concatenate scripts - consider removing the unused "add js" code below
 
@@ -372,16 +368,6 @@ function smartparticipation_core_init_alert() {
 function smartparticipation_core_init_dialog() {
   $dialog_settings['template'] = theme('dialog');
   drupal_add_js(array('rrDialog' => $dialog_settings), 'setting');
-}
-
-/**
- * Add JW Player key if it has been added in the configuration.
- */
-function smartparticipation_core_init_jwplayer() {
-  $key = trim(variable_get('smartparticipation_video_player_license_key'));
-  if (!empty($key)) {
-    drupal_add_js('jwplayer.key="'.$key.'";', 'inline');
-  }
 }
 
 /**

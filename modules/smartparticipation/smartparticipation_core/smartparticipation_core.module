@@ -89,7 +89,6 @@ function smartparticipation_core_init() {
       smartparticipation_core_init_login_and_registration();
       smartparticipation_core_init_alert();
       smartparticipation_core_init_dialog();
-      //smartparticipation_core_init_jwplayer();
 
       /*
        * This technique doesn't work due to Drupal page caching. The page is

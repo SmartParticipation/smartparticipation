@@ -32,7 +32,11 @@
           </span>
           <div class="learn-video-wrapper">
             <?php if ($item['video']) { ?>
-              <div class="learn-video" id="<?php echo 'learn-video-mobile-' . $item['nid']; ?>" data-video="<?php echo $item['video']; ?>" data-image="<?php echo $item['image']; ?>"></div>
+              <video id="<?php echo 'learn-video-mobile-' . $item['nid']; ?>" src="<?php echo $item['video']; ?>" controls poster="<?php echo $item['image']; ?>">
+                Sorry, your browser doesn't support embedded videos,
+                but don't worry, you can <a href="<?php echo $item['video']; ?>">download it</a>
+                and watch it with your favorite video player!
+              </video>
             <?php } else { ?>
               <img src="<?php echo $item['image']; ?>" />
             <?php } ?>
