@@ -1,10 +1,9 @@
 # SmartParticipation
 
-SmartParticipation is a platform designed to provide an effective and adaptable environment for online discussion. 
-Developed and refined by Cornell University researchers during years of hosting live public comment on proposed new 
-federal regulations, SmartParticipation can help your organization sponsor online discussion that is thoughtful, diverse 
-and meaningful. For more information, contact us at 
-[smartparticipation@cornell.edu](mailto:smartparticipation@cornell.edu) or visit <http://www.smartparticipation.com>.
+SmartParticipation is an open source e-participation platform based on Drupal and designed to offer an effective and adaptable environment for informed online discussion.  Developed by [CeRI](http://www.lawschool.cornell.edu/ceri/), a cross-disciplinary group of Cornell University researchers. 
+
+For more information, contact us at 
+[smartparticipation@cornell.edu](mailto:smartparticipation@cornell.edu) or visit <http://smartparticipation.com>.
 
 ## Installation
 
@@ -13,3 +12,11 @@ This is a Drupal 7 installation profile with core modules for quickly building a
 To build the profile and automatically assemble Drupal core with all required dependencies, run:
  
 `drush make build-smartparticipation.make /path/to/webroot`
+
+## Documentation
+
+For documentation on setting up an instance of SmartParticipation for a discussion, go to <http://smartparticipation.com/docs/>.
+
+## Sandbox
+
+To learn about the design objectives of the platform, and get tips on how to make most effective use of it, go to <http://sandbox.smartparticipation.com/>. (You can also practice set-up there, before working on your own site.)
