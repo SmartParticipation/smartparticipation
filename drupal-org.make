@@ -23,7 +23,7 @@ projects[elements][version] = "1.4"
 
 projects[entity][version] = "1.6"
 
-projects[entityreference][version] = "1.1"
+projects[entityreference][version] = "1.5"
 
 projects[entityreference_prepopulate][version] = "1.5"
 
