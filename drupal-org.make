@@ -83,6 +83,8 @@ projects[taxonomy_display][version] = "1.1"
 
 projects[token][version] = "1.5"
 
+projects[views][version] = "3.18"
+
 projects[webform][version] = "3.27"
 
 projects[webform_conditional][version] = "1.0-beta2"
