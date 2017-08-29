@@ -31,6 +31,8 @@ projects[field_collection][version] = "1.0-beta7"
 
 projects[media][version] = "2.8"
 
+projects[file_entity][version] = "2.4"
+
 projects[flag][version] = "3.9"
 
 projects[globalredirect][version] = "1.5"
