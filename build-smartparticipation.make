@@ -1,11 +1,13 @@
-core = 7.x
 api = 2
+core = 7.x
 
 ; Core
-projects[drupal][version] = "7.56"
+projects[drupal][version] = 7.56
 
 ; Profiles
-projects[smartparticipation][download][type] = "git"
-projects[smartparticipation][download][url] = "https://github.com/SmartParticipation/smartparticipation.git"
-projects[smartparticipation][type] = "profile"
-projects[smartparticipation][options][working-copy] = TRUE
+projects[smartparticipation][version] = 7.x
+
+;projects[smartparticipation][download][type] = "git"
+;projects[smartparticipation][download][url] = "https://github.com/SmartParticipation/smartparticipation.git"
+;projects[smartparticipation][type] = "profile"
+;projects[smartparticipation][options][working-copy] = TRUE
