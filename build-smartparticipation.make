@@ -1,8 +1,8 @@
 api = 2
-core = 7.x
+core = 7.56
 
 ; Core
-projects[drupal][version] = 7.56
+projects[drupal][type] = core
 
 ; Profiles
 projects[smartparticipation][version] = 7.x
