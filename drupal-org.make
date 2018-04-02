@@ -22,7 +22,7 @@ projects[diff][version] = "3.2"
 
 projects[elements][version] = "1.4"
 
-projects[entity][version] = "1.6"
+projects[entity][version] = "1.9"
 
 projects[entityreference][version] = "1.5"
 
